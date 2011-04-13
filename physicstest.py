@@ -19,9 +19,11 @@ class World(ShowBase):
         ballActorNode = ActorNode("ball_physics")
         self.ballActor = self.physics.attachNewNode(ballActorNode)
         self.physicsMgr.attachPhysicalNode(self.ballActor.node())
+        self.ballActor.node().getPhysicsObject().setMass(100)
         # Set gravity
         gravityNode = ForceNode('world_forces')
-        gravityForce = LinearVectorForce(0, 0, -0.1) #gravity acceleration
+        gravityForce = LinearVectorForce(0, 0, -9.81) #gravity acceleration
+        gravityForce.setMassDependent(True)
         gravityNode.addForce(gravityForce)
 
         self.gravity = render.attachNewNode(gravityNode)
