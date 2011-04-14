@@ -34,7 +34,7 @@ class World(ShowBase):
         ballActorNode = ActorNode("ball_physics")
         self.ballActor = self.physics.attachNewNode(ballActorNode)
         self.physicsMgr.attachPhysicalNode(self.ballActor.node())
-        self.ballActor.node().getPhysicsObject().setMass(40)
+        self.ballActor.node().getPhysicsObject().setMass(0.5)
 
         # Set gravity
         gravityNode = ForceNode('world_forces')
@@ -76,7 +76,6 @@ class World(ShowBase):
 
         # Create collision handler
         self.collisionHandler = PhysicsCollisionHandler()
-        #self.collisionHandler.setHorizontal(False)
 
         # Create and set collision node for the ball.
         ballCollisionNode = CollisionNode('ball_collision')
@@ -107,24 +106,20 @@ class World(ShowBase):
         ## Camera
         # Set up camera
         #self.disableMouse()
-        self.camera.setPos(0, -24, 2)
+        self.camera.setPos(0, -50, 10)
+        self.camera.lookAt(self.ballActor)
 
         ## Keyboard events
         # Register "enter" event
-        self.accept("enter", self.scenarioRoll)
+        self.accept("a", self.scenarioRoll, ["left"])
+        self.accept("d", self.scenarioRoll, ["right"])
 
-    def scenarioRoll(self):
-        interval1 = self.environ.hprInterval(5,
-                                             Point3(0, 0, 40),
-                                             startHpr=Point3(0, 0, 0))
+    def scenarioRoll(self, direction):
+        if direction == "left":
+            self.environ.setR(self.environ.getR() + 1)
 
-        interval2 = self.environ.hprInterval(5,
-                                             Point3(0, 0, 0),
-                                             startHpr=Point3(0, 0, 40))
-
-        sequence = Sequence(interval1, interval2, name="scenario_roll")
-        sequence.loop()
-
+        else:
+            self.environ.setR(self.environ.getR() - 1)
 
 world = World()
 world.run()
