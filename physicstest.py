@@ -1,3 +1,5 @@
+import sys
+
 from panda3d.core import NodePath
 from panda3d.core import Vec3
 from panda3d.core import Point3
@@ -110,16 +112,45 @@ class World(ShowBase):
         self.camera.lookAt(self.ballActor)
 
         ## Keyboard events
-        # Register "enter" event
-        self.accept("a", self.scenarioRoll, ["left"])
-        self.accept("d", self.scenarioRoll, ["right"])
+        self.keys = {"left":0, "right":0, "up":0, "down":0}
+        # Register key press events
+        self.accept("escape", sys.exit)
+        self.accept("w", self.setKey, ["up", 1])
+        self.accept("a", self.setKey, ["left", 1])
+        self.accept("s", self.setKey, ["down", 1])
+        self.accept("d", self.setKey, ["right", 1])
 
-    def scenarioRoll(self, direction):
-        if direction == "left":
-            self.environ.setR(self.environ.getR() + 1)
+        # Register key up events
+        self.accept("w-up", self.setKey, ["up", 0])
+        self.accept("a-up", self.setKey, ["left", 0])
+        self.accept("s-up", self.setKey, ["down", 0])
+        self.accept("d-up", self.setKey, ["right", 0])
 
-        else:
-            self.environ.setR(self.environ.getR() - 1)
+
+        ## Tasks
+        self.taskMgr.add(self.scenarioRotation,"rotate_task")
+
+
+    def setKey(self, key, value):
+        self.keys[key] = value
+
+    def scenarioRotation(self, task):
+        dt = globalClock.getDt()
+
+        if self.keys["left"] != 0:
+            self.environ.setR(self.environ.getR() + 10 * dt)
+
+        if self.keys["right"] != 0:
+            self.environ.setR(self.environ.getR() - 10 * dt)
+
+        if self.keys["up"] != 0:
+            self.environ.setP(self.environ.getP() - 10 * dt)
+
+        if self.keys["down"] != 0:
+            self.environ.setP(self.environ.getP() + 10 * dt)
+
+        return task.cont
+
 
 world = World()
 world.run()
