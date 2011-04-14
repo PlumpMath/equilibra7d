@@ -7,13 +7,14 @@ from panda3d.core import CollisionNode
 from panda3d.core import CollisionSphere
 from panda3d.core import CollisionPlane
 from panda3d.core import CollisionTraverser
-
 from panda3d.physics import ActorNode
 from panda3d.physics import ForceNode
 from panda3d.physics import LinearVectorForce
 from panda3d.physics import PhysicsCollisionHandler
+
 from direct.showbase.ShowBase import ShowBase
 from direct.actor.Actor import Actor
+from direct.interval.IntervalGlobal import Sequence
 
 class World(ShowBase):
     def __init__(self):
@@ -89,7 +90,7 @@ class World(ShowBase):
 
         # Create and set collision node for the floor.
         floorCollisionNode = CollisionNode('floor_collision')
-        self.floorCollision = self.render.attachNewNode(floorCollisionNode)
+        self.floorCollision = self.environ.attachNewNode(floorCollisionNode)
         floor = Plane(Vec3(0, 0, 1), Point3(0, 0, 0))
         self.floorCollision.node().addSolid(CollisionPlane(floor))
         self.floorCollision.show()
@@ -108,6 +109,21 @@ class World(ShowBase):
         #self.disableMouse()
         self.camera.setPos(0, -24, 2)
 
+        ## Keyboard events
+        # Register "enter" event
+        self.accept("enter", self.scenarioRoll)
+
+    def scenarioRoll(self):
+        interval1 = self.environ.hprInterval(5,
+                                             Point3(0, 0, 40),
+                                             startHpr=Point3(0, 0, 0))
+
+        interval2 = self.environ.hprInterval(5,
+                                             Point3(0, 0, 0),
+                                             startHpr=Point3(0, 0, 40))
+
+        sequence = Sequence(interval1, interval2, name="scenario_roll")
+        sequence.loop()
 
 
 world = World()
