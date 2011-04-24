@@ -18,8 +18,14 @@ from cameramanager import CameraManager
 class Sandbox(ShowBase):
     def __init__(self):
         ShowBase.__init__(self)
+
+        self.initInput()
         
-        self.scenario = Scenario(self.render, "sandbox")
+        self.scenario = Scenario(self.render,
+                                 "sandbox",
+                                 self.taskMgr,
+                                 self.keys)
+        
         self.scenario.setH(-90)
         self.scenario.setPos(0, 23, -30)
 
@@ -34,13 +40,11 @@ class Sandbox(ShowBase):
         self.initLights()
         
         #self.disableMouse()
-        
-        self.accept("escape", sys.exit)
-       
+    
     def initPhysics(self):
         self.enableParticles()
         
-        globalForcesNode = ForceNode("globalForces")        
+        globalForcesNode = ForceNode("global_forces")        
         gravity = LinearVectorForce(0, 0, -1)
         
         globalForcesNode.addForce(gravity)
@@ -64,20 +68,37 @@ class Sandbox(ShowBase):
 
         self.character.collider.show()
         
-    def initLights(self):
-                                          
-        ambientLightNode = AmbientLight('ambientLight')
+    def initLights(self):        
+        ambientLightNode = AmbientLight('ambient_light')
         ambientLightNode.setColor(Vec4(0.3, 0.3, 0.3, 1))
         
         self.ambientLight = self.render.attachNewNode(ambientLightNode)
         self.render.setLight(self.ambientLight)
 
-        pointLightNode = PointLight('pointLight')
+        pointLightNode = PointLight('point_light')
         pointLightNode.setColor(VBase4(1, 1, 1, 1))
 
         self.pointLight = self.render.attachNewNode(pointLightNode)
         self.pointLight.setPos(0, -25, 8)
         self.render.setLight(self.pointLight)
+
+    def initInput(self):
+        self.keys = {"left":0, "right":0, "up":0, "down":0}
+        
+        self.accept("w", self.setKey, ["up", 1])
+        self.accept("a", self.setKey, ["left", 1])
+        self.accept("s", self.setKey, ["down", 1])
+        self.accept("d", self.setKey, ["right", 1])
+
+        self.accept("w-up", self.setKey, ["up", 0])
+        self.accept("a-up", self.setKey, ["left", 0])
+        self.accept("s-up", self.setKey, ["down", 0])
+        self.accept("d-up", self.setKey, ["right", 0])
+        
+        self.accept("escape", sys.exit)
+
+    def setKey(self, key, value):
+        self.keys[key] = value
 
 
 sandbox = Sandbox()

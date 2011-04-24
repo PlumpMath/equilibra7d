@@ -9,7 +9,7 @@ class CameraManager():
     def trackTask(self, task):
         self.camera.setX(self.character.getX())
         self.camera.setY(self.character.getY() - 8)
-        self.camera.setZ(self.character.getZ() + 2)
+        self.camera.setZ(self.character.getZ() + 4)
         
         self.camera.lookAt(self.character)
         
