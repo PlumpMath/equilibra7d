@@ -1,5 +1,9 @@
+import sys
+
 from panda3d.core import Vec4
 from panda3d.core import VBase4
+from panda3d.physics import ForceNode
+from panda3d.physics import LinearVectorForce
 from panda3d.core import AmbientLight
 from panda3d.core import PointLight
 
@@ -16,22 +20,39 @@ class Sandbox(ShowBase):
         self.scenario.setH(-90)
 
         self.character = Character(self.render, "models/ball")
-        self.character.setPos(0, -23, 4)
+        self.character.setPos(0, -23, 20)
         
+        self.initPhysics()
         self.initLights()
         
-    def initLights(self):
-        self.ambientLight = AmbientLight('ambientLight')
-        self.ambientLight.setColor(Vec4(0.3, 0.3, 0.3, 1))
+        self.accept("escape", sys.exit)
+       
+    def initPhysics(self):
+        self.enableParticles()
         
-        ambientLightNP = self.render.attachNewNode(self.ambientLight)
-        self.render.setLight(ambientLightNP)
+        globalForcesNode = ForceNode("globalForces")        
+        gravity = LinearVectorForce(0, 0, -9.81)
+        
+        globalForcesNode.addForce(gravity)
+        self.physicsMgr.addLinearForce(gravity)
+        
+        self.globalForces = self.render.attachNewNode(globalForcesNode)
 
-        self.pointLight = PointLight('pointLight')
-        self.pointLight.setColor(VBase4(1, 1, 1, 1))
-        pointLightNP = self.render.attachNewNode(self.pointLight)
-        pointLightNP.setPos(0, -25, 8)
-        self.render.setLight(pointLightNP)
+        self.physicsMgr.attachPhysicalNode(self.character.actor.node())
+        
+    def initLights(self):
+        ambientLightNode = AmbientLight('ambientLight')
+        ambientLightNode.setColor(Vec4(0.3, 0.3, 0.3, 1))
+        
+        self.ambientLight = self.render.attachNewNode(ambientLightNode)
+        self.render.setLight(self.ambientLight)
+
+        pointLightNode = PointLight('pointLight')
+        pointLightNode.setColor(VBase4(1, 1, 1, 1))
+
+        self.pointLight = self.render.attachNewNode(pointLightNode)
+        self.pointLight.setPos(0, -25, 8)
+        self.render.setLight(self.pointLight)
 
         
 sandbox = Sandbox()
