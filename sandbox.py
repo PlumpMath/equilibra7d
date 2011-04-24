@@ -13,20 +13,27 @@ from direct.showbase.ShowBase import ShowBase
 
 from scenario import Scenario
 from character import Character
+from cameramanager import CameraManager
 
 class Sandbox(ShowBase):
     def __init__(self):
         ShowBase.__init__(self)
         
-        self.scenario = Scenario(self.render, "models/sandbox")
+        self.scenario = Scenario(self.render, "sandbox")
         self.scenario.setH(-90)
+        self.scenario.setPos(0, 23, -30)
 
-        self.character = Character(self.render, "models/ball")
-        self.character.setPos(0, -23, 20)
+        self.character = Character(self.render, "ball")
+        
+        self.cameraManager = CameraManager(self.cam,
+                                           self.character.actor, 
+                                           self.taskMgr)
         
         self.initPhysics()
         self.initCollision()
         self.initLights()
+        
+        #self.disableMouse()
         
         self.accept("escape", sys.exit)
        
@@ -34,7 +41,7 @@ class Sandbox(ShowBase):
         self.enableParticles()
         
         globalForcesNode = ForceNode("globalForces")        
-        gravity = LinearVectorForce(0, 0, -9.81)
+        gravity = LinearVectorForce(0, 0, -1)
         
         globalForcesNode.addForce(gravity)
         self.physicsMgr.addLinearForce(gravity)
@@ -45,6 +52,7 @@ class Sandbox(ShowBase):
 
     def initCollision(self):
         self.cTrav = CollisionTraverser()
+        self.cTrav.setRespectPrevTransform(True)
         self.cTrav.showCollisions(render)
         
         self.collisionHandler = PhysicsCollisionHandler()
