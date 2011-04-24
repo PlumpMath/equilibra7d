@@ -2,10 +2,12 @@ import sys
 
 from panda3d.core import Vec4
 from panda3d.core import VBase4
-from panda3d.physics import ForceNode
-from panda3d.physics import LinearVectorForce
 from panda3d.core import AmbientLight
 from panda3d.core import PointLight
+from panda3d.core import CollisionTraverser
+from panda3d.physics import ForceNode
+from panda3d.physics import LinearVectorForce
+from panda3d.physics import PhysicsCollisionHandler
 
 from direct.showbase.ShowBase import ShowBase
 
@@ -23,6 +25,7 @@ class Sandbox(ShowBase):
         self.character.setPos(0, -23, 20)
         
         self.initPhysics()
+        self.initCollision()
         self.initLights()
         
         self.accept("escape", sys.exit)
@@ -39,8 +42,22 @@ class Sandbox(ShowBase):
         self.globalForces = self.render.attachNewNode(globalForcesNode)
 
         self.physicsMgr.attachPhysicalNode(self.character.actor.node())
+
+    def initCollision(self):
+        self.cTrav = CollisionTraverser()
+        self.cTrav.showCollisions(render)
+        
+        self.collisionHandler = PhysicsCollisionHandler()
+        
+        self.collisionHandler.addCollider(self.character.collider,
+                                          self.character.actor)
+        
+        self.cTrav.addCollider(self.character.collider, self.collisionHandler)
+
+        self.character.collider.show()
         
     def initLights(self):
+                                          
         ambientLightNode = AmbientLight('ambientLight')
         ambientLightNode.setColor(Vec4(0.3, 0.3, 0.3, 1))
         
@@ -54,6 +71,6 @@ class Sandbox(ShowBase):
         self.pointLight.setPos(0, -25, 8)
         self.render.setLight(self.pointLight)
 
-        
+
 sandbox = Sandbox()
 sandbox.run()
