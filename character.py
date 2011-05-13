@@ -17,7 +17,8 @@ class Character(NodePath):
         
         collisionSphere = CollisionSphere(0, 0, 0, 0.5)
         collisionNode = CollisionNode('character_collision_node')
-        collisionNode.addSolid(collisionSphere)        
+        collisionNode.addSolid(collisionSphere)
+
         self.collider = self.actor.attachNewNode(collisionNode)
         
         self.reparentTo(parent)

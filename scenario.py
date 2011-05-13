@@ -13,4 +13,6 @@ class Scenario(NodePath):
         #self.collider = self.model.find("**/sandbox-c")
         #self.collider.node().setIntoCollideMask(BitMask32.bit(0))
         
+        self.setCollideMask(BitMask32.bit(0))
+        
         self.reparentTo(parent)

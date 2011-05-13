@@ -16,15 +16,18 @@ class PhysicsManager():
         """
         Adds a linear vector force to the simulation with the given 
         components.
-        """        
+        """
+        
         force = LinearVectorForce(x, y, z)
         
         self.globalForces.node().addForce(force)
         self.world.physicsMgr.addLinearForce(force)
         
-    def addActor(self, actor):
+    def addActor(self, node):
         """
-        Receives a panda3d.physics.ActorNode and adds it to the 
-        simulation.
-        """        
-        self.world.physicsMgr.attachPhysicalNode(actor)
+        Adds a node to the simulation.
+        The node must have a member 'actor' poiting to a 
+        panda3d.physics.ActorNode.
+        """
+        
+        self.world.physicsMgr.attachPhysicalNode(node.actor.node())
