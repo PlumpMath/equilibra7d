@@ -22,9 +22,7 @@ class Sandbox(ShowBase):
         self.initInput()
         
         self.scenario = Scenario(self.render,
-                                 "sandbox",
-                                 self.taskMgr,
-                                 self.keys)
+                                 "sandbox")
         
         self.scenario.setH(-90)
         self.scenario.setPos(0, 23, -30)
