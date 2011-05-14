@@ -17,13 +17,12 @@ class CollisionManager():
         self.traverser = world.cTrav
         self.debug = debug
         
-    def addCollider(self, node):
+    def addCollider(self, physicalNode):
         """
         Adds a node to the collision system.
-        The node must have a member 'collider', pointing to the 
-        collision geometry, and a member 'actor', pointing to the 
-        physics simulation's ActorNode.
+        The parameter 'physicalNode' must be an instance of 
+        PhysicalNode.
         """
         
-        self.handler.addCollider(node.collider, node.actor)
-        self.traverser.addCollider(node.collider, self.handler)
+        self.handler.addCollider(physicalNode.collider, physicalNode.actor)
+        self.traverser.addCollider(physicalNode.collider, self.handler)

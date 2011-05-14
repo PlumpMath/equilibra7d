@@ -23,11 +23,11 @@ class PhysicsManager():
         self.globalForces.node().addForce(force)
         self.world.physicsMgr.addLinearForce(force)
         
-    def addActor(self, node):
+    def addActor(self, physicalNode):
         """
         Adds a node to the simulation.
-        The node must have a member 'actor' poiting to a 
-        panda3d.physics.ActorNode.
+        The parameter 'physicalNode' must be an instance of 
+        PhysicalNode.
         """
         
-        self.world.physicsMgr.attachPhysicalNode(node.actor.node())
+        self.world.physicsMgr.attachPhysicalNode(physicalNode.actor.node())
