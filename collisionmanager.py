@@ -27,6 +27,3 @@ class CollisionManager():
         
         self.handler.addCollider(node.collider, node.actor)
         self.traverser.addCollider(node.collider, self.handler)
-
-        if self.debug:
-            node.collider.show()
