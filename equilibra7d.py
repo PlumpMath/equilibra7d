@@ -25,7 +25,7 @@ class World(ShowBase):
 
         # Placing an enemy in the world.
         self.enemy = Enemy(self.render, "enemy")
-        self.enemy.setPos(4, 4, 5)
+        self.enemy.setPos(1, 4, 5)
 
         # Setting up the Input Manager
         self.inputManager = InputManager(self)
@@ -41,6 +41,9 @@ class World(ShowBase):
         self.collisionManager = CollisionManager(self)
         self.collisionManager.addCollider(self.character)
         self.collisionManager.addCollider(self.enemy)
+        self.collisionManager.addCollisionHandling(self.enemy.collider,
+                                                   self.character,
+                                                   self.enemy)
         
         # Setting up the Lighting Manager
         self.lightingManager = LightingManager(self)
@@ -51,7 +54,7 @@ class World(ShowBase):
         self.hudManager = HUDManager()
         
         # Setting up the camera
-        self.camera.setY(-20)
+        self.camera.setY(-15)
         self.camera.setZ(4)
         self.camera.lookAt(0, 0, 0)
         self.disableMouse()

@@ -1,9 +1,10 @@
 from panda3d.core import Vec3
 
 from physicalnode import PhysicalNode
+from collisioneventhandler import CollisionEventHandler
 from keyboardeventhandler import KeyboardEventHandler
 
-class Character(PhysicalNode, KeyboardEventHandler):
+class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
     def __init__(self, parent, model):
         PhysicalNode.__init__(self, parent, model, "character")
         
@@ -11,12 +12,18 @@ class Character(PhysicalNode, KeyboardEventHandler):
         
         self._impulseIncrement = 0.75
         self._speedLimit = 2.0
+        self._impact = 10
         
+    def handleCollisionEvent(self, entry):
+        point = entry.getSurfacePoint(self)
+        normal = entry.getSurfaceNormal(self)
+        self.addImpact(point, normal * self._impact)
+    
     def handleKeyboardEvent(self, keys, dt):
         impulse = Vec3(0, 0, 0)
         increment = self._impulseIncrement * dt
         
-        velocity = self.actor.node().getPhysicsObject().getVelocity()
+        velocity = self.getVelocity()
         speed = velocity.length()
         
         above_limit = (speed > self._speedLimit)
@@ -37,7 +44,7 @@ class Character(PhysicalNode, KeyboardEventHandler):
             if not above_limit or self._isBraking(velocity, Vec3.back()):
                 impulse += Vec3.back() * increment
         
-        self.actor.node().getPhysicsObject().addImpulse(impulse)
+        self.addImpulse(impulse)
     
     def _isBraking(self, velocity, coordinate):
         return (velocity.cross(coordinate) < 0)

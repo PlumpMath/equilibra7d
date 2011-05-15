@@ -30,3 +30,13 @@ class PhysicalNode(ModelNode):
         collisionNode.addSolid(collisionSphere)
 
         self.collider = self.actor.attachNewNode(collisionNode)
+    
+    def addImpact(self, offsetFromCenterOfMass, impulse):
+        self.actor.node().getPhysicsObject().addImpact(offsetFromCenterOfMass,
+                                                       impulse)
+    
+    def addImpulse(self, impulse):
+        self.actor.node().getPhysicsObject().addImpulse(impulse)
+    
+    def getVelocity(self):
+        return self.actor.node().getPhysicsObject().getVelocity()
