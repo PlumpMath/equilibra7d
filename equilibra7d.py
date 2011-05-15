@@ -7,6 +7,7 @@ from inputmanager import InputManager
 from physicsmanager import PhysicsManager
 from collisionmanager import CollisionManager
 from lightingmanager import LightingManager
+from hudmanager import HUDManager
 
 class World(ShowBase):
     """Class that holds the Panda3D Scene Graph."""
@@ -45,6 +46,9 @@ class World(ShowBase):
         self.lightingManager = LightingManager(self)
         self.lightingManager.setAmbientLight(0.3, 0.3, 0.3)
         self.lightingManager.setPointLight(1, 1, 1, 0, -8, 5)
+        
+        # Setting up the HUD Manager
+        self.hudManager = HUDManager()
         
         # Setting up the camera
         self.camera.setY(-20)
