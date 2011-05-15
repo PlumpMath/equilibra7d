@@ -9,22 +9,35 @@ class Character(PhysicalNode, KeyboardEventHandler):
         
         self.addCollisionSphere(0.5)
         
-        self._speed = 3
-
+        self._impulseIncrement = 0.75
+        self._speedLimit = 2.0
+        
     def handleKeyboardEvent(self, keys, dt):
-        velocity = Vec3(0, 0, 0)
-        movement = self._speed * dt
+        impulse = Vec3(0, 0, 0)
+        increment = self._impulseIncrement * dt
+        
+        velocity = self.actor.node().getPhysicsObject().getVelocity()
+        speed = velocity.length()
+        
+        above_limit = (speed > self._speedLimit)
         
         if keys["left"] != 0:
-            velocity += Vec3(-movement, 0, 0)
-
+            if not above_limit or self._isBraking(velocity, Vec3.left()):
+                impulse += Vec3.left() * increment
+        
         if keys["right"] != 0:
-            velocity += Vec3(movement, 0, 0)
-
+            if not above_limit or self._isBraking(velocity, Vec3.right()):
+                impulse += Vec3.right() * increment
+        
         if keys["up"] != 0:
-            velocity += Vec3(0, movement, 0)
-
+            if not above_limit or self._isBraking(velocity, Vec3.forward()):
+                impulse += Vec3.forward() * increment
+        
         if keys["down"] != 0:
-            velocity += Vec3(0, -movement, 0)
-            
-        self.setFluidPos(self.getPos() + velocity)
+            if not above_limit or self._isBraking(velocity, Vec3.back()):
+                impulse += Vec3.back() * increment
+        
+        self.actor.node().getPhysicsObject().addImpulse(impulse)
+    
+    def _isBraking(self, velocity, coordinate):
+        return (velocity.cross(coordinate) < 0)
