@@ -25,18 +25,33 @@ class PhysicalNode(ModelNode):
         self.model.reparentTo(self.actor)
 
     def addCollisionSphere(self, size):
+        """
+        Creates a collision sphere and adds it to the node's tree.
+        Its radius is given by 'size' and it is centered at the origin.
+        """
         collisionSphere = CollisionSphere(0, 0, 0, size)
         collisionNode = CollisionNode(self.name + '_collision_node')
         collisionNode.addSolid(collisionSphere)
 
         self.collider = self.actor.attachNewNode(collisionNode)
     
+    def addImpulse(self, impulse):
+        """
+        Generates an instantaneous change in the node's velocity.
+        This change is given by the vector 'impulse' as a Vec3.
+        """
+        self.actor.node().getPhysicsObject().addImpulse(impulse)
+
     def addImpact(self, offsetFromCenterOfMass, impulse):
+        """
+        Adds an impulse and/or torque to the node based on an offset
+        from the center of mass.
+        """
         self.actor.node().getPhysicsObject().addImpact(offsetFromCenterOfMass,
                                                        impulse)
     
-    def addImpulse(self, impulse):
-        self.actor.node().getPhysicsObject().addImpulse(impulse)
-    
     def getVelocity(self):
+        """
+        Returns the node's current velocity vector as a Vec3.
+        """
         return self.actor.node().getPhysicsObject().getVelocity()

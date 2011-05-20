@@ -31,6 +31,13 @@ class CollisionManager():
         self.traverser.addCollider(physicalNode.collider, self.handler)
     
     def addCollisionHandling(self, intoNode, *handlers):
+        """
+        Notifies that a collision event must be handled.
+        The given handlers must inherit from the CollisionEventHandler 
+        class. Its 'handleCollisionEvent' method will be called whenever
+        a collision with the node given by 'intoNode' occurs.
+        """
+        
         pattern = "into-%s" % intoNode.getName()
         self.world.accept(pattern, self._callHandlers, [handlers])
         
