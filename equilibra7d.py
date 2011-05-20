@@ -1,4 +1,5 @@
 from direct.showbase.ShowBase import ShowBase
+from pandac.PandaModules import WindowProperties
 
 from scenario import Scenario
 from character import Character
@@ -9,11 +10,16 @@ from collisionmanager import CollisionManager
 from lightingmanager import LightingManager
 from hudmanager import HUDManager
 
+
 class World(ShowBase):
     """Class that holds the Panda3D Scene Graph."""
     
     def __init__(self):
         ShowBase.__init__(self)
+
+        props = WindowProperties()
+        props.setTitle("Equilibra7D")
+        self.win.requestProperties(props)
         
         # Placing the scenario in the world.
         self.scenario = Scenario(self.render, "arena1")
@@ -59,5 +65,7 @@ class World(ShowBase):
         self.camera.lookAt(0, 0, 0)
         self.disableMouse()
 
-world = World()
-world.run()
+
+if __name__ == "__main__":
+    world = World()
+    world.run()
