@@ -60,10 +60,13 @@ class World(ShowBase):
         self.hudManager = HUDManager()
         
         # Setting up the camera
-        self.camera.setY(-15)
-        self.camera.setZ(4)
+        self.camera.setY(-20)
+        self.camera.setZ(5)
         self.camera.lookAt(0, 0, 0)
         self.disableMouse()
+        
+        # Enabling per-pixel lighting
+        self.render.setShaderAuto()
 
 
 if __name__ == "__main__":

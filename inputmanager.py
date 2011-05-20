@@ -4,13 +4,18 @@ class InputManager():
     """
     Manages the input events from Panda3D.    
     In this class, all the accepted keys are registered and a task is
-    defined in order to handle the input events, like a key press.    
+    defined in order to handle the input events, like a key press.
+    
     All classes interested in handling keyboard events must inherit
     from the 'KeyboardEventHandler' class and must be registered
     through the 'addKeyboardEventHandler' method.
     """
     
     def __init__(self, world):
+        """
+        Constructor.
+        All accepted keys should be defined here.
+        """
         self.keys = {"left":0, "right":0, "up":0, "down":0}
         
         world.accept("w", self._setKey, ["up", 1])
@@ -31,9 +36,21 @@ class InputManager():
         self.world = world
         
     def addKeyboardEventHandler(self, handler):
+        """
+        Registers a keyboard event handler.
+        The given object must inherit from the KeyboardEventHandler 
+        class. Its 'handleKeyboardEvent' method will be called at each 
+        frame.
+        """
         self.keyboardEventHandlers.append(handler)
     
     def handleInput(self, task):
+        """
+        Calls the 'handleKeyboardEvent' method from every registered 
+        keyboard event handler.
+        This method is associated with the 'input_task' task and is 
+        therefore called on every frame.
+        """
         dt = globalClock.getDt()
         
         for handler in self.keyboardEventHandlers:

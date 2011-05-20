@@ -3,10 +3,15 @@ from panda3d.core import AmbientLight
 from panda3d.core import PointLight
 
 class LightingManager():
+    """Handles the lighting of the 3D scene."""
+    
     def __init__(self, world):
         self.render = world.render               
         
     def setAmbientLight(self, r, g, b):
+        """
+        Adds an ambient light with the given RGB values to the scene.
+        """
         ambientLightNode = AmbientLight('ambient_light')
         ambientLightNode.setColor(VBase4(r, g, b, 1))
         
@@ -14,6 +19,10 @@ class LightingManager():
         self.render.setLight(self.ambientLight)
 
     def setPointLight(self, r, g, b, x, y, z):
+        """
+        Adds a point light with the given RGB values and position to 
+        the scene.
+        """
         pointLightNode = PointLight('point_light')
         pointLightNode.setColor(VBase4(r, g, b, 1))
 
