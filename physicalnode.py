@@ -2,6 +2,8 @@ from panda3d.core import BitMask32
 from panda3d.core import CollisionNode
 from panda3d.core import CollisionSphere
 from panda3d.physics import ActorNode
+from panda3d.physics import ForceNode
+from panda3d.physics import LinearVectorForce
 
 from modelnode import ModelNode
 
@@ -13,6 +15,7 @@ class PhysicalNode(ModelNode):
     Structure:
         PandaNode -> ActorNode -> ModelNode
                                -> CollisionNode (optional)
+                               -> ForceNode (optional)
     """
     
     def __init__(self, parent, model, name):
@@ -20,8 +23,7 @@ class PhysicalNode(ModelNode):
         
         actorNode = ActorNode(name + "_actor_node")
         self.actor = self.attachNewNode(actorNode)
-        
-        self.model.setCollideMask(BitMask32.allOff())
+                
         self.model.reparentTo(self.actor)
 
     def addCollisionSphere(self, size):
@@ -34,6 +36,8 @@ class PhysicalNode(ModelNode):
         collisionNode.addSolid(collisionSphere)
 
         self.collider = self.actor.attachNewNode(collisionNode)
+        
+        self.model.setCollideMask(BitMask32.allOff())
     
     def addImpulse(self, impulse):
         """
@@ -50,6 +54,17 @@ class PhysicalNode(ModelNode):
         self.actor.node().getPhysicsObject().addImpact(offsetFromCenterOfMass,
                                                        impulse)
     
+    def addLinearForce(self, force):
+        """
+        Adds a local linear force to this node.
+        The parameter 'force' must be a LinearVectorForce.
+        """
+        self.actor.node().getPhysical(0).addLinearForce(force)
+        forceNode = ForceNode(self.name + "_force_node")
+        forceNode.addForce(force)
+        
+        self.actor.attachNewNode(forceNode)
+        
     def getVelocity(self):
         """
         Returns the node's current velocity vector as a Vec3.

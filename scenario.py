@@ -1,8 +1,7 @@
 from panda3d.core import BitMask32
 
-from modelnode import ModelNode
+from physicalnode import PhysicalNode
 
-class Scenario(ModelNode):
+class Scenario(PhysicalNode):
     def __init__(self, parent, model):
-        ModelNode.__init__(self, parent, model, "scenario")
-        
+        PhysicalNode.__init__(self, parent, model, "scenario")
