@@ -5,6 +5,7 @@ from scenario import Scenario
 from character import Character
 from enemy import Enemy
 from landscape import Landscape
+from sea import Sea
 from inputmanager import InputManager
 from physicsmanager import PhysicsManager
 from collisionmanager import CollisionManager
@@ -24,6 +25,7 @@ class World(ShowBase):
         
         # Placing the scenario in the world.
         self.scenario = Scenario(self.render, "arena1")
+        self.scenario.setZ(0.2)
         
         # Placing the character in the world.
         self.character = Character(self.render, "ball")
@@ -37,6 +39,10 @@ class World(ShowBase):
         # Placing the landscape (skybox)
         self.landscape = Landscape(self.render, "landscape")
         self.landscape.setScale(20)
+        
+        # Placing the Sea
+        self.sea = Sea(self.render, "sea")
+        self.sea.setScale(20)
         
         ## Setting up the Input Manager
         self.inputManager = InputManager(self)
@@ -69,8 +75,8 @@ class World(ShowBase):
         self.hudManager = HUDManager()
         
         # Setting up the camera
-        self.camera.setY(-30)
-        self.camera.setZ(4)
+        self.camera.setY(-40)
+        self.camera.setZ(15)
         self.camera.lookAt(0, 0, 0)
         self.disableMouse()
         
