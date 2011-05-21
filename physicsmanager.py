@@ -8,7 +8,7 @@ class PhysicsManager():
         world.enableParticles()
         
         globalForcesNode = ForceNode("global_forces")
-        self.globalForces = world.render.attachNewNode(globalForcesNode)
+        self.forces = world.render.attachNewNode(globalForcesNode)
         
         self.world = world
         
@@ -21,9 +21,9 @@ class PhysicsManager():
         """
         
         force = LinearVectorForce(x, y, z)
+        self.forces.node().addForce(force)
         
         if physicalNode is None:
-            self.globalForces.node().addForce(force)
             self.world.physicsMgr.addLinearForce(force)            
         else:
             physicalNode.addLinearForce(force)
