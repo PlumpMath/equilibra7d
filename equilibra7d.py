@@ -4,6 +4,7 @@ from pandac.PandaModules import WindowProperties
 from scenario import Scenario
 from character import Character
 from enemy import Enemy
+from landscape import Landscape
 from inputmanager import InputManager
 from physicsmanager import PhysicsManager
 from collisionmanager import CollisionManager
@@ -32,7 +33,11 @@ class World(ShowBase):
         # Placing an enemy in the world.
         self.enemy = Enemy(self.render, "enemy")
         self.enemy.setPos(1, 4, 5)
-
+        
+        # Placing the landscape (skybox)
+        self.landscape = Landscape(self.render, "landscape")
+        self.landscape.setScale(20)
+        
         ## Setting up the Input Manager
         self.inputManager = InputManager(self)
         self.inputManager.addKeyboardEventHandler(self.character)
@@ -64,8 +69,8 @@ class World(ShowBase):
         self.hudManager = HUDManager()
         
         # Setting up the camera
-        self.camera.setY(-20)
-        self.camera.setZ(5)
+        self.camera.setY(-30)
+        self.camera.setZ(4)
         self.camera.lookAt(0, 0, 0)
         self.disableMouse()
         
