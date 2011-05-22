@@ -1,5 +1,6 @@
 from direct.showbase.ShowBase import ShowBase
 from pandac.PandaModules import WindowProperties
+from pandac.PandaModules import ClockObject
 
 from scenario import Scenario
 from character import Character
@@ -76,6 +77,12 @@ class World(ShowBase):
         
         # Enable per-pixel lighting
         self.render.setShaderAuto()
+
+        # Fix frame rate
+        FPS = 60
+        globalClock = ClockObject.getGlobalClock()
+        globalClock.setMode(ClockObject.MLimited)
+        globalClock.setFrameRate(FPS)
         
     def initFeatures(self):
         """Instantiate things in the world"""
@@ -101,7 +108,7 @@ class World(ShowBase):
         self.sea.setScale(20)
         
     def _removeFeatures(self):
-        """Cleanup the NodePath"""
+        """Cleanup the NodePath."""
         to_be_removed = (self.scenario, self.character, self.enemy,
                          self.landscape, self.sea,
                          # self.inputManager,
@@ -114,7 +121,7 @@ class World(ShowBase):
             node.removeNode()
 
     def reset(self):
-        """Set the initial position of things defined in the world"""
+        """Set the initial position of things defined in the world."""
         print "restarting..."
         self._removeFeatures()
         self.initFeatures()
