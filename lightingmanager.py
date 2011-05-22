@@ -1,6 +1,7 @@
 from panda3d.core import VBase4
 from panda3d.core import AmbientLight
 from panda3d.core import PointLight
+from panda3d.core import DirectionalLight
 
 class LightingManager():
     """Handles the lighting of the 3D scene."""
@@ -29,3 +30,15 @@ class LightingManager():
         self.pointLight = self.render.attachNewNode(pointLightNode)
         self.pointLight.setPos(x, y, z)
         self.render.setLight(self.pointLight)
+    
+    def setDirectionalLight(self, r, g, b, head, pitch, roll):
+        """
+        Adds a directional light source with the given RGB values and
+        orientation.
+        """
+        directionalLightNode = DirectionalLight('directional_light')
+        directionalLightNode.setColor(VBase4(r, g, b, 1))
+        
+        self.directionalLight = self.render.attachNewNode(directionalLightNode)
+        self.directionalLight.setHpr(head, pitch, roll)
+        self.render.setLight(self.directionalLight)
