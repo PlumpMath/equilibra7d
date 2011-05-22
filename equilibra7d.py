@@ -77,6 +77,8 @@ class World(ShowBase):
         # Enable per-pixel lighting
         self.render.setShaderAuto()
         
+        self.taskMgr.add(self.handleGameOver, "gameover_task")
+        
     def initFeatures(self):
         """Instantiate things in the world"""
         # Place the scenario in the world
@@ -121,6 +123,17 @@ class World(ShowBase):
         
         # Reset inputManager
         #self.inputManager.reset()
+        
+    def handleGameOver(self, task):
+        if self.enemy.getBounds().getCenter().getZ() < -10:
+            self.hudManager.win()
+            #self.reset()
+            return task.done
+        elif self.character.getBounds().getCenter().getZ() < -10:
+            self.hudManager.lose()
+            #self.reset()
+            return task.done
+        return task.cont
 
 
 if __name__ == "__main__":
