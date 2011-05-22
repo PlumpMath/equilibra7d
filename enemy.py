@@ -9,7 +9,7 @@ class Enemy(PhysicalNode, CollisionEventHandler):
         
         self._impact = 10
     
-    def handleCollisionEvent(self, entry):
+    def handleCollisionEvent(self, entry, type):
         point = entry.getSurfacePoint(self)
         normal = entry.getSurfaceNormal(self)
         self.addImpact(point, normal * -self._impact)

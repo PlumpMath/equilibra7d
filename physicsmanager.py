@@ -1,5 +1,6 @@
 from panda3d.physics import ForceNode
 from panda3d.physics import LinearVectorForce
+from panda3d.physics import AngularEulerIntegrator
 
 class PhysicsManager():
     """Handles the physics simulation."""
@@ -9,6 +10,9 @@ class PhysicsManager():
         
         globalForcesNode = ForceNode("global_forces")
         self.forces = world.render.attachNewNode(globalForcesNode)
+
+        integrator = AngularEulerIntegrator()
+        world.physicsMgr.attachAngularIntegrator(integrator)
         
         self.world = world
         

@@ -16,7 +16,7 @@ class CollisionManager():
         self.handler.setDynamicFrictionCoef(0.15)
         self.handler.addInPattern('into-%in')
         self.handler.addAgainPattern('again-%in')
-        self.handler.addOutPattern('again-%in')
+        self.handler.addOutPattern('out-%in')
         
         self.world = world
         self.traverser = world.cTrav
@@ -42,8 +42,8 @@ class CollisionManager():
         """
         
         pattern = "%s-%s" % (type, intoNode.getName())
-        self.world.accept(pattern, self._callHandlers, [handlers])
+        self.world.accept(pattern, self._callHandlers, [handlers, type])
         
-    def _callHandlers(self, handlers, entry):
+    def _callHandlers(self, handlers, type, entry):
         for handler in handlers:
-            handler.handleCollisionEvent(entry)
+            handler.handleCollisionEvent(entry, type)

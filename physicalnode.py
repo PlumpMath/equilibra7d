@@ -2,6 +2,7 @@ from panda3d.core import BitMask32
 from panda3d.core import CollisionNode
 from panda3d.core import CollisionSphere
 from panda3d.physics import ActorNode
+from panda3d.physics import AngularVectorForce
 
 from modelnode import ModelNode
 
@@ -65,9 +66,31 @@ class PhysicalNode(ModelNode):
         The parameter 'force' must be a LinearVectorForce.
         """
         self.actor.node().getPhysical(0).addLinearForce(force)
+    
+    def addTorque(self, h, p, r):
+        """
+        Adds a torque to the node.
+        Returns the corresponding 'AngularVectorForce'.
+        """
+        torque = AngularVectorForce(h, p, r)
+        self.actor.node().getPhysical(0).addAngularForce(torque)
         
+        return torque
+        
+    def removeTorque(self, torque):
+        """
+        Removes a torque (AngularForce) from the node.
+        """
+        self.actor.node().getPhysical(0).removeAngularForce(torque)
+    
     def getVelocity(self):
         """
         Returns the node's current velocity vector as a Vec3.
         """
         return self.actor.node().getPhysicsObject().getVelocity()
+    
+    def setMass(self, mass):
+        """
+        Updates the actor's mass.
+        """
+        self.actor.node().getPhysicsObject().setMass(mass)
