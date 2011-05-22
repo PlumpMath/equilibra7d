@@ -1,5 +1,6 @@
 from direct.showbase.ShowBase import ShowBase
 from pandac.PandaModules import WindowProperties
+from panda3d.ai import AIWorld, AICharacter
 
 from scenario import Scenario
 from character import Character
@@ -37,7 +38,8 @@ class World(ShowBase):
         # Set up the Physics Manager
         self.physicsManager = PhysicsManager(self)
         self.physicsManager.addLinearForce(0, 0, -1)
-        self.physicsManager.addActor(self.scenario)
+        # Temporarily keep scenario fixed in place
+        #self.physicsManager.addActor(self.scenario)
         self.physicsManager.addActor(self.character)
         self.physicsManager.addActor(self.enemy)
         
@@ -77,7 +79,11 @@ class World(ShowBase):
         # Enable per-pixel lighting
         self.render.setShaderAuto()
         
-        self.taskMgr.add(self.handleGameOver, "gameover_task")
+        # Enable gameover task
+        taskMgr.add(self.handleGameOver, "gameover_task")
+        
+        # Enable AI
+        self.setAI()
         
     def initFeatures(self):
         """Instantiate things in the world"""
@@ -123,7 +129,7 @@ class World(ShowBase):
         
         # Reset inputManager
         #self.inputManager.reset()
-        
+    
     def handleGameOver(self, task):
         if self.enemy.getBounds().getCenter().getZ() < -10:
             self.hudManager.win()
@@ -133,6 +139,25 @@ class World(ShowBase):
             self.hudManager.lose()
             #self.reset()
             return task.done
+        return task.cont
+      
+    def setAI(self):
+        # Creating AI World
+        self.AIWorld = AIWorld(render)
+
+        self.AIchar = AICharacter("seeker", self.enemy, 100, 0.05, 1.0)
+        self.AIWorld.addAiChar(self.AIchar)
+        self.AIbehaviors = self.AIchar.getAiBehaviors()
+        
+        self.AIbehaviors.seek(self.character)
+
+        # AI World update
+        taskMgr.add(self.AIUpdate,"AIUpdate")
+    
+    # to update the AIWorld
+    def AIUpdate(self, task):
+        """Update the AIWorld"""
+        self.AIWorld.update()
         return task.cont
 
 
