@@ -28,12 +28,19 @@ class InputManager():
         world.accept("s-up", self._setKey, ["down", 0])
         world.accept("d-up", self._setKey, ["right", 0])
         
+        # Handle it differently when the user keeps pressing a key (acceleration)
+        #world.accept("d-repeat", self.p, ["repeating D"])
+        
+        world.accept("n", world.reset)
         world.accept("escape", sys.exit)
         
         world.taskMgr.add(self.handleInput, "input_task")
 
         self.keyboardEventHandlers = []
         self.world = world
+        
+    #def p(self, t):
+    #    print t
         
     def addKeyboardEventHandler(self, handler):
         """

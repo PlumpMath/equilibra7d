@@ -27,42 +27,24 @@ class World(ShowBase):
         # Enable FPS meter (development-only)
         self.setFrameRateMeter(True)
         
-        # Placing the scenario in the world
-        self.scenario = Scenario(self.render, "arena1")
-        self.scenario.setZ(0.2)
+        self.initFeatures()
         
-        # Placing the character in the world
-        self.character = Character(self.render, "ball")
-        self.character.setZ(5)
-        self.character.setScale(1.5)
-
-        # Placing an enemy in the world
-        self.enemy = Enemy(self.render, "enemy")
-        self.enemy.setPos(1, 4, 5)
-        
-        # Placing the landscape (skybox)
-        self.landscape = Landscape(self.render, "landscape")
-        self.landscape.setScale(20)
-        
-        # Placing the Sea
-        self.sea = Sea(self.render, "sea")
-        self.sea.setScale(20)
-        
-        ## Setting up the Input Manager
+        # Set up the Input Manager
         self.inputManager = InputManager(self)
         self.inputManager.addKeyboardEventHandler(self.character)
         
-        ## Setting up the Physics Manager
+        
+        # Set up the Physics Manager
         self.physicsManager = PhysicsManager(self)
         self.physicsManager.addLinearForce(0, 0, -1)
         self.physicsManager.addActor(self.scenario)
         self.physicsManager.addActor(self.character)
         self.physicsManager.addActor(self.enemy)
         
-        # Adding buoyancy
+        # Add buoyancy
         self.physicsManager.addLinearForce(0, 0, 1, self.scenario)
         
-        ## Setting up the Collision Manager        
+        ## Set up the Collision Manager
         self.collisionManager = CollisionManager(self)
         self.collisionManager.addCollider(self.character)
         self.collisionManager.addCollider(self.enemy)
@@ -77,23 +59,68 @@ class World(ShowBase):
                                                    "out",
                                                    self.scenario)
         
-        ## Setting up the Lighting Manager
+        ## Set up the Lighting Manager
         self.lightingManager = LightingManager(self)
         self.lightingManager.setAmbientLight(0.3, 0.3, 0.3)
         self.lightingManager.setPointLight(0.4, 0.4, 0.4, 0, -8, 5)
         self.lightingManager.setDirectionalLight(0.4, 0.4, 0.6, 0, -60, 0)
         
-        ## Setting up the HUD Manager
+        ## Set up the HUD Manager
         self.hudManager = HUDManager()
         
-        # Setting up the camera
+        # Set up the camera
         self.camera.setY(-40)
         self.camera.setZ(15)
         self.camera.lookAt(0, 0, 0)
         self.disableMouse()
         
-        # Enabling per-pixel lighting
+        # Enable per-pixel lighting
         self.render.setShaderAuto()
+        
+    def initFeatures(self):
+        """Instantiate things in the world"""
+        # Place the scenario in the world
+        self.scenario = Scenario(self.render, "arena1")
+        self.scenario.setZ(0.2)
+        
+        # Place the character in the world
+        self.character = Character(self.render, "ball")
+        self.character.setZ(5)
+        self.character.setScale(1.5)
+
+        # Place the enemy in the world
+        self.enemy = Enemy(self.render, "enemy")
+        self.enemy.setPos(1, 4, 5)
+        
+        # Place the landscape (skybox)
+        self.landscape = Landscape(self.render, "landscape")
+        self.landscape.setScale(20)
+        
+        # Place the sea
+        self.sea = Sea(self.render, "sea")
+        self.sea.setScale(20)
+        
+    def _removeFeatures(self):
+        """Cleanup the NodePath"""
+        to_be_removed = (self.scenario, self.character, self.enemy,
+                         self.landscape, self.sea,
+                         # self.inputManager,
+                         # self.physicsManager,
+                         # self.collisionManager,
+                         # self.lightingManager,
+                         # self.hudManager
+                         )
+        for node in to_be_removed:
+            node.removeNode()
+
+    def reset(self):
+        """Set the initial position of things defined in the world"""
+        print "restarting..."
+        self._removeFeatures()
+        self.initFeatures()
+        
+        # Reset inputManager
+        #self.inputManager.reset()
 
 
 if __name__ == "__main__":
