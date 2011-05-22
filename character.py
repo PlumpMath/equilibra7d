@@ -20,6 +20,13 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
         self.addImpact(point, normal * self._impact)
     
     def handleKeyboardEvent(self, keys, dt):
+        impulse_old = self.handleKeyboardEvent_old(keys, dt)
+        impulse_new = self.handleKeyboardEvent_new(keys, dt)
+        assert impulse_old == impulse_new, "%s != %s" % (impulse_old, impulse_new)
+        self.addImpulse(impulse_new)
+    
+    # Old implementation
+    def handleKeyboardEvent_old(self, keys, dt):
         impulse = Vec3(0, 0, 0)
         increment = self._impulseIncrement * dt
         
@@ -44,7 +51,34 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
             if not above_limit or self._isBraking(velocity, Vec3.back()):
                 impulse += Vec3.back() * increment
         
-        self.addImpulse(impulse)
+        #self.addImpulse(impulse)
+        return impulse
     
     def _isBraking(self, velocity, coordinate):
-        return (velocity.cross(coordinate) < 0)
+        return (velocity.dot(coordinate) < 0)
+
+    # New implementation does the same as the old one, but with shorter code
+    def handleKeyboardEvent_new(self, keys, dt):
+        impulse = Vec3(0, 0, 0)
+        increment = self._impulseIncrement * dt
+        
+        above_limit = self.is_above_limit
+        
+        for key, vec in (("left", Vec3.left()),
+                         ("right", Vec3.right()),
+                         ("up", Vec3.forward()),
+                         ("down", Vec3.back())):
+            if keys[key] and (not above_limit or self.is_braking(vec)):
+                impulse += vec * increment
+        
+        return impulse
+    
+    def is_braking(self, coordinate):
+        velocity = self.getVelocity()
+        return velocity.dot(coordinate) < 0
+        
+    @property
+    def is_above_limit(self):
+        speed = self.getVelocity().length()
+        return speed > self._speedLimit
+
