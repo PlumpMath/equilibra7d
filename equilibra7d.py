@@ -63,8 +63,12 @@ class World(ShowBase):
         self.collisionManager.addCollider(self.character)
         self.collisionManager.addCollider(self.enemy)
         self.collisionManager.addCollisionHandling(self.enemy.collider,
+                                                   "into",
                                                    self.character,
                                                    self.enemy)
+        self.collisionManager.addCollisionHandling(self.scenario.collider,
+                                                   "again",
+                                                   self.scenario)
         
         ## Setting up the Lighting Manager
         self.lightingManager = LightingManager(self)

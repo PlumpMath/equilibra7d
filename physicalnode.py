@@ -36,6 +36,14 @@ class PhysicalNode(ModelNode):
         
         self.model.setCollideMask(BitMask32.allOff())
     
+    def addCollisionGeometry(self, modelName):
+        """
+        Indicates that a geometry must be used in collision tests.
+        A collision geometry must be defined along with the model and
+        its name must follow the pattern modelNameC (e.g. treeC).
+        """
+        self.collider = self.model.find("**/%sC" % modelName)
+    
     def addImpulse(self, impulse):
         """
         Generates an instantaneous change in the node's velocity.

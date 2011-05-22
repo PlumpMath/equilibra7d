@@ -15,6 +15,8 @@ class CollisionManager():
         self.handler.setStaticFrictionCoef(0.25)
         self.handler.setDynamicFrictionCoef(0.15)
         self.handler.addInPattern('into-%in')
+        self.handler.addAgainPattern('again-%in')
+        self.handler.addOutPattern('again-%in')
         
         self.world = world
         self.traverser = world.cTrav
@@ -30,15 +32,16 @@ class CollisionManager():
         self.handler.addCollider(physicalNode.collider, physicalNode.actor)
         self.traverser.addCollider(physicalNode.collider, self.handler)
     
-    def addCollisionHandling(self, intoNode, *handlers):
+    def addCollisionHandling(self, intoNode, type, *handlers):
         """
         Notifies that a collision event must be handled.
+        The given 'type' should be "into", "again" or "out"
         The given handlers must inherit from the CollisionEventHandler 
         class. Its 'handleCollisionEvent' method will be called whenever
         a collision with the node given by 'intoNode' occurs.
         """
         
-        pattern = "into-%s" % intoNode.getName()
+        pattern = "%s-%s" % (type, intoNode.getName())
         self.world.accept(pattern, self._callHandlers, [handlers])
         
     def _callHandlers(self, handlers, entry):

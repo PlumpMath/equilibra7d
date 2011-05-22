@@ -19,8 +19,8 @@
   <Scalar> magfilter { LINEAR }
   <Scalar> wrap { REPEAT }
 }
-<Group> Arena {
-  <VertexPool> Arena {
+<Group> arena1 {
+  <VertexPool> arena1 {
     <Vertex> 0 {
       10.0 10.0 -0.100000023842
       <UV>  {
@@ -314,58 +314,58 @@
     <TRef> { landscape.jpg }
     <Normal> { 0.000000 0.000000 -1.000000
     }
-    <VertexRef> { 0 1 2 3 <Ref> { Arena } }
+    <VertexRef> { 0 1 2 3 <Ref> { arena1 } }
   }
   <Polygon> {
     <TRef> { landscape.jpg }
     <Normal> { 0.000000 -0.000000 1.000000
     }
-    <VertexRef> { 4 5 6 7 <Ref> { Arena } }
+    <VertexRef> { 4 5 6 7 <Ref> { arena1 } }
   }
   <Polygon> {
     <TRef> { landscape.jpg }
     <Normal> { 1.000000 -0.000000 0.000005
     }
-    <VertexRef> { 8 9 10 11 <Ref> { Arena } }
+    <VertexRef> { 8 9 10 11 <Ref> { arena1 } }
   }
   <Polygon> {
     <TRef> { landscape.jpg }
     <Normal> { -0.000000 -1.000000 -0.000010
     }
-    <VertexRef> { 12 13 14 15 <Ref> { Arena } }
+    <VertexRef> { 12 13 14 15 <Ref> { arena1 } }
   }
   <Polygon> {
     <TRef> { landscape.jpg }
     <Normal> { -1.000000 0.000000 -0.000014
     }
-    <VertexRef> { 16 17 18 19 <Ref> { Arena } }
+    <VertexRef> { 16 17 18 19 <Ref> { arena1 } }
   }
   <Polygon> {
     <TRef> { landscape.jpg }
     <Normal> { 0.000000 1.000000 0.000019
     }
-    <VertexRef> { 20 21 22 23 <Ref> { Arena } }
+    <VertexRef> { 20 21 22 23 <Ref> { arena1 } }
   }
   <Polygon> {
     <TRef> { landscape.jpg }
     <Normal> { 0.000000 -0.000000 1.000000
     }
-    <VertexRef> { 24 25 26 27 <Ref> { Arena } }
+    <VertexRef> { 24 25 26 27 <Ref> { arena1 } }
   }
   <Polygon> {
     <TRef> { landscape.jpg }
     <Normal> { 0.000000 -0.000000 1.000000
     }
-    <VertexRef> { 28 29 30 31 <Ref> { Arena } }
+    <VertexRef> { 28 29 30 31 <Ref> { arena1 } }
   }
   <Polygon> {
     <TRef> { landscape.jpg }
     <Normal> { 0.000000 -0.000000 1.000000
     }
-    <VertexRef> { 32 33 34 35 <Ref> { Arena } }
+    <VertexRef> { 32 33 34 35 <Ref> { arena1 } }
   }
 }
-<Group> Arena-C {
+<Group> arena1C {
   <Transform> {
     <Matrix4> {
       1.000000 0.000000 0.000000 0.000000
@@ -375,7 +375,7 @@
     }
   }
   <ObjectType> { barrier }
-  <VertexPool> Arena-C {
+  <VertexPool> arena1C {
     <Vertex> 0 {
       10.0000038147 9.9999961853 0.108969449997
     }
@@ -393,6 +393,6 @@
     <MRef> { Material.001 }
     <Normal> { 0.000000 -0.000000 1.000000
     }
-    <VertexRef> { 0 1 2 3 <Ref> { Arena-C } }
+    <VertexRef> { 0 1 2 3 <Ref> { arena1C } }
   }
 }
