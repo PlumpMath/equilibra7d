@@ -28,6 +28,16 @@ class InputManager():
         world.accept("s-up", self._setKey, ["down", 0])
         world.accept("d-up", self._setKey, ["right", 0])
         
+        world.accept("arrow_up", self._setKey, ["up", 1])
+        world.accept("arrow_left", self._setKey, ["left", 1])
+        world.accept("arrow_down", self._setKey, ["down", 1])
+        world.accept("arrow_right", self._setKey, ["right", 1])
+
+        world.accept("arrow_up-up", self._setKey, ["up", 0])
+        world.accept("arrow_left-up", self._setKey, ["left", 0])
+        world.accept("arrow_down-up", self._setKey, ["down", 0])
+        world.accept("arrow_right-up", self._setKey, ["right", 0])
+        
         # Handle it differently when the user keeps pressing a key (acceleration)
         #world.accept("d-repeat", self.p, ["repeating D"])
         

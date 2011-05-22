@@ -13,3 +13,4 @@ class Enemy(PhysicalNode, CollisionEventHandler):
         point = entry.getSurfacePoint(self)
         normal = entry.getSurfaceNormal(self)
         self.addImpact(point, normal * -self._impact)
+

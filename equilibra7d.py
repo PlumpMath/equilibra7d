@@ -1,6 +1,7 @@
 from direct.showbase.ShowBase import ShowBase
 from pandac.PandaModules import WindowProperties
 from pandac.PandaModules import ClockObject
+from panda3d.ai import AIWorld, AICharacter
 
 from scenario import Scenario
 from character import Character
@@ -87,6 +88,12 @@ class World(ShowBase):
         globalClock.setMode(ClockObject.MLimited)
         globalClock.setFrameRate(FPS)
         
+        # Enable gameover task
+        taskMgr.add(self.handleGameOver, "gameover_task")
+        
+        # Enable AI
+        self.setAI()
+        
     def initFeatures(self):
         """Instantiate things in the world"""
         # Place the scenario in the world
@@ -131,6 +138,36 @@ class World(ShowBase):
         
         # Reset inputManager
         #self.inputManager.reset()
+    
+    def handleGameOver(self, task):
+        if self.enemy.getBounds().getCenter().getZ() < -10:
+            self.hudManager.win()
+            #self.reset()
+            return task.done
+        elif self.character.getBounds().getCenter().getZ() < -10:
+            self.hudManager.lose()
+            #self.reset()
+            return task.done
+        return task.cont
+      
+    def setAI(self):
+        # Creating AI World
+        self.AIWorld = AIWorld(render)
+
+        self.AIchar = AICharacter("seeker", self.enemy, 100, 0.05, 1.0)
+        self.AIWorld.addAiChar(self.AIchar)
+        self.AIbehaviors = self.AIchar.getAiBehaviors()
+        
+        self.AIbehaviors.seek(self.character)
+
+        # AI World update
+        taskMgr.add(self.AIUpdate,"AIUpdate")
+    
+    # to update the AIWorld
+    def AIUpdate(self, task):
+        """Update the AIWorld"""
+        self.AIWorld.update()
+        return task.cont
 
 
 if __name__ == "__main__":
