@@ -10,22 +10,32 @@ class Scenario(PhysicalNode, CollisionEventHandler):
         self.addCollisionGeometry(model)        
         
         self._forces = {}
-        self._angularVelocity = 0.02
+        self._angularVelocity = 0.01
         
     def handleCollisionEvent(self, entry, type):
-        fromNode = entry.getFromNodePath().getName()
-        
         if type == "into":
-            contactPoint = entry.getSurfacePoint(self)
-            
-            pitch = -contactPoint.getY() * self._angularVelocity
-            roll = contactPoint.getX() * self._angularVelocity
-            
-            torque = self.addTorque(0, pitch, roll)
-            self._forces[fromNode] = torque
+            self._addTorque(entry)
         
-        elif type == "out":
-            torque = self._forces[fromNode]            
-            self.removeTorque(torque)
+        elif type == "again":
+            self._removeTorque(entry)
+            self._addTorque(entry)
             
+        elif type == "out":
+            self._removeTorque(entry)
+    
+    def _addTorque(self, entry):
+        fromNode = entry.getFromNodePath().getName()
+        contactPoint = entry.getSurfacePoint(self)
+        
+        pitch = -contactPoint.getY() * self._angularVelocity
+        roll = contactPoint.getX() * self._angularVelocity
+        
+        torque = self.addTorque(0, pitch, roll)
+        self._forces[fromNode] = torque
+    
+    def _removeTorque(self, entry):
+        fromNode = entry.getFromNodePath().getName()
+        torque = self._forces.get(fromNode)
+        if torque is not None:
+            self.removeTorque(torque)
             del self._forces[fromNode]

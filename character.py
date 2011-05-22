@@ -10,7 +10,7 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
         
         self.addCollisionSphere(0.5)
         
-        self._impulseIncrement = 0.75
+        self._impulseIncrement = 1.5
         self._speedLimit = 2.0
         self._impact = 10
         

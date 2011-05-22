@@ -12,8 +12,8 @@ class CollisionManager():
             world.cTrav.showCollisions(render)
         
         self.handler = PhysicsCollisionHandler()
-        self.handler.setStaticFrictionCoef(0.25)
-        self.handler.setDynamicFrictionCoef(0.15)
+        self.handler.setStaticFrictionCoef(0.1)
+        self.handler.setDynamicFrictionCoef(0.05)
         self.handler.addInPattern('into-%in')
         self.handler.addAgainPattern('again-%in')
         self.handler.addOutPattern('out-%in')

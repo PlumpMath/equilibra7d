@@ -37,13 +37,13 @@ class World(ShowBase):
         
         # Set up the Physics Manager
         self.physicsManager = PhysicsManager(self)
-        self.physicsManager.addLinearForce(0, 0, -1)
+        self.physicsManager.addLinearForce(0, 0, -10)
         self.physicsManager.addActor(self.scenario)
         self.physicsManager.addActor(self.character)
         self.physicsManager.addActor(self.enemy)
         
         # Add buoyancy
-        self.physicsManager.addLinearForce(0, 0, 1, self.scenario)
+        self.physicsManager.addLinearForce(0, 0, 10, self.scenario)
         
         ## Set up the Collision Manager
         self.collisionManager = CollisionManager(self)
@@ -55,6 +55,9 @@ class World(ShowBase):
                                                    self.enemy)
         self.collisionManager.addCollisionHandling(self.scenario.collider,
                                                    "into",
+                                                   self.scenario)
+        self.collisionManager.addCollisionHandling(self.scenario.collider,
+                                                   "again",
                                                    self.scenario)
         self.collisionManager.addCollisionHandling(self.scenario.collider,
                                                    "out",
