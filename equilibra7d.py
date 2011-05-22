@@ -19,20 +19,24 @@ class World(ShowBase):
     def __init__(self):
         ShowBase.__init__(self)
 
+        # Set window title
         props = WindowProperties()
         props.setTitle("Equilibra7D")
         self.win.requestProperties(props)
         
-        # Placing the scenario in the world.
+        # Enable FPS meter (development-only)
+        self.setFrameRateMeter(True)
+        
+        # Placing the scenario in the world
         self.scenario = Scenario(self.render, "arena1")
         self.scenario.setZ(0.2)
         
-        # Placing the character in the world.
+        # Placing the character in the world
         self.character = Character(self.render, "ball")
         self.character.setZ(5)
         self.character.setScale(1.5)
 
-        # Placing an enemy in the world.
+        # Placing an enemy in the world
         self.enemy = Enemy(self.render, "enemy")
         self.enemy.setPos(1, 4, 5)
         
@@ -95,3 +99,4 @@ class World(ShowBase):
 if __name__ == "__main__":
     world = World()
     world.run()
+
