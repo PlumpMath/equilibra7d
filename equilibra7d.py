@@ -80,7 +80,7 @@ class World(ShowBase):
         self.disableMouse()
         
         # Enable per-pixel lighting
-        self.render.setShaderAuto()
+        #self.render.setShaderAuto()
 
         # Fix frame rate
         FPS = 60
