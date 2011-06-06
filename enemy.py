@@ -1,5 +1,5 @@
 from physicalnode import PhysicalNode
-from handlers.collisioneventhandler import CollisionEventHandler
+from handlers.collision import CollisionEventHandler
 
 class Enemy(PhysicalNode, CollisionEventHandler):
     def __init__(self, parent, model):

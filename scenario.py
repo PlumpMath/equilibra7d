@@ -1,7 +1,7 @@
 from panda3d.core import BitMask32
 
 from physicalnode import PhysicalNode
-from handlers.collisioneventhandler import CollisionEventHandler
+from handlers.collision import CollisionEventHandler
 
 class Scenario(PhysicalNode, CollisionEventHandler):
     def __init__(self, parent, model):
