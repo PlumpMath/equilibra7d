@@ -1,7 +1,6 @@
 #!/usr/bin/env ppython
 from direct.showbase.ShowBase import ShowBase
 from pandac.PandaModules import ClockObject, WindowProperties
-from panda3d.ai import AIWorld, AICharacter
 
 from character import Character
 from enemy import Enemy
@@ -9,6 +8,7 @@ from landscape import Landscape
 from scenario import Scenario
 from sea import Sea
 
+from managers.ai import AIManager
 from managers.collision import CollisionManager
 from managers.hud import HUDManager
 from managers.keyboard import KeyboardManager
@@ -93,7 +93,7 @@ class World(ShowBase):
         taskMgr.add(self.handleGameOver, "gameover_task")
         
         # Enable AI
-        self.setAI()
+        self.aiManager = AIManager(self)
         
     def initFeatures(self):
         """Instantiate things in the world"""
@@ -149,25 +149,6 @@ class World(ShowBase):
             self.hudManager.lose()
             #self.reset()
             return task.done
-        return task.cont
-      
-    def setAI(self):
-        # Creating AI World
-        self.AIWorld = AIWorld(render)
-
-        self.AIchar = AICharacter("seeker", self.enemy.model, 100, 0.05, 1.0)
-        self.AIWorld.addAiChar(self.AIchar)
-        self.AIbehaviors = self.AIchar.getAiBehaviors()
-        
-        self.AIbehaviors.pursue(self.character.model)
-
-        # AI World update
-        taskMgr.add(self.AIUpdate,"AIUpdate")
-    
-    # to update the AIWorld
-    def AIUpdate(self, task):
-        """Update the AIWorld"""
-        self.AIWorld.update()
         return task.cont
 
 
