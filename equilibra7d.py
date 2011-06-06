@@ -10,6 +10,7 @@ from sea import Sea
 
 from managers.ai import AIManager
 from managers.collision import CollisionManager
+from managers.gamestate import GameStateManager
 from managers.hud import HUDManager
 from managers.keyboard import KeyboardManager
 from managers.lighting import LightingManager
@@ -90,7 +91,7 @@ class World(ShowBase):
         globalClock.setFrameRate(FPS)
         
         # Enable gameover task
-        taskMgr.add(self.handleGameOver, "gameover_task")
+        self.gameStateManager = GameStateManager(self)
         
         # Enable AI
         self.aiManager = AIManager(self)
@@ -139,17 +140,6 @@ class World(ShowBase):
         
         # Reset keyboardManager
         #self.keyboardManager.reset()
-    
-    def handleGameOver(self, task):
-        if self.enemy.getBounds().getCenter().getZ() < -10:
-            self.hudManager.win()
-            #self.reset()
-            return task.done
-        elif self.character.getBounds().getCenter().getZ() < -10:
-            self.hudManager.lose()
-            #self.reset()
-            return task.done
-        return task.cont
 
 
 if __name__ == "__main__":
