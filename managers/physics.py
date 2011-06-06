@@ -1,6 +1,5 @@
-from panda3d.physics import ForceNode
-from panda3d.physics import LinearVectorForce
-from panda3d.physics import AngularEulerIntegrator
+from panda3d.physics import AngularEulerIntegrator, ForceNode, LinearVectorForce
+
 
 class PhysicsManager():
     """Handles the physics simulation."""
@@ -15,15 +14,14 @@ class PhysicsManager():
         world.physicsMgr.attachAngularIntegrator(integrator)
         
         self.world = world
-        
+    
     def addLinearForce(self, x, y, z, physicalNode=None):
-        """
-        Adds a linear vector force to the simulation with the given 
+        """Adds a linear vector force to the simulation with the given 
         components.
+        
         If a 'physicalNode' is given, the force will be aplied to it.
         Otherwise the force will be global.
         """
-        
         force = LinearVectorForce(x, y, z)
         self.forces.node().addForce(force)
         
@@ -33,10 +31,10 @@ class PhysicsManager():
             physicalNode.addLinearForce(force)
     
     def addActor(self, physicalNode):
-        """
-        Adds a node to the simulation.
+        """Adds a node to the simulation.
+        
         The parameter 'physicalNode' must be an instance of 
         PhysicalNode.
         """
-        
         self.world.physicsMgr.attachPhysicalNode(physicalNode.actor.node())
+

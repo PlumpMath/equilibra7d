@@ -2,7 +2,7 @@ from panda3d.core import TextNode
 from direct.gui.OnscreenText import OnscreenText
 
 
-class HUDManager():
+class HUDManager:
     def __init__(self):
         text = """\
 Comandos:
@@ -14,7 +14,7 @@ Comandos:
         align = TextNode.ALeft
         fg = (1, 1, 1, 1)
         
-        textNode = OnscreenText(text=text, pos=pos, scale=scale, 
+        textNode = OnscreenText(text=text, pos=pos, scale=scale,
                                 align=align, fg=fg)
 
     def win(self):
@@ -31,6 +31,6 @@ Comandos:
         align = TextNode.ALeft
         fg = (1, 0.3, 0.2, 1)
         
-        textNode = OnscreenText(text=text, pos=pos, scale=scale, 
+        textNode = OnscreenText(text=text, pos=pos, scale=scale,
                                 align=align, fg=fg)
 

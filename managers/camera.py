@@ -1,4 +1,4 @@
-class CameraManager():
+class CameraManager:
     def __init__(self, camera, character, taskMgr):
         self.camera = camera
         self.character = character
@@ -14,3 +14,4 @@ class CameraManager():
         self.camera.lookAt(self.character)
         
         return task.cont
+

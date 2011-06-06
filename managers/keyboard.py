@@ -1,8 +1,9 @@
 import sys
 
+
 class KeyboardManager():
-    """
-    Manages the input events from Panda3D.    
+    """Manages the input events from Panda3D.
+    
     In this class, all the accepted keys are registered and a task is
     defined in order to handle the input events, like a key press.
     
@@ -12,10 +13,7 @@ class KeyboardManager():
     """
     
     def __init__(self, world):
-        """
-        Constructor.
-        All accepted keys should be defined here.
-        """
+        """All accepted keys are defined here."""
         self.keys = {"left":0, "right":0, "up":0, "down":0}
         
         world.accept("w", self._setKey, ["up", 1])
@@ -49,12 +47,9 @@ class KeyboardManager():
         self.keyboardEventHandlers = []
         self.world = world
         
-    #def p(self, t):
-    #    print t
-        
     def addKeyboardEventHandler(self, handler):
-        """
-        Registers a keyboard event handler.
+        """Registers a keyboard event handler.
+        
         The given object must inherit from the KeyboardEventHandler 
         class. Its 'handleKeyboardEvent' method will be called at each 
         frame.
@@ -62,9 +57,9 @@ class KeyboardManager():
         self.keyboardEventHandlers.append(handler)
     
     def handleInput(self, task):
-        """
-        Calls the 'handleKeyboardEvent' method from every registered 
+        """Calls the 'handleKeyboardEvent' method from every registered 
         keyboard event handler.
+        
         This method is associated with the 'input_task' task and is 
         therefore called on every frame.
         """
@@ -77,3 +72,4 @@ class KeyboardManager():
             
     def _setKey(self, key, value):
         self.keys[key] = value
+

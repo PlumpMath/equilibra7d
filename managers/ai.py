@@ -1,7 +1,7 @@
 from panda3d.ai import AIWorld, AICharacter
 
 
-class AIManager():
+class AIManager:
     def __init__(self, world):
         # Creating AI World
         self.AIWorld = AIWorld(world.render)
