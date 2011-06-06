@@ -155,11 +155,11 @@ class World(ShowBase):
         # Creating AI World
         self.AIWorld = AIWorld(render)
 
-        self.AIchar = AICharacter("seeker", self.enemy, 100, 0.05, 1.0)
+        self.AIchar = AICharacter("seeker", self.enemy.model, 100, 0.05, 1.0)
         self.AIWorld.addAiChar(self.AIchar)
         self.AIbehaviors = self.AIchar.getAiBehaviors()
         
-        self.AIbehaviors.seek(self.character)
+        self.AIbehaviors.pursue(self.character.model)
 
         # AI World update
         taskMgr.add(self.AIUpdate,"AIUpdate")
