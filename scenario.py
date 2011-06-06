@@ -3,11 +3,12 @@ from panda3d.core import BitMask32
 from physicalnode import PhysicalNode
 from handlers.collision import CollisionEventHandler
 
+
 class Scenario(PhysicalNode, CollisionEventHandler):
     def __init__(self, parent, model):
         PhysicalNode.__init__(self, parent, model, "scenario")
         
-        self.addCollisionGeometry(model)        
+        self.addCollisionGeometry(model)
         
         self._forces = {}
         self._angularVelocity = 0.01
@@ -39,3 +40,4 @@ class Scenario(PhysicalNode, CollisionEventHandler):
         if torque is not None:
             self.removeTorque(torque)
             del self._forces[fromNode]
+

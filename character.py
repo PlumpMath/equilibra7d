@@ -1,8 +1,9 @@
 from panda3d.core import Vec3
 
-from physicalnode import PhysicalNode
 from handlers.collision import CollisionEventHandler
 from handlers.keyboard import KeyboardEventHandler
+from physicalnode import PhysicalNode
+
 
 class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
     def __init__(self, parent, model):
