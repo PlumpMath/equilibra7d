@@ -40,7 +40,7 @@ class World(ShowBase):
         # Set up the Physics Manager
         self.physicsManager = PhysicsManager(self)
         self.physicsManager.addLinearForce(0, 0, -10)
-        self.physicsManager.addActor(self.scenario)
+        #self.physicsManager.addActor(self.scenario)
         self.physicsManager.addActor(self.character)
         self.physicsManager.addActor(self.enemy)
         
