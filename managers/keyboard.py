@@ -1,6 +1,6 @@
 import sys
 
-class InputManager():
+class KeyboardManager():
     """
     Manages the input events from Panda3D.    
     In this class, all the accepted keys are registered and a task is

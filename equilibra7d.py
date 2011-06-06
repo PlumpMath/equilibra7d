@@ -9,11 +9,11 @@ from character import Character
 from enemy import Enemy
 from landscape import Landscape
 from sea import Sea
-from managers.inputmanager import InputManager
-from managers.physicsmanager import PhysicsManager
-from managers.collisionmanager import CollisionManager
-from managers.lightingmanager import LightingManager
-from managers.hudmanager import HUDManager
+from managers.keyboard import KeyboardManager
+from managers.physics import PhysicsManager
+from managers.collision import CollisionManager
+from managers.lighting import LightingManager
+from managers.hud import HUDManager
 
 
 class World(ShowBase):
@@ -33,8 +33,8 @@ class World(ShowBase):
         self.initFeatures()
         
         # Set up the Input Manager
-        self.inputManager = InputManager(self)
-        self.inputManager.addKeyboardEventHandler(self.character)
+        self.keyboardManager = KeyboardManager(self)
+        self.keyboardManager.addKeyboardEventHandler(self.character)
         
         
         # Set up the Physics Manager
@@ -122,7 +122,7 @@ class World(ShowBase):
         """Cleanup the NodePath."""
         to_be_removed = (self.scenario, self.character, self.enemy,
                          self.landscape, self.sea,
-                         # self.inputManager,
+                         # self.keyboardManager,
                          # self.physicsManager,
                          # self.collisionManager,
                          # self.lightingManager,
@@ -137,8 +137,8 @@ class World(ShowBase):
         self._removeFeatures()
         self.initFeatures()
         
-        # Reset inputManager
-        #self.inputManager.reset()
+        # Reset keyboardManager
+        #self.keyboardManager.reset()
     
     def handleGameOver(self, task):
         if self.enemy.getBounds().getCenter().getZ() < -10:
