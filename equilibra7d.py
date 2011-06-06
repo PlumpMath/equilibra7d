@@ -1,3 +1,4 @@
+#!/usr/bin/env ppython
 from direct.showbase.ShowBase import ShowBase
 from pandac.PandaModules import WindowProperties
 from pandac.PandaModules import ClockObject
