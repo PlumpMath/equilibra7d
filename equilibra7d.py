@@ -9,11 +9,11 @@ from character import Character
 from enemy import Enemy
 from landscape import Landscape
 from sea import Sea
-from inputmanager import InputManager
-from physicsmanager import PhysicsManager
-from collisionmanager import CollisionManager
-from lightingmanager import LightingManager
-from hudmanager import HUDManager
+from managers.inputmanager import InputManager
+from managers.physicsmanager import PhysicsManager
+from managers.collisionmanager import CollisionManager
+from managers.lightingmanager import LightingManager
+from managers.hudmanager import HUDManager
 
 
 class World(ShowBase):
