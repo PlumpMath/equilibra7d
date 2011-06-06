@@ -6,11 +6,11 @@ class AIManager:
         # Creating AI World
         self.AIWorld = AIWorld(world.render)
 
-        self.AIchar = AICharacter("seeker", world.enemy.model, 100, 0.05, 1.0)
+        self.AIchar = AICharacter("seeker", world.enemy.actor, 100, 0.05, 1.0)
         self.AIWorld.addAiChar(self.AIchar)
         
         self.AIbehaviors = self.AIchar.getAiBehaviors()
-        self.AIbehaviors.pursue(world.character.model)
+        self.AIbehaviors.pursue(world.character.actor)
 
         # AI World update
         taskMgr.add(self.update, "AIUpdate")
