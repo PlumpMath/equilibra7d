@@ -1,19 +1,19 @@
 #!/usr/bin/env ppython
 from direct.showbase.ShowBase import ShowBase
-from pandac.PandaModules import WindowProperties
-from pandac.PandaModules import ClockObject
+from pandac.PandaModules import ClockObject, WindowProperties
 from panda3d.ai import AIWorld, AICharacter
 
-from scenario import Scenario
 from character import Character
 from enemy import Enemy
 from landscape import Landscape
+from scenario import Scenario
 from sea import Sea
-from managers.keyboard import KeyboardManager
-from managers.physics import PhysicsManager
+
 from managers.collision import CollisionManager
-from managers.lighting import LightingManager
 from managers.hud import HUDManager
+from managers.keyboard import KeyboardManager
+from managers.lighting import LightingManager
+from managers.physics import PhysicsManager
 
 
 class World(ShowBase):
