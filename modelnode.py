@@ -1,8 +1,8 @@
 from panda3d.core import NodePath
 
+
 class ModelNode(NodePath):
-    """
-    A wrapper class to a Panda3D node that has a model.
+    """A wrapper class to a Panda3D node that has a model.
     
     Structure:
         PandaNode -> ModelNode
@@ -17,3 +17,4 @@ class ModelNode(NodePath):
         self.reparentTo(parent)
 
         self.name = name
+
