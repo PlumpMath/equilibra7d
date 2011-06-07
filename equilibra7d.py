@@ -92,6 +92,7 @@ class World(ShowBase):
         
         # Enable gameover task
         self.gameStateManager = GameStateManager(self)
+        self.gameStateManager.request("NewGame")
         
         # Enable AI
         self.aiManager = AIManager(self)
