@@ -22,3 +22,13 @@ class GameStateManager:
         
         return task.cont
 
+    def reset(self):
+        """Set the initial position of things defined in the world."""
+        print "restarting..."
+        world = self.world
+        world._removeFeatures()
+        world.initFeatures()
+        
+        # Reset keyboardManager
+        #self.keyboardManager.reset()
+

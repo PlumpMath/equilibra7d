@@ -133,13 +133,7 @@ class World(ShowBase):
             node.removeNode()
 
     def reset(self):
-        """Set the initial position of things defined in the world."""
-        print "restarting..."
-        self._removeFeatures()
-        self.initFeatures()
-        
-        # Reset keyboardManager
-        #self.keyboardManager.reset()
+        self.gameStateManager.reset()
 
 
 if __name__ == "__main__":
