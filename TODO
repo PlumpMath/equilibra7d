@@ -1,5 +1,12 @@
-Restart game
 AI
+    Implement different opponent behaviours
 
+
+Tune mass, collision, speed, ...
 Character.py: handleCollisionEvent
+
+
+Implement game states
+    Look at http://code.google.com/p/deep-island-racer/source/browse/trunk/Deep+Island+Racer/src/Game.py
+Implement Restart game (as a consequence of having states)
 
