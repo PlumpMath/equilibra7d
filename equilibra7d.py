@@ -104,7 +104,7 @@ class World(ShowBase):
         self.scenario.setZ(0.2)
         
         # Place the character in the world
-        self.character = Character(self.render, "personagem6")
+        self.character = Character(self.render, "personagem7")
         self.character.setZ(5)
         self.character.setScale(0.8)
 
