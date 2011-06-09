@@ -82,7 +82,7 @@ class World(ShowBase):
         self.disableMouse()
         
         # Enable per-pixel lighting
-        #self.render.setShaderAuto()
+        self.render.setShaderAuto()
 
         # Fix frame rate
         FPS = 60
@@ -104,9 +104,9 @@ class World(ShowBase):
         self.scenario.setZ(0.2)
         
         # Place the character in the world
-        self.character = Character(self.render, "ball")
+        self.character = Character(self.render, "personagem6")
         self.character.setZ(5)
-        self.character.setScale(1.5)
+        self.character.setScale(0.8)
 
         # Place the enemy in the world
         self.enemy = Enemy(self.render, "enemy")

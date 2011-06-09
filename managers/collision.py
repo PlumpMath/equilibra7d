@@ -30,6 +30,9 @@ class CollisionManager:
         """
         self.handler.addCollider(physicalNode.collider, physicalNode.actor)
         self.traverser.addCollider(physicalNode.collider, self.handler)
+        
+        if self.debug:
+            physicalNode.collider.show()
     
     def addCollisionHandling(self, intoNode, type, *handlers):
         """Notifies that a collision event must be handled.
