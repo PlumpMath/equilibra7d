@@ -105,7 +105,6 @@ class World(ShowBase):
         
         # Place the character in the world
         self.character = Character(self.render, "character_1_4")
-        self.character.setZ(5)
         self.character.setScale(0.8)
 
         # Place the enemy in the world
