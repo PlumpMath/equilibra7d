@@ -70,9 +70,6 @@ class World(ShowBase):
         
         ## Set up the Lighting Manager
         self.lightingManager = LightingManager()
-        self.lightingManager.setAmbientLight(0.3, 0.3, 0.3)
-        self.lightingManager.setPointLight(0.4, 0.4, 0.4, 0, -8, 5)
-        self.lightingManager.setDirectionalLight(0.4, 0.4, 0.6, 0, -60, 0)
         
         ## Set up the HUD Manager
         self.hudManager = HUDManager()
