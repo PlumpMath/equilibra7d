@@ -36,12 +36,12 @@ class World(ShowBase):
         self.initFeatures()
         
         # Set up the Input Manager
-        self.keyboardManager = KeyboardManager(self)
+        self.keyboardManager = KeyboardManager()
         self.keyboardManager.addKeyboardEventHandler(self.character)
         
         
         # Set up the Physics Manager
-        self.physicsManager = PhysicsManager(self)
+        self.physicsManager = PhysicsManager()
         self.physicsManager.addLinearForce(0, 0, -10)
         #self.physicsManager.addActor(self.scenario)
         self.physicsManager.addActor(self.character)
@@ -51,7 +51,7 @@ class World(ShowBase):
         self.physicsManager.addLinearForce(0, 0, 10, self.scenario)
         
         ## Set up the Collision Manager
-        self.collisionManager = CollisionManager(self)
+        self.collisionManager = CollisionManager()
         self.collisionManager.addCollider(self.character)
         self.collisionManager.addCollider(self.enemy)
         self.collisionManager.addCollisionHandling(self.enemy.collider,
@@ -69,7 +69,7 @@ class World(ShowBase):
                                                    self.scenario)
         
         ## Set up the Lighting Manager
-        self.lightingManager = LightingManager(self)
+        self.lightingManager = LightingManager()
         self.lightingManager.setAmbientLight(0.3, 0.3, 0.3)
         self.lightingManager.setPointLight(0.4, 0.4, 0.4, 0, -8, 5)
         self.lightingManager.setDirectionalLight(0.4, 0.4, 0.6, 0, -60, 0)
@@ -93,11 +93,11 @@ class World(ShowBase):
         globalClock.setFrameRate(FPS)
         
         # Enable gameover task
-        self.gameStateManager = GameStateManager(self)
+        self.gameStateManager = GameStateManager()
         self.gameStateManager.request("NewGame")
         
         # Enable AI
-        self.aiManager = AIManager(self)
+        self.aiManager = AIManager()
         
     def initFeatures(self):
         """Instantiate things in the world"""

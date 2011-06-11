@@ -4,16 +4,14 @@ from panda3d.physics import AngularEulerIntegrator, ForceNode, LinearVectorForce
 class PhysicsManager():
     """Handles the physics simulation."""
     
-    def __init__(self, world):
-        world.enableParticles()
+    def __init__(self):
+        base.enableParticles()
         
         globalForcesNode = ForceNode("global_forces")
-        self.forces = world.render.attachNewNode(globalForcesNode)
+        self.forces = render.attachNewNode(globalForcesNode)
 
         integrator = AngularEulerIntegrator()
-        world.physicsMgr.attachAngularIntegrator(integrator)
-        
-        self.world = world
+        base.physicsMgr.attachAngularIntegrator(integrator)
     
     def addLinearForce(self, x, y, z, physicalNode=None):
         """Adds a linear vector force to the simulation with the given 
@@ -26,7 +24,7 @@ class PhysicsManager():
         self.forces.node().addForce(force)
         
         if physicalNode is None:
-            self.world.physicsMgr.addLinearForce(force)            
+            base.physicsMgr.addLinearForce(force)            
         else:
             physicalNode.addLinearForce(force)
     
@@ -36,5 +34,5 @@ class PhysicsManager():
         The parameter 'physicalNode' must be an instance of 
         PhysicalNode.
         """
-        self.world.physicsMgr.attachPhysicalNode(physicalNode.actor.node())
+        base.physicsMgr.attachPhysicalNode(physicalNode.actor.node())
 

@@ -5,12 +5,15 @@ from panda3d.physics import PhysicsCollisionHandler
 class CollisionManager:
     """Handles the collision between objects on the scene."""
     
-    def __init__(self, world, debug=False):
-        world.cTrav = CollisionTraverser()
-        world.cTrav.setRespectPrevTransform(True)
+    def __init__(self, debug=False):
+        self.debug = debug
+    
+        # TODO: Hey, take a look at this...
+        base.cTrav = CollisionTraverser()
+        base.cTrav.setRespectPrevTransform(True)
         
-        if debug:
-            world.cTrav.showCollisions(render)
+        if self.debug:
+            base.cTrav.showCollisions(render)
         
         self.handler = PhysicsCollisionHandler()
         self.handler.setStaticFrictionCoef(0.1)
@@ -19,9 +22,7 @@ class CollisionManager:
         self.handler.addAgainPattern('again-%in')
         self.handler.addOutPattern('out-%in')
         
-        self.world = world
-        self.traverser = world.cTrav
-        self.debug = debug
+        self.traverser = base.cTrav
         
     def addCollider(self, physicalNode):
         """Adds a node to the collision system.
@@ -43,7 +44,7 @@ class CollisionManager:
         a collision with the node given by 'intoNode' occurs.
         """
         pattern = "%s-%s" % (type, intoNode.getName())
-        self.world.accept(pattern, self._callHandlers, [handlers, type])
+        base.accept(pattern, self._callHandlers, [handlers, type])
         
     def _callHandlers(self, handlers, type, entry):
         for handler in handlers:

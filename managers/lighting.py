@@ -4,16 +4,17 @@ from panda3d.core import AmbientLight, DirectionalLight, PointLight, VBase4
 class LightingManager:
     """Handles the lighting of the 3D scene."""
     
-    def __init__(self, world):
-        self.render = world.render
+    def __init__(self):
+        self.ambientLight = None
+        self.pointLight = None
         
     def setAmbientLight(self, r, g, b):
         """Adds an ambient light with the given RGB values to the scene."""
         ambientLightNode = AmbientLight('ambient_light')
         ambientLightNode.setColor(VBase4(r, g, b, 1))
         
-        self.ambientLight = self.render.attachNewNode(ambientLightNode)
-        self.render.setLight(self.ambientLight)
+        self.ambientLight = render.attachNewNode(ambientLightNode)
+        render.setLight(self.ambientLight)
 
     def setPointLight(self, r, g, b, x, y, z):
         """Adds a point light with the given RGB values and position to 
@@ -22,9 +23,9 @@ class LightingManager:
         pointLightNode = PointLight('point_light')
         pointLightNode.setColor(VBase4(r, g, b, 1))
 
-        self.pointLight = self.render.attachNewNode(pointLightNode)
+        self.pointLight = render.attachNewNode(pointLightNode)
         self.pointLight.setPos(x, y, z)
-        self.render.setLight(self.pointLight)
+        render.setLight(self.pointLight)
     
     def setDirectionalLight(self, r, g, b, head, pitch, roll):
         """Adds a directional light source with the given RGB values and
@@ -33,7 +34,7 @@ class LightingManager:
         directionalLightNode = DirectionalLight('directional_light')
         directionalLightNode.setColor(VBase4(r, g, b, 1))
         
-        self.directionalLight = self.render.attachNewNode(directionalLightNode)
+        self.directionalLight = render.attachNewNode(directionalLightNode)
         self.directionalLight.setHpr(head, pitch, roll)
-        self.render.setLight(self.directionalLight)
+        render.setLight(self.directionalLight)
 

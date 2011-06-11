@@ -4,10 +4,8 @@ from direct.fsm.FSM import FSM
 
 
 class GameStateManager(FSM):
-    def __init__(self, world):
+    def __init__(self):
         FSM.__init__(self, 'EquilibraFSM')
-        
-        self.world = world
         taskMgr.add(self.handleGameOver, "gameover_task")
     
     def enterNewGame(self):
@@ -18,18 +16,15 @@ class GameStateManager(FSM):
         
     def enterGameOver(self):
         print "enterGameOver"
-        sleep(2)
-        render.removeChildren()
         
     def exitGameOver(self):
         print "exitGameOver"
     
     def handleGameOver(self, task):
-        world = self.world
-        enemy_z = world.enemy.getBounds().getCenter().getZ()
-        character_z = world.character.getBounds().getCenter().getZ()
+        enemy_z = base.enemy.getBounds().getCenter().getZ()
+        character_z = base.character.getBounds().getCenter().getZ()
         
-        hudManager = world.hudManager
+        hudManager = base.hudManager
     
         if enemy_z < -10:
             self.request("GameOver")
@@ -48,9 +43,8 @@ class GameStateManager(FSM):
     def reset(self):
         """Set the initial position of things defined in the world."""
         print "restarting..."
-        world = self.world
-        world._removeFeatures()
-        world.initFeatures()
+        base._removeFeatures()
+        base.initFeatures()
         
         # Reset keyboardManager
         #self.keyboardManager.reset()
