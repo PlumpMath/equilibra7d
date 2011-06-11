@@ -13,12 +13,11 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
         
         self._impulseIncrement = 2.0
         self._speedLimit = 3.0
-        self._impact = 10
+        self._impact = 3
         
     def handleCollisionEvent(self, entry, type):
-        point = entry.getSurfacePoint(self)
         normal = entry.getSurfaceNormal(self)
-        self.addImpact(point, normal * self._impact)
+        self.addImpulse(normal * self._impact)
     
     def handleKeyboardEvent(self, keys, dt):
         impulse = Vec3(0, 0, 0)
