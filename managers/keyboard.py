@@ -42,7 +42,15 @@ class KeyboardManager():
         base.accept("n", base.reset)
         base.accept("escape", sys.exit)
         
-        base.accept("f12", lambda: base.enemy.actor.setZ(-100))
+        base.accept("f1",  lambda: (base.hudManager.clear(),
+                                    base.hudManager.help()))
+        base.accept("f10", lambda: base.hudManager.clear())
+        base.accept("f11", lambda: (base.hudManager.clear(),
+                                    base.hudManager.help(),
+                                    base.hudManager.win()))
+        base.accept("f12", lambda: (base.hudManager.clear(),
+                                    base.hudManager.help(),
+                                    base.hudManager.lose()))
         
         taskMgr.add(self.handleInput, "input_task")
 
