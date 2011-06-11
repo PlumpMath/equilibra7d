@@ -1,4 +1,6 @@
 #!/usr/bin/env ppython
+import sys
+
 from direct.showbase.ShowBase import ShowBase
 from pandac.PandaModules import ClockObject, WindowProperties
 
@@ -104,7 +106,11 @@ class World(ShowBase):
         self.scenario.setZ(0.2)
         
         # Place the character in the world
-        self.character = Character(self.render, "character_1_4")
+        if len(sys.argv) == 2:
+            model = sys.argv[1]
+        else:
+            model = "character_1_4"
+        self.character = Character(self.render, model)
         self.character.setZ(5)
         self.character.setScale(0.8)
 
