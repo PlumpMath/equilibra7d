@@ -42,6 +42,8 @@ class KeyboardManager():
         world.accept("n", world.reset)
         world.accept("escape", sys.exit)
         
+        world.accept("f12", lambda: world.enemy.actor.setZ(-100))
+        
         world.taskMgr.add(self.handleInput, "input_task")
 
         self.keyboardEventHandlers = []

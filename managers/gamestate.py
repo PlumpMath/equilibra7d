@@ -1,3 +1,5 @@
+from time import sleep
+
 from direct.fsm.FSM import FSM
 
 
@@ -16,6 +18,8 @@ class GameStateManager(FSM):
         
     def enterGameOver(self):
         print "enterGameOver"
+        sleep(2)
+        render.removeChildren()
         
     def exitGameOver(self):
         print "exitGameOver"

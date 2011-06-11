@@ -16,6 +16,7 @@ Comandos:
         
         textNode = OnscreenText(text=text, pos=pos, scale=scale,
                                 align=align, fg=fg)
+        textNode.reparentTo(render)
 
     def win(self):
         text = "You are the winner!"
@@ -33,4 +34,5 @@ Comandos:
         
         textNode = OnscreenText(text=text, pos=pos, scale=scale,
                                 align=align, fg=fg)
+        textNode.reparentTo(render)
 
