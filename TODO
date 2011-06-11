@@ -1,23 +1,19 @@
-AI
-    Implement different opponent behaviors
+AI:
+    - Implement different opponent behaviors
 
+Game state:
+    - Implement game states
+        Look at http://code.google.com/p/deep-island-racer/source/browse/trunk/Deep+Island+Racer/src/Game.py
+    - Implement Restart game (as a consequence of having states)
+    - PAUSE Game
 
-Tune mass, collision, speed, ...
-character.py: handleCollisionEvent
+Gameplay:
+    - Collision only when characters are close enough to each other
+    - Main character movements
+    - Tune mass, collision, speed, ...
+    - character.py: handleCollisionEvent
+    - character.py: handleKeyboardEvent (two implementations -> one)
 
-character.py: handleKeyboardEvent (two implementations -> one)
-
-
-Implement game states
-    Look at http://code.google.com/p/deep-island-racer/source/browse/trunk/Deep+Island+Racer/src/Game.py
-Implement Restart game (as a consequence of having states)
-
-
-PAUSE Game
-
-Collision only when characters are close enough to each other
-
-Main character movements
-
-
+Game story:
+    - Give a name to the main character
 
