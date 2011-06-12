@@ -63,6 +63,7 @@ class KeyboardManager():
             m[0] = (m[0] + 1) % 2
         base.accept("f8", toogle_gravity)
         base.accept("f7", lambda: base.physicsManager.clear())
+        base.accept("f6", lambda: base.collisionManager.clear())
         
         taskMgr.add(self.handleInput, "input_task")
 

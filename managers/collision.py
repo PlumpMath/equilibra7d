@@ -1,14 +1,15 @@
 from panda3d.core import CollisionTraverser
 from panda3d.physics import PhysicsCollisionHandler
 
+from manager import Manager
 
-class CollisionManager:
+
+class CollisionManager(Manager):
     """Handles the collision between objects on the scene."""
     
     def __init__(self, debug=False):
         self.debug = debug
-    
-        # TODO: Hey, take a look at this...
+        
         base.cTrav = CollisionTraverser()
         base.cTrav.setRespectPrevTransform(True)
         
@@ -21,16 +22,17 @@ class CollisionManager:
         self.handler.addInPattern('into-%in')
         self.handler.addAgainPattern('again-%in')
         self.handler.addOutPattern('out-%in')
-        
-        self.traverser = base.cTrav
-        
+    
+    def clear(self):
+        base.cTrav.clearColliders()
+    
     def addCollider(self, physicalNode):
         """Adds a node to the collision system.
         
         The parameter 'physicalNode' must be an instance of PhysicalNode.
         """
         self.handler.addCollider(physicalNode.collider, physicalNode.actor)
-        self.traverser.addCollider(physicalNode.collider, self.handler)
+        base.cTrav.addCollider(physicalNode.collider, self.handler)
         
         if self.debug:
             physicalNode.collider.show()
