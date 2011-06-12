@@ -50,13 +50,23 @@ class KeyboardManager(Manager):
             state[0] = not state[0]
             print "<Controls %s>" % status.upper()
         
+        def toggle_ai(state=[False]):
+            if state[0]:
+                status = "on"
+                base.aiManager.setup()
+            else:
+                status = "off"
+                base.aiManager.clear()
+            state[0] = not state[0]
+            print "<AI %s>" % status.upper()
+        
         self.global_bindings = (
             ("n", base.reset),
             ("escape", sys.exit),
             ("f1",  lambda: (base.hudManager.clear(),
                              base.hudManager.help())),
             ("f4", toggle_controls),
-            ("f5", lambda: base.aiManager.clear()),
+            ("f5", toggle_ai),
             ("f6", lambda: base.collisionManager.clear()),
             ("f7", lambda: base.physicsManager.clear()),
             ("f8", toggle_gravity),
