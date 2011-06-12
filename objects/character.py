@@ -9,7 +9,7 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
     def __init__(self, parent, model):
         PhysicalNode.__init__(self, parent, model, "character")
         
-        self.addCollisionSphere(1.6)
+        self.addCollisionSphere(1.15)
         
         self._impulseIncrement = 2.0
         self._speedLimit = 3.0

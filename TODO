@@ -6,7 +6,6 @@ Game state:
     - PAUSE Game
 
 Gameplay:
-    - Collision only when characters are close enough to each other
     - Main character movements
     - Tune mass, collision, speed, ...
     - character.py: handleCollisionEvent
