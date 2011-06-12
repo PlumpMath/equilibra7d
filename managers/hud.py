@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from panda3d.core import TextNode
 from direct.gui.OnscreenText import OnscreenText
 
@@ -54,10 +55,10 @@ Comandos:
         self.show(text, **props)
 
     def win(self):
-        text = "You are the winner!"
+        text = u"Você venceu!"
         self.show_centered(text, fg=(0.3, 1, 0.2, 1))
 
     def lose(self):
-        text = "You are the loser!"
+        text = u"Você perdeu!"
         self.show_centered(text, fg=(1, 0.3, 0.2, 1))
 
