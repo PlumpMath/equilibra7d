@@ -15,7 +15,7 @@ from managers.collision import CollisionManager
 from managers.gamestate import GameStateManager
 from managers.hud import HUDManager
 from managers.keyboard import KeyboardManager
-from managers.lighting import LightingManager
+from managers.light import LightManager
 from managers.physics import PhysicsManager
 
 
@@ -68,8 +68,8 @@ class World(ShowBase):
                                                    "out",
                                                    self.scenario)
         
-        ## Set up the Lighting Manager
-        self.lightingManager = LightingManager()
+        ## Set up the Light Manager
+        self.lightManager = LightManager()
         
         ## Set up the HUD Manager
         self.hudManager = HUDManager()
@@ -130,7 +130,7 @@ class World(ShowBase):
                          # self.keyboardManager,
                          # self.physicsManager,
                          # self.collisionManager,
-                         # self.lightingManager,
+                         # self.lightManager,
                          # self.hudManager
                          )
         for node in to_be_removed:

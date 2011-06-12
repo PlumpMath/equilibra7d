@@ -52,7 +52,7 @@ class KeyboardManager():
                                     base.hudManager.help(),
                                     base.hudManager.lose()))
         def toogle_lights(m=[0]):
-            getattr(base.lightingManager, "setDefaultLights" if m[0] % 2 else "clear")()
+            getattr(base.lightManager, "setDefaultLights" if m[0] % 2 else "clear")()
             m[0] = (m[0] + 1) % 2
         base.accept("f9", toogle_lights)
         
