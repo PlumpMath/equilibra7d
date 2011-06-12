@@ -25,7 +25,7 @@ class World(ShowBase):
     def __init__(self):
         ShowBase.__init__(self)
         
-        self.misc()
+        self.runonce()
         self.initFeatures()
         
         # Instantiate managers
@@ -39,8 +39,8 @@ class World(ShowBase):
         
         # Set up state engine
         self.gameStateManager.request("NewGame")
-        
-    def misc(self):
+    
+    def runonce(self):
         # Set window title
         props = WindowProperties()
         props.setTitle("Equilibra7D")
