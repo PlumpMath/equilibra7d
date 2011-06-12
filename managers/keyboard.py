@@ -21,7 +21,7 @@ class KeyboardManager(Manager):
         def toggle_lights(state=[False]):
             if state[0]:
                 status = "on"
-                base.lightManager.setDefaultLights()
+                base.lightManager.setup()
             else:
                 status = "off"
                 base.lightManager.clear()
