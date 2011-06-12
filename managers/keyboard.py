@@ -56,6 +56,14 @@ class KeyboardManager():
             m[0] = (m[0] + 1) % 2
         base.accept("f9", toogle_lights)
         
+        def toogle_gravity(m=[0]):
+            gravity = 9.8 if m[0] % 2 else 0
+            base.physicsManager.setGravity(gravity)
+            print "gravity = %s" % gravity
+            m[0] = (m[0] + 1) % 2
+        base.accept("f8", toogle_gravity)
+        base.accept("f7", lambda: base.physicsManager.clear())
+        
         taskMgr.add(self.handleInput, "input_task")
 
         self.keyboardEventHandlers = []

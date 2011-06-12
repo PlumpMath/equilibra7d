@@ -56,12 +56,20 @@ class PhysicalNode(ModelNode):
         self.actor.node().getPhysicsObject().addImpact(offsetFromCenterOfMass,
                                                        impulse)
     
+    # --------------------------------------------------------------------------
+    
     def addLinearForce(self, force):
         """Adds a linear force to this node.
         
         The parameter 'force' must be a LinearVectorForce.
         """
         self.actor.node().getPhysical(0).addLinearForce(force)
+    
+#    def clearForces(self):
+#        physical = self.actor.node().getPhysical(0)
+#        physical.clearAngularForces()
+#        physical.clearLinearForces()
+#        physical.clearPhysicsObjects()
     
     def addTorque(self, h, p, r):
         """Adds a torque to the node.
@@ -76,6 +84,8 @@ class PhysicalNode(ModelNode):
     def removeTorque(self, torque):
         """Removes a torque (AngularForce) from the node."""
         self.actor.node().getPhysical(0).removeAngularForce(torque)
+    
+    # --------------------------------------------------------------------------
     
     def getVelocity(self):
         """Returns the node's current velocity vector as a Vec3."""
