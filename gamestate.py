@@ -28,8 +28,9 @@ class GameState(FSM):
         #base.hudManager.clear()
         base.aiManager.clear()
         
-    def enterGameOver(self):
+    def enterGameOver(self, func):
         print "enterGameOver"
+        func()
         
     def exitGameOver(self):
         print "exitGameOver"
@@ -38,16 +39,12 @@ class GameState(FSM):
     def handleGameOver(self, task):
         enemy_z = base.enemy.getBounds().getCenter().getZ()
         character_z = base.character.getBounds().getCenter().getZ()
-        
-        hudManager = base.hudManager
     
         if enemy_z < -10:
-            self.request("GameOver")
-            hudManager.win()
+            self.request("GameOver", base.hudManager.win)
             return task.done
         elif character_z < -10:
-            self.request("GameOver")
-            hudManager.lose()
+            self.request("GameOver", base.hudManager.lose)
             return task.done
         
         return task.cont
