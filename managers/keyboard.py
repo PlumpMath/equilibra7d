@@ -18,15 +18,26 @@ class KeyboardManager(Manager):
         """All accepted keys are defined here."""
         self.keyboardEventHandlers = []
         
-        def toggle_lights(m=[0]):
-            getattr(base.lightManager, "setDefaultLights" if m[0] % 2 else "clear")()
-            m[0] = (m[0] + 1) % 2
+        def toggle_lights(state=[False]):
+            if state[0]:
+                status = "on"
+                base.lightManager.setDefaultLights()
+            else:
+                status = "off"
+                base.lightManager.clear()
+            state[0] = not state[0]
+            print "<Lights %s>" % status.upper()
         
-        def toggle_gravity(m=[0]):
-            gravity = 9.8 if m[0] % 2 else 0
+        def toggle_gravity(state=[False]):
+            if state[0]:
+                status = "on"
+                gravity = 9.8
+            else:
+                status = "off"
+                gravity = 0
             base.physicsManager.setGravity(gravity)
-            print "gravity = %s" % gravity
-            m[0] = (m[0] + 1) % 2
+            state[0] = not state[0]
+            print "<Gravity %s>" % status.upper()
         
         def toggle_controls(state=[False, ()]):
             if state[0]:
