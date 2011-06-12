@@ -64,6 +64,7 @@ class KeyboardManager():
         base.accept("f8", toogle_gravity)
         base.accept("f7", lambda: base.physicsManager.clear())
         base.accept("f6", lambda: base.collisionManager.clear())
+        base.accept("f5", lambda: base.aiManager.clear())
         
         taskMgr.add(self.handleInput, "input_task")
 
