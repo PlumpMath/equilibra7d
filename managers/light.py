@@ -1,7 +1,9 @@
 from panda3d.core import AmbientLight, DirectionalLight, PointLight, VBase4
 
+from manager import Manager
 
-class LightManager:
+
+class LightManager(Manager):
     """Handles the lighting of the 3D scene."""
     
     def __init__(self, **lights):

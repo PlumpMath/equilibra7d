@@ -1,8 +1,10 @@
 from panda3d.core import TextNode
 from direct.gui.OnscreenText import OnscreenText
 
+from manager import Manager
 
-class HUDManager:
+
+class HUDManager(Manager):
     def __init__(self):
         self._hud = []
         self.help()
