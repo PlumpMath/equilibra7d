@@ -5,14 +5,8 @@ from direct.showbase.ShowBase import ShowBase
 from pandac.PandaModules import ClockObject, WindowProperties
 
 from objects import Character, Enemy, Landscape, Scenario, Sea
-
-from managers.ai import AIManager
-from managers.collision import CollisionManager
-from managers.hud import HUDManager
-from managers.keyboard import KeyboardManager
-from managers.light import LightManager
-from managers.physics import PhysicsManager
-
+from managers import (AIManager, CollisionManager, HUDManager, KeyboardManager,
+                      LightManager, PhysicsManager)
 from gamestate import GameState
 
 
