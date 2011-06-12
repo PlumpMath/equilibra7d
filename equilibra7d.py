@@ -24,50 +24,27 @@ class World(ShowBase):
     
     def __init__(self):
         ShowBase.__init__(self)
-
+        
+        self.misc()
+        self.initFeatures()
+        
+        # Instantiate managers
+        self.keyboardManager = KeyboardManager()
+        self.physicsManager = PhysicsManager()
+        self.collisionManager = CollisionManager()
+        self.lightManager = LightManager()
+        self.hudManager = HUDManager()
+        self.gameStateManager = GameStateManager()
+        self.aiManager = AIManager()
+        
+        # Set up state engine
+        self.gameStateManager.request("NewGame")
+        
+    def misc(self):
         # Set window title
         props = WindowProperties()
         props.setTitle("Equilibra7D")
         self.win.requestProperties(props)
-        
-        # Enable FPS meter (development-only)
-        self.setFrameRateMeter(True)
-        
-        self.initFeatures()
-        
-        # Set up the Input Manager
-        self.keyboardManager = KeyboardManager()
-        self.keyboardManager.addKeyboardEventHandler(self.character)
-        
-        
-        # Set up the Physics Manager
-        self.physicsManager = PhysicsManager()
-        self.physicsManager.addActor(self.character)
-        self.physicsManager.addActor(self.enemy)
-        
-        ## Set up the Collision Manager
-        self.collisionManager = CollisionManager()
-        self.collisionManager.addCollider(self.character)
-        self.collisionManager.addCollider(self.enemy)
-        self.collisionManager.addCollisionHandling(self.enemy.collider,
-                                                   "into",
-                                                   self.character,
-                                                   self.enemy)
-        self.collisionManager.addCollisionHandling(self.scenario.collider,
-                                                   "into",
-                                                   self.scenario)
-        self.collisionManager.addCollisionHandling(self.scenario.collider,
-                                                   "again",
-                                                   self.scenario)
-        self.collisionManager.addCollisionHandling(self.scenario.collider,
-                                                   "out",
-                                                   self.scenario)
-        
-        ## Set up the Light Manager
-        self.lightManager = LightManager()
-        
-        ## Set up the HUD Manager
-        self.hudManager = HUDManager()
         
         # Set up the camera
         self.camera.setY(-40)
@@ -77,19 +54,15 @@ class World(ShowBase):
         
         # Enable per-pixel lighting
         self.render.setShaderAuto()
-
+        
+        # Enable FPS meter
+        self.setFrameRateMeter(True)
+        
         # Fix frame rate
         FPS = 60
         globalClock = ClockObject.getGlobalClock()
         globalClock.setMode(ClockObject.MLimited)
         globalClock.setFrameRate(FPS)
-        
-        # Enable gameover task
-        self.gameStateManager = GameStateManager()
-        self.gameStateManager.request("NewGame")
-        
-        # Enable AI
-        self.aiManager = AIManager()
         
     def initFeatures(self):
         """Instantiate things in the world"""

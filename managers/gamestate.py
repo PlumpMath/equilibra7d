@@ -10,6 +10,29 @@ class GameStateManager(FSM):
     
     def enterNewGame(self):
         print "enterNewGame"
+        # Set up the Input Manager
+        base.keyboardManager.addKeyboardEventHandler(base.character)
+        
+        # Set up the Physics Manager
+        base.physicsManager.addActor(base.character)
+        base.physicsManager.addActor(base.enemy)
+        
+        ## Set up the Collision Manager
+        base.collisionManager.addCollider(base.character)
+        base.collisionManager.addCollider(base.enemy)
+        base.collisionManager.addCollisionHandling(base.enemy.collider,
+                                                   "into",
+                                                   base.character,
+                                                   base.enemy)
+        base.collisionManager.addCollisionHandling(base.scenario.collider,
+                                                   "into",
+                                                   base.scenario)
+        base.collisionManager.addCollisionHandling(base.scenario.collider,
+                                                   "again",
+                                                   base.scenario)
+        base.collisionManager.addCollisionHandling(base.scenario.collider,
+                                                   "out",
+                                                   base.scenario)
         
     def exitNewGame(self):
         print "exitNewGame"
