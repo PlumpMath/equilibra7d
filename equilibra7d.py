@@ -4,11 +4,7 @@ import sys
 from direct.showbase.ShowBase import ShowBase
 from pandac.PandaModules import ClockObject, WindowProperties
 
-from character import Character
-from enemy import Enemy
-from landscape import Landscape
-from scenario import Scenario
-from sea import Sea
+from objects import Character, Enemy, Landscape, Scenario, Sea
 
 from managers.ai import AIManager
 from managers.collision import CollisionManager
