@@ -42,7 +42,7 @@ Comandos:
     A D - Movimentar jogador
       S
      
-    ESC - Sair do jogo
+    Esc - Sair do jogo
 """
         props = dict(
             pos = (-1.1, -0.55),
