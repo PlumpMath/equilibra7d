@@ -23,6 +23,23 @@ class CollisionManager(Manager):
         self.handler.addAgainPattern('again-%in')
         self.handler.addOutPattern('out-%in')
     
+    def setup(self):
+        self.addCollider(base.character)
+        self.addCollider(base.enemy)
+        self.addCollisionHandling(base.enemy.collider,
+                                  "into",
+                                  base.character,
+                                  base.enemy)
+        self.addCollisionHandling(base.scenario.collider,
+                                  "into",
+                                  base.scenario)
+        self.addCollisionHandling(base.scenario.collider,
+                                  "again",
+                                  base.scenario)
+        self.addCollisionHandling(base.scenario.collider,
+                                  "out",
+                                  base.scenario)
+    
     def clear(self):
         base.cTrav.clearColliders()
     

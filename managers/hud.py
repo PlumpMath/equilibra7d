@@ -8,9 +8,17 @@ from manager import Manager
 class HUDManager(Manager):
     def __init__(self):
         self._hud = []
+    
+    def setup(self):
         self.help()
     
-    # -------------------------------------------------------------
+    def clear(self):
+        """Remove every text from the screen."""
+        # We could remove everything from `aspect2d', however
+        # it's cleaner to just destroy what we have created.
+        #aspect2d.removeChildren()
+        while self._hud:
+            self._hud.pop().destroy()
     
     def show(self, text, **props):
         """Show text on the screen."""
@@ -25,16 +33,6 @@ class HUDManager(Manager):
         )
         props.update(kwargs)
         self.show(text, **props)
-    
-    def clear(self):
-        """Remove every text from the screen."""
-        # We could remove everything from `aspect2d', however
-        # it's cleaner to just destroy what we have created.
-        #aspect2d.removeChildren()
-        while self._hud:
-            self._hud.pop().destroy()
-    
-    # -------------------------------------------------------------
     
     def help(self):
         text = """\

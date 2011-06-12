@@ -6,14 +6,11 @@ from manager import Manager
 class LightManager(Manager):
     """Handles the lighting of the 3D scene."""
     
-    def __init__(self, **lights):
+    def __init__(self):
         self.lights = l = render.attachNewNode("equilibra7d_lights")
         self.ambient = l.attachNewNode(AmbientLight('ambient_light'))
         self.point = l.attachNewNode(PointLight('point_light'))
         self.directional = l.attachNewNode(DirectionalLight('directional_light'))
-        
-        self.setDefaultLights()
-        self.setLights(**lights)
     
     def setLights(self, **lights):
         """Set one or more lights at a time."""
@@ -22,7 +19,7 @@ class LightManager(Manager):
             if light is not None:
                 getattr(self, "set%sLight" % kind.capitalize())(*light)
     
-    def setDefaultLights(self):
+    def setup(self):
         default = dict(
             ambient = (0.3, 0.3, 0.3),
             point = (0.4, 0.4, 0.4, 0, -8, 5),

@@ -6,19 +6,22 @@ from manager import Manager
 class PhysicsManager(Manager):
     """Handles the physics simulation."""
     
-    def __init__(self, gravity=9.8):
+    def __init__(self):
         #self._physicals = set()
         base.enableParticles()
         self.forces = render.attachNewNode(ForceNode("global_forces"))
         base.physicsMgr.attachAngularIntegrator(AngularEulerIntegrator())
-        
         self.gravity = None
-        self.setGravity(gravity)
     
     def setGravity(self, value):
         if self.gravity:
             self.removeLinearForce(self.gravity)
         self.gravity = self.addLinearForce(0, 0, -value)
+    
+    def setup(self):
+        self.setGravity(9.8)
+        self.addActor(base.character)
+        self.addActor(base.enemy)
     
     def clear(self):
         self.forces.removeChildren()

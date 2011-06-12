@@ -9,41 +9,31 @@ class GameStateManager(FSM):
     
     def enterNewGame(self):
         print "enterNewGame"
-        # Set up the Input Manager
-        base.keyboardManager.addKeyboardEventHandler(base.character)
-        
-        # Set up the Physics Manager
-        base.physicsManager.addActor(base.character)
-        base.physicsManager.addActor(base.enemy)
-        
-        # Set up the Collision Manager
-        base.collisionManager.addCollider(base.character)
-        base.collisionManager.addCollider(base.enemy)
-        base.collisionManager.addCollisionHandling(base.enemy.collider,
-                                                   "into",
-                                                   base.character,
-                                                   base.enemy)
-        base.collisionManager.addCollisionHandling(base.scenario.collider,
-                                                   "into",
-                                                   base.scenario)
-        base.collisionManager.addCollisionHandling(base.scenario.collider,
-                                                   "again",
-                                                   base.scenario)
-        base.collisionManager.addCollisionHandling(base.scenario.collider,
-                                                   "out",
-                                                   base.scenario)
+        base.keyboardManager.setup()
+        base.physicsManager.setup()
+        base.collisionManager.setup()
+        base.lightManager.setup()
+        base.hudManager.setup()
+        base.aiManager.setup()
         
         # Check for a Game Over
         taskMgr.add(self.handleGameOver, "gameover_task")
         
     def exitNewGame(self):
         print "exitNewGame"
+        base.keyboardManager.clear()
+        base.physicsManager.clear()
+        base.collisionManager.clear()
+        #base.lightManager.clear()
+        #base.hudManager.clear()
+        base.aiManager.clear()
         
     def enterGameOver(self):
         print "enterGameOver"
         
     def exitGameOver(self):
         print "exitGameOver"
+        base.hudManager.clear()
     
     def handleGameOver(self, task):
         enemy_z = base.enemy.getBounds().getCenter().getZ()
@@ -59,9 +49,6 @@ class GameStateManager(FSM):
             self.request("GameOver")
             hudManager.lose()
             return task.done
-            
-        # reset the game after some time / keypress ...
-        # NotImplemented
         
         return task.cont
     
@@ -71,6 +58,5 @@ class GameStateManager(FSM):
         base._removeFeatures()
         base.initFeatures()
         
-        # Reset keyboardManager
-        #self.keyboardManager.reset()
+        self.request("NewGame")
 

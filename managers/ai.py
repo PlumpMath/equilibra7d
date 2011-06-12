@@ -8,7 +8,6 @@ class AIManager(Manager):
         # Creating AI World
         self.aiWorld = AIWorld(render)
         self.aiChar = AICharacter("seeker", base.enemy.actor, 100, 0.05, 1.0)
-        self.setup()
         
     def setup(self):
         self.aiWorld.addAiChar(self.aiChar)

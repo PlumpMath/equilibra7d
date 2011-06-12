@@ -81,6 +81,9 @@ class KeyboardManager(Manager):
         )
         self.loadKeyBindings(self.global_bindings)
     
+    def setup(self):
+        self.addKeyboardEventHandler(base.character)
+    
     def clear(self):
         """Ignore all events registered by all handlers.
         
