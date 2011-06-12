@@ -1,4 +1,4 @@
-class KeyboardEventHandler():
+class KeyboardEventHandler(object):
     """
     This class must be inherited by all classes interested in handling
     keyboard events.
@@ -8,3 +8,9 @@ class KeyboardEventHandler():
     """
     def handleKeyboardEvent(self, keys, dt):
         raise NotImplementedError
+    
+    # Sequence of key bindings of the handler
+    bindings = (
+    #    (<event>, <function>, <extra-args>),
+    )
+

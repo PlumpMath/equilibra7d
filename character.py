@@ -15,51 +15,49 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
         self._speedLimit = 2.0
         self._impact = 10
         
+        self.keys = dict.fromkeys("left right up down".split(), 0)
+        self.bindings = (
+            ("w", self.handleKeyboardEvent, ["up", 1]),
+            ("a", self.handleKeyboardEvent, ["left", 1]),
+            ("s", self.handleKeyboardEvent, ["down", 1]),
+            ("d", self.handleKeyboardEvent, ["right", 1]),
+
+            ("w-up", self.handleKeyboardEvent, ["up", 0]),
+            ("a-up", self.handleKeyboardEvent, ["left", 0]),
+            ("s-up", self.handleKeyboardEvent, ["down", 0]),
+            ("d-up", self.handleKeyboardEvent, ["right", 0]),
+            
+            ("arrow_up", self.handleKeyboardEvent, ["up", 1]),
+            ("arrow_left", self.handleKeyboardEvent, ["left", 1]),
+            ("arrow_down", self.handleKeyboardEvent, ["down", 1]),
+            ("arrow_right", self.handleKeyboardEvent, ["right", 1]),
+
+            ("arrow_up-up", self.handleKeyboardEvent, ["up", 0]),
+            ("arrow_left-up", self.handleKeyboardEvent, ["left", 0]),
+            ("arrow_down-up", self.handleKeyboardEvent, ["down", 0]),
+            ("arrow_right-up", self.handleKeyboardEvent, ["right", 0]),
+            
+            # These are fired when the user keeps pressing a key
+            ("w-repeat", self.handleKeyboardEvent, ["up", 1]),
+            ("a-repeat", self.handleKeyboardEvent, ["left", 1]),
+            ("s-repeat", self.handleKeyboardEvent, ["down", 1]),
+            ("d-repeat", self.handleKeyboardEvent, ["right", 1]),
+            ("arrow_up-repeat", self.handleKeyboardEvent, ["up", 1]),
+            ("arrow_left-repeat", self.handleKeyboardEvent, ["left", 1]),
+            ("arrow_down-repeat", self.handleKeyboardEvent, ["down", 1]),
+            ("arrow_right-repeat", self.handleKeyboardEvent, ["right", 1]),
+        )
+        
     def handleCollisionEvent(self, entry, type):
         point = entry.getSurfacePoint(self)
         normal = entry.getSurfaceNormal(self)
         self.addImpact(point, normal * self._impact)
     
-    def handleKeyboardEvent(self, keys, dt):
-        impulse_old = self.handleKeyboardEvent_old(keys, dt)
-        impulse_new = self.handleKeyboardEvent_new(keys, dt)
-        assert impulse_old == impulse_new, "%s != %s" % (impulse_old, impulse_new)
-        self.addImpulse(impulse_new)
-    
-    # Old implementation
-    def handleKeyboardEvent_old(self, keys, dt):
-        impulse = Vec3(0, 0, 0)
-        increment = self._impulseIncrement * dt
+    def handleKeyboardEvent(self, key, value):
+        keys = self.keys
+        keys[key] = value
         
-        velocity = self.getVelocity()
-        speed = velocity.length()
-        
-        above_limit = (speed > self._speedLimit)
-        
-        if keys["left"] != 0:
-            if not above_limit or self._isBraking(velocity, Vec3.left()):
-                impulse += Vec3.left() * increment
-        
-        if keys["right"] != 0:
-            if not above_limit or self._isBraking(velocity, Vec3.right()):
-                impulse += Vec3.right() * increment
-        
-        if keys["up"] != 0:
-            if not above_limit or self._isBraking(velocity, Vec3.forward()):
-                impulse += Vec3.forward() * increment
-        
-        if keys["down"] != 0:
-            if not above_limit or self._isBraking(velocity, Vec3.back()):
-                impulse += Vec3.back() * increment
-        
-        #self.addImpulse(impulse)
-        return impulse
-    
-    def _isBraking(self, velocity, coordinate):
-        return (velocity.dot(coordinate) < 0)
-
-    # New implementation does the same as the old one, but with shorter code
-    def handleKeyboardEvent_new(self, keys, dt):
+        dt = 0.05
         impulse = Vec3(0, 0, 0)
         increment = self._impulseIncrement * dt
         
@@ -71,8 +69,7 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
                          ("down", Vec3.back())):
             if keys[key] and (not above_limit or self.is_braking(vec)):
                 impulse += vec * increment
-        
-        return impulse
+        self.addImpulse(impulse)
     
     def is_braking(self, coordinate):
         velocity = self.getVelocity()
