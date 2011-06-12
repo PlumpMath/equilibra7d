@@ -12,11 +12,12 @@ from sea import Sea
 
 from managers.ai import AIManager
 from managers.collision import CollisionManager
-from managers.gamestate import GameStateManager
 from managers.hud import HUDManager
 from managers.keyboard import KeyboardManager
 from managers.light import LightManager
 from managers.physics import PhysicsManager
+
+from gamestate import GameState
 
 
 class World(ShowBase):
@@ -34,11 +35,11 @@ class World(ShowBase):
         self.collisionManager = CollisionManager()
         self.lightManager = LightManager()
         self.hudManager = HUDManager()
-        self.gameStateManager = GameStateManager()
         self.aiManager = AIManager()
         
         # Set up state engine
-        self.gameStateManager.request("NewGame")
+        self.gameState = GameState()
+        self.gameState.request("NewGame")
     
     def runonce(self):
         # Set window title
@@ -63,7 +64,7 @@ class World(ShowBase):
         globalClock = ClockObject.getGlobalClock()
         globalClock.setMode(ClockObject.MLimited)
         globalClock.setFrameRate(FPS)
-        
+    
     def initFeatures(self):
         """Instantiate things in the world"""
         # Place the scenario in the world
@@ -90,7 +91,7 @@ class World(ShowBase):
         # Place the sea
         self.sea = Sea(self.render, "sea")
         self.sea.setScale(20)
-        
+    
     def _removeFeatures(self):
         """Cleanup the NodePath."""
         to_be_removed = (self.scenario, self.character, self.enemy,
@@ -103,9 +104,9 @@ class World(ShowBase):
                          )
         for node in to_be_removed:
             node.removeNode()
-
+    
     def reset(self):
-        self.gameStateManager.reset()
+        self.gameState.reset()
 
 
 if __name__ == "__main__":

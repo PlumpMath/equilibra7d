@@ -3,7 +3,7 @@ from time import sleep
 from direct.fsm.FSM import FSM
 
 
-class GameStateManager(FSM):
+class GameState(FSM):
     def __init__(self):
         FSM.__init__(self, 'EquilibraFSM')
     
