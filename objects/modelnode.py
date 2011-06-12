@@ -18,3 +18,7 @@ class ModelNode(NodePath):
 
         self.name = name
 
+    def setup(self):
+        """Reset object to default configuration"""
+        raise NotImplementedError
+

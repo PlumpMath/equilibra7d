@@ -9,6 +9,9 @@ class Enemy(PhysicalNode, CollisionEventHandler):
         self.addCollisionSphere(1.25)
         self._impact = 2
     
+    def setup(self):
+        self.setPos(1, 4, 5)
+    
     def handleCollisionEvent(self, entry, type):
         normal = entry.getSurfaceNormal(self)
         self.addImpulse(normal * -self._impact)

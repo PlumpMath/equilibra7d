@@ -1,7 +1,9 @@
 import sys
 
+from base import Manager
 
-class KeyboardManager():
+
+class KeyboardManager(Manager):
     """Manages the input events from Panda3D.
     
     In this class, all the accepted keys are registered and a task is
@@ -12,41 +14,92 @@ class KeyboardManager():
     through the 'addKeyboardEventHandler' method.
     """
     
-    def __init__(self, world):
+    def __init__(self):
         """All accepted keys are defined here."""
-        self.keys = {"left":0, "right":0, "up":0, "down":0}
-        
-        world.accept("w", self._setKey, ["up", 1])
-        world.accept("a", self._setKey, ["left", 1])
-        world.accept("s", self._setKey, ["down", 1])
-        world.accept("d", self._setKey, ["right", 1])
-
-        world.accept("w-up", self._setKey, ["up", 0])
-        world.accept("a-up", self._setKey, ["left", 0])
-        world.accept("s-up", self._setKey, ["down", 0])
-        world.accept("d-up", self._setKey, ["right", 0])
-        
-        world.accept("arrow_up", self._setKey, ["up", 1])
-        world.accept("arrow_left", self._setKey, ["left", 1])
-        world.accept("arrow_down", self._setKey, ["down", 1])
-        world.accept("arrow_right", self._setKey, ["right", 1])
-
-        world.accept("arrow_up-up", self._setKey, ["up", 0])
-        world.accept("arrow_left-up", self._setKey, ["left", 0])
-        world.accept("arrow_down-up", self._setKey, ["down", 0])
-        world.accept("arrow_right-up", self._setKey, ["right", 0])
-        
-        # Handle it differently when the user keeps pressing a key (acceleration)
-        #world.accept("d-repeat", self.p, ["repeating D"])
-        
-        world.accept("n", world.reset)
-        world.accept("escape", sys.exit)
-        
-        world.taskMgr.add(self.handleInput, "input_task")
-
         self.keyboardEventHandlers = []
-        self.world = world
         
+        def toggle_lights(state=[False]):
+            if state[0]:
+                status = "on"
+                base.lightManager.setDefaultLights()
+            else:
+                status = "off"
+                base.lightManager.clear()
+            state[0] = not state[0]
+            print "<Lights %s>" % status.upper()
+        
+        def toggle_gravity(state=[False]):
+            if state[0]:
+                status = "on"
+                gravity = 9.8
+            else:
+                status = "off"
+                gravity = 0
+            base.physicsManager.setGravity(gravity)
+            state[0] = not state[0]
+            print "<Gravity %s>" % status.upper()
+        
+        def toggle_controls(state=[False, ()]):
+            if state[0]:
+                status = "on"
+                for handler in state[1]:
+                    self.addKeyboardEventHandler(handler)
+            else:
+                status = "off"
+                state[1] = self.clear()
+            state[0] = not state[0]
+            print "<Controls %s>" % status.upper()
+        
+        def toggle_ai(state=[False]):
+            if state[0]:
+                status = "on"
+                base.aiManager.setup()
+            else:
+                status = "off"
+                base.aiManager.clear()
+            state[0] = not state[0]
+            print "<AI %s>" % status.upper()
+        
+        self.global_bindings = (
+            ("escape", sys.exit),
+            ("f1",  lambda: (base.hudManager.clear(),
+                             base.hudManager.help())),
+            ("f2", base.reset),
+            ("f4", toggle_controls),
+            ("f5", toggle_ai),
+            ("f6", lambda: base.collisionManager.clear()),
+            ("f7", lambda: base.physicsManager.clear()),
+            ("f8", toggle_gravity),
+            ("f9", toggle_lights),
+            ("f10", lambda: base.hudManager.clear()),
+            ("f11", lambda: (base.hudManager.clear(),
+                             base.hudManager.help(),
+                             base.hudManager.win())),
+            ("f12", lambda: (base.hudManager.clear(),
+                             base.hudManager.help(),
+                             base.hudManager.lose())),
+        )
+        self.loadKeyBindings(self.global_bindings)
+    
+    def setup(self):
+        self.addKeyboardEventHandler(base.character)
+    
+    def clear(self):
+        """Ignore all events registered by all handlers.
+        
+        Global bindings are kept.
+        """
+        old_handlers = self.keyboardEventHandlers[:]
+        while self.keyboardEventHandlers:
+            handler = self.keyboardEventHandlers.pop()
+            for binding in handler.bindings:
+                base.ignore(binding[0])
+        return old_handlers
+    
+    def loadKeyBindings(self, bindings):
+        for binding in bindings:
+            base.accept(*binding)
+    
     def addKeyboardEventHandler(self, handler):
         """Registers a keyboard event handler.
         
@@ -55,21 +108,5 @@ class KeyboardManager():
         frame.
         """
         self.keyboardEventHandlers.append(handler)
-    
-    def handleInput(self, task):
-        """Calls the 'handleKeyboardEvent' method from every registered 
-        keyboard event handler.
-        
-        This method is associated with the 'input_task' task and is 
-        therefore called on every frame.
-        """
-        dt = globalClock.getDt()
-        
-        for handler in self.keyboardEventHandlers:
-            handler.handleKeyboardEvent(self.keys, dt)
-        
-        return task.cont
-            
-    def _setKey(self, key, value):
-        self.keys[key] = value
+        self.loadKeyBindings(handler.bindings)
 

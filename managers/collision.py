@@ -1,16 +1,20 @@
 from panda3d.core import CollisionTraverser
 from panda3d.physics import PhysicsCollisionHandler
 
+from base import Manager
 
-class CollisionManager:
+
+class CollisionManager(Manager):
     """Handles the collision between objects on the scene."""
     
-    def __init__(self, world, debug=False):
-        world.cTrav = CollisionTraverser()
-        world.cTrav.setRespectPrevTransform(True)
+    def __init__(self, debug=False):
+        self.debug = debug
         
-        if debug:
-            world.cTrav.showCollisions(render)
+        base.cTrav = CollisionTraverser()
+        base.cTrav.setRespectPrevTransform(True)
+        
+        if self.debug:
+            base.cTrav.showCollisions(render)
         
         self.handler = PhysicsCollisionHandler()
         self.handler.setStaticFrictionCoef(0.1)
@@ -18,18 +22,34 @@ class CollisionManager:
         self.handler.addInPattern('into-%in')
         self.handler.addAgainPattern('again-%in')
         self.handler.addOutPattern('out-%in')
-        
-        self.world = world
-        self.traverser = world.cTrav
-        self.debug = debug
-        
+    
+    def setup(self):
+        self.addCollider(base.character)
+        self.addCollider(base.enemy)
+        self.addCollisionHandling(base.enemy.collider,
+                                  "into",
+                                  base.character,
+                                  base.enemy)
+        self.addCollisionHandling(base.scenario.collider,
+                                  "into",
+                                  base.scenario)
+        self.addCollisionHandling(base.scenario.collider,
+                                  "again",
+                                  base.scenario)
+        self.addCollisionHandling(base.scenario.collider,
+                                  "out",
+                                  base.scenario)
+    
+    def clear(self):
+        base.cTrav.clearColliders()
+    
     def addCollider(self, physicalNode):
         """Adds a node to the collision system.
         
         The parameter 'physicalNode' must be an instance of PhysicalNode.
         """
         self.handler.addCollider(physicalNode.collider, physicalNode.actor)
-        self.traverser.addCollider(physicalNode.collider, self.handler)
+        base.cTrav.addCollider(physicalNode.collider, self.handler)
         
         if self.debug:
             physicalNode.collider.show()
@@ -43,7 +63,7 @@ class CollisionManager:
         a collision with the node given by 'intoNode' occurs.
         """
         pattern = "%s-%s" % (type, intoNode.getName())
-        self.world.accept(pattern, self._callHandlers, [handlers, type])
+        base.accept(pattern, self._callHandlers, [handlers, type])
         
     def _callHandlers(self, handlers, type, entry):
         for handler in handlers:

@@ -12,15 +12,16 @@ class Scenario(PhysicalNode, CollisionEventHandler):
         
         self._forces = {}
         self._angularVelocity = 0.01
-        
+    
+    def setup(self):
+        self.setZ(0.2)
+    
     def handleCollisionEvent(self, entry, type):
         if type == "into":
             self._addTorque(entry)
-        
         elif type == "again":
             self._removeTorque(entry)
             self._addTorque(entry)
-            
         elif type == "out":
             self._removeTorque(entry)
     
