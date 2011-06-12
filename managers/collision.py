@@ -1,7 +1,7 @@
 from panda3d.core import CollisionTraverser
 from panda3d.physics import PhysicsCollisionHandler
 
-from manager import Manager
+from base import Manager
 
 
 class CollisionManager(Manager):

@@ -1,6 +1,6 @@
 from panda3d.ai import AIWorld, AICharacter
 
-from manager import Manager
+from base import Manager
 
 
 class AIManager(Manager):

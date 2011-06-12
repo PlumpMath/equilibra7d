@@ -2,7 +2,7 @@
 from panda3d.core import TextNode
 from direct.gui.OnscreenText import OnscreenText
 
-from manager import Manager
+from base import Manager
 
 
 class HUDManager(Manager):

@@ -1,6 +1,6 @@
 import sys
 
-from manager import Manager
+from base import Manager
 
 
 class KeyboardManager(Manager):
