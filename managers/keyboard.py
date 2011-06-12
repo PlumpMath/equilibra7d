@@ -61,10 +61,10 @@ class KeyboardManager(Manager):
             print "<AI %s>" % status.upper()
         
         self.global_bindings = (
-            ("n", base.reset),
             ("escape", sys.exit),
             ("f1",  lambda: (base.hudManager.clear(),
                              base.hudManager.help())),
+            ("f2", base.reset),
             ("f4", toggle_controls),
             ("f5", toggle_ai),
             ("f6", lambda: base.collisionManager.clear()),
