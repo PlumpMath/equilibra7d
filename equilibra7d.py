@@ -27,6 +27,18 @@ class World(ShowBase):
         ShowBase.__init__(self)
         
         self.runonce()
+        
+        # Instantiate objects
+        self.scenario = Scenario(self.render, "arena1")
+        if len(sys.argv) == 2:
+            model = sys.argv[1]
+        else:
+            model = "character_1_4"
+        self.character = Character(self.render, model)
+        self.enemy = Enemy(self.render, "enemy")
+        self.landscape = Landscape(self.render, "landscape")
+        self.sea = Sea(self.render, "sea")
+        
         self.initFeatures()
         
         # Instantiate managers
@@ -68,28 +80,19 @@ class World(ShowBase):
     def initFeatures(self):
         """Instantiate things in the world"""
         # Place the scenario in the world
-        self.scenario = Scenario(self.render, "arena1")
         self.scenario.setZ(0.2)
         
         # Place the character in the world
-        if len(sys.argv) == 2:
-            model = sys.argv[1]
-        else:
-            model = "character_1_4"
-        self.character = Character(self.render, model)
         self.character.setZ(5)
         self.character.setScale(0.8)
 
         # Place the enemy in the world
-        self.enemy = Enemy(self.render, "enemy")
         self.enemy.setPos(1, 4, 5)
         
         # Place the landscape (skybox)
-        self.landscape = Landscape(self.render, "landscape")
         self.landscape.setScale(20)
         
         # Place the sea
-        self.sea = Sea(self.render, "sea")
         self.sea.setScale(20)
     
     def _removeFeatures(self):
