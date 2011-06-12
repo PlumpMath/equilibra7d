@@ -2,8 +2,6 @@ AI:
     - Implement different opponent behaviors
 
 Game state:
-    - Implement game states
-        Look at http://code.google.com/p/deep-island-racer/source/browse/trunk/Deep+Island+Racer/src/Game.py
     - Implement Restart game (as a consequence of having states)
     - PAUSE Game
 
