@@ -47,7 +47,11 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
             ("arrow_down-repeat", self.handleKeyboardEvent, ["down", 1]),
             ("arrow_right-repeat", self.handleKeyboardEvent, ["right", 1]),
         )
-        
+    
+    def setup(self):
+        self.setZ(5)
+        self.setScale(0.8)
+    
     def handleCollisionEvent(self, entry, type):
         point = entry.getSurfacePoint(self)
         normal = entry.getSurfaceNormal(self)
@@ -74,7 +78,7 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
     def is_braking(self, coordinate):
         velocity = self.getVelocity()
         return velocity.dot(coordinate) < 0
-        
+    
     @property
     def is_above_limit(self):
         speed = self.getVelocity().length()

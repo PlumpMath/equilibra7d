@@ -9,6 +9,14 @@ class GameState(FSM):
     
     def enterNewGame(self):
         print "enterNewGame"
+        # Set up objects
+        base.character.setup()
+        base.enemy.setup()
+        base.landscape.setup()
+        base.scenario.setup()
+        base.sea.setup()
+        
+        # Set up managers
         base.keyboardManager.setup()
         base.physicsManager.setup()
         base.collisionManager.setup()
@@ -52,8 +60,5 @@ class GameState(FSM):
     def reset(self):
         """Set the initial position of things defined in the world."""
         print "restarting..."
-        base._removeFeatures()
-        base.initFeatures()
-        
         self.request("NewGame")
 

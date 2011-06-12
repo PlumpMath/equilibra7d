@@ -29,8 +29,6 @@ class World(ShowBase):
         self.landscape = Landscape(self.render, "landscape")
         self.sea = Sea(self.render, "sea")
         
-        self.initFeatures()
-        
         # Instantiate managers
         self.keyboardManager = KeyboardManager()
         self.physicsManager = PhysicsManager()
@@ -66,37 +64,6 @@ class World(ShowBase):
         globalClock = ClockObject.getGlobalClock()
         globalClock.setMode(ClockObject.MLimited)
         globalClock.setFrameRate(FPS)
-    
-    def initFeatures(self):
-        """Instantiate things in the world"""
-        # Place the scenario in the world
-        self.scenario.setZ(0.2)
-        
-        # Place the character in the world
-        self.character.setZ(5)
-        self.character.setScale(0.8)
-
-        # Place the enemy in the world
-        self.enemy.setPos(1, 4, 5)
-        
-        # Place the landscape (skybox)
-        self.landscape.setScale(20)
-        
-        # Place the sea
-        self.sea.setScale(20)
-    
-    def _removeFeatures(self):
-        """Cleanup the NodePath."""
-        to_be_removed = (self.scenario, self.character, self.enemy,
-                         self.landscape, self.sea,
-                         # self.keyboardManager,
-                         # self.physicsManager,
-                         # self.collisionManager,
-                         # self.lightManager,
-                         # self.hudManager
-                         )
-        for node in to_be_removed:
-            node.removeNode()
     
     def reset(self):
         self.gameState.reset()
