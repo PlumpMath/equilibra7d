@@ -6,7 +6,6 @@ from direct.fsm.FSM import FSM
 class GameStateManager(FSM):
     def __init__(self):
         FSM.__init__(self, 'EquilibraFSM')
-        taskMgr.add(self.handleGameOver, "gameover_task")
     
     def enterNewGame(self):
         print "enterNewGame"
@@ -17,7 +16,7 @@ class GameStateManager(FSM):
         base.physicsManager.addActor(base.character)
         base.physicsManager.addActor(base.enemy)
         
-        ## Set up the Collision Manager
+        # Set up the Collision Manager
         base.collisionManager.addCollider(base.character)
         base.collisionManager.addCollider(base.enemy)
         base.collisionManager.addCollisionHandling(base.enemy.collider,
@@ -33,6 +32,9 @@ class GameStateManager(FSM):
         base.collisionManager.addCollisionHandling(base.scenario.collider,
                                                    "out",
                                                    base.scenario)
+        
+        # Check for a Game Over
+        taskMgr.add(self.handleGameOver, "gameover_task")
         
     def exitNewGame(self):
         print "exitNewGame"
