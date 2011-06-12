@@ -51,6 +51,10 @@ class KeyboardManager():
         base.accept("f12", lambda: (base.hudManager.clear(),
                                     base.hudManager.help(),
                                     base.hudManager.lose()))
+        def toogle_lights(m=[0]):
+            getattr(base.lightingManager, "setDefaultLights" if m[0] % 2 else "clear")()
+            m[0] = (m[0] + 1) % 2
+        base.accept("f9", toogle_lights)
         
         taskMgr.add(self.handleInput, "input_task")
 
