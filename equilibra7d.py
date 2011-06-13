@@ -19,7 +19,7 @@ class World(ShowBase):
         self.runonce()
         
         # Instantiate objects
-        self.scenario = Scenario(self.render, "arena1")
+        self.scenario = Scenario(self.render, "arena2")
         if len(sys.argv) == 2:
             model = sys.argv[1]
         else:
