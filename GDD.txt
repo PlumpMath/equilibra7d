@@ -1,0 +1,26 @@
+Equilibra7D
+Game Design Document
+
+Cenário/Background
+    'nome_do_personagem' está passeando por uma praia da Antártida quando, 
+subitamente, o pedaço de gelo em que ele se encontra se desprende do 
+continente e bóia em direção ao alto mar. Enquanto navega por águas
+desconhecidas, boiando em um pedaço de gelo, 'nome_do_personagem' fica
+apreensivo.
+    Repentinamente, começam a pular da água inúmeras criaturas bizarras,
+parecidas com peixes, que tentam empurrá-lo para fora da sua plataforma de gelo
+para, depois, devorá-lo.
+
+Objetivo
+    Sobreviver.
+
+Jogo
+    O jogador controla 'nome_do_personagem' utilizando o teclado. Ele deve
+jogar as criaturas de volta para a água e evitar que elas façam o mesmo com ele.
+    Surgem criaturas de diversos tipos, com uma frequência variável. A
+princípio, esta frequência é baixa, mas há um contador na tela que indica o
+tempo até a chegada de um cardume. Quando um cardume chega, o jogador deve
+se defender do ataque de um grande número de criaturas.
+    Além disso, após sobreviver a um determinado número de ataques de cardumes,
+o 'nome_do_personagem' é atacado por uma criatura maior, mais resistente e mais
+difícil de derrubar.
