@@ -9,9 +9,9 @@ Gameplay:
     - Main character movements
     - Tune mass, collision, speed, ...
     - character.py: handleCollisionEvent
-    - character.py: handleKeyboardEvent (two implementations -> one)
 
 Game story:
+    - Write the GDD
     - Give a name to the main character
 
 Documentation:
