@@ -56,6 +56,8 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
     
     def handleCollisionEvent(self, entry, type):
         normal = entry.getSurfaceNormal(self)
+        normal.z = 0
+        normal.normalize()
         self.addImpulse(normal * self._impact)
     
     def handleKeyboardEvent(self, task):
@@ -93,7 +95,7 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
 
     def face(self, direction):
         """
-        Makes the character look at the direction given by the given
+        Makes the character look at the direction given by the 
         'direction' vector.
         """
         velocity = self.getVelocity()
