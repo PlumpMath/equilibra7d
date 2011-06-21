@@ -23,7 +23,7 @@ class World(ShowBase):
         if len(sys.argv) == 2:
             model = sys.argv[1]
         else:
-            model = "character_1_4"
+            model = "character_4_1"
         self.character = Character(self.render, model)
         self.enemy = Enemy(self.render, "enemy")
         self.landscape = Landscape(self.render, "landscape")
@@ -72,4 +72,6 @@ class World(ShowBase):
 if __name__ == "__main__":
     world = World()
     world.run()
+
+
 
