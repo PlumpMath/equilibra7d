@@ -15,6 +15,9 @@ Game story:
     - Write the GDD
     - Give a name to the main character
 
+Models:
+    - Is there a ice.png referenced by arena2.egg?
+
 Documentation:
     - Fill in the README file
     - Make Equilibra7D distributable:
