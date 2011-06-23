@@ -9,6 +9,9 @@ class GameState(FSM):
     
     def enterNewGame(self):
         print "enterNewGame"
+        # Recreate objects
+        base.createObjects()
+        
         # Set up objects
         base.character.setup()
         base.enemy.setup()
@@ -29,6 +32,7 @@ class GameState(FSM):
         
     def exitNewGame(self):
         print "exitNewGame"
+        # Clear managers
         base.keyboardManager.clear()
         base.physicsManager.clear()
         base.collisionManager.clear()
@@ -47,7 +51,7 @@ class GameState(FSM):
     def handleGameOver(self, task):
         enemy_z = base.enemy.getBounds().getCenter().getZ()
         character_z = base.character.getBounds().getCenter().getZ()
-    
+        
         if enemy_z < -10:
             self.request("GameOver", base.hudManager.win)
             return task.done

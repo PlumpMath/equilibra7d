@@ -7,14 +7,15 @@ class AIManager(Manager):
     def __init__(self):
         # Creating AI World
         self.aiWorld = AIWorld(render)
-        self.aiChar = AICharacter("seeker", base.enemy.actor, 100, 0.05, 1.0)
-        
+        self.aiChar = None
+    
     def setup(self):
+        self.aiChar = AICharacter("seeker", base.enemy.actor, 100, 0.05, 1.0)
         self.aiWorld.addAiChar(self.aiChar)
         aiBehaviors = self.aiChar.getAiBehaviors()
         aiBehaviors.pursue(base.character.actor)
         taskMgr.add(self.update, "AIUpdate")
-        
+    
     def update(self, task):
         """Update the AI World"""
         self.aiWorld.update()

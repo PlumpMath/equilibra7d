@@ -3,6 +3,7 @@ import sys
 
 from direct.showbase.ShowBase import ShowBase
 from pandac.PandaModules import ClockObject, WindowProperties
+from panda3d.core import NodePath
 
 from objects import Character, Enemy, Landscape, Scenario, Sea
 from managers import (AIManager, CollisionManager, HUDManager, KeyboardManager,
@@ -16,32 +17,39 @@ class World(ShowBase):
     def __init__(self):
         ShowBase.__init__(self)
         
-        self.runonce()
+        self.objectsNode = NodePath("objects")
+        self.objectsNode.reparentTo(self.render)
         
-        # Instantiate objects
-        self.scenario = Scenario(self.render, "arena2")
+        self.configWorld()
+        self.createManagers()
+        
+        # Set up state engine
+        self.gameState = GameState()
+        self.reset()
+    
+    def createObjects(self):
+        """Instantiate objects"""
+        self.objectsNode.removeChildren()
+        self.scenario = Scenario(self.objectsNode, "arena2")
         if len(sys.argv) == 2:
             model = sys.argv[1]
         else:
             model = "character"
-        self.character = Character(self.render, model)
-        self.enemy = Enemy(self.render, "enemy")
-        self.landscape = Landscape(self.render, "landscape")
-        self.sea = Sea(self.render, "sea")
-        
-        # Instantiate managers
+        self.character = Character(self.objectsNode, model)
+        self.enemy = Enemy(self.objectsNode, "enemy")
+        self.landscape = Landscape(self.objectsNode, "landscape")
+        self.sea = Sea(self.objectsNode, "sea")
+    
+    def createManagers(self):
+        """Instantiate managers"""
         self.keyboardManager = KeyboardManager()
         self.physicsManager = PhysicsManager()
         self.collisionManager = CollisionManager()
         self.lightManager = LightManager()
         self.hudManager = HUDManager()
         self.aiManager = AIManager()
-        
-        # Set up state engine
-        self.gameState = GameState()
-        self.gameState.request("NewGame")
     
-    def runonce(self):
+    def configWorld(self):
         # Set window title
         props = WindowProperties()
         props.setTitle("Equilibra7D")
@@ -64,7 +72,7 @@ class World(ShowBase):
         globalClock = ClockObject.getGlobalClock()
         globalClock.setMode(ClockObject.MLimited)
         globalClock.setFrameRate(FPS)
-        
+    
     def reset(self):
         self.gameState.reset()
 
@@ -72,6 +80,4 @@ class World(ShowBase):
 if __name__ == "__main__":
     world = World()
     world.run()
-
-
 

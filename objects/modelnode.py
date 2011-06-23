@@ -13,11 +13,11 @@ class ModelNode(NodePath):
         
         self.model = loader.loadModel("models/%s.egg" % (model,))
         self.model.reparentTo(self)
-
+        
         self.reparentTo(parent)
-
+        
         self.name = name
-
+    
     def setup(self):
         """Reset object to default configuration"""
         raise NotImplementedError
