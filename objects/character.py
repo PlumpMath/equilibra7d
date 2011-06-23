@@ -53,7 +53,11 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
     def setup(self):
         self.setZ(5)
         self.setScale(0.8)
-    
+        
+        # Little "hack" to fix orientation
+        # Seems that the model has its eyes in the back?!
+        self.actor.setH(180)
+        
     def handleCollisionEvent(self, entry, type):
         normal = entry.getSurfaceNormal(self)
         normal.z = 0
@@ -78,10 +82,7 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
         
         self.addImpulse(impulse)
         
-        # Looks like a hack...
-        # Face the symmetric of the velocity works but.. is the model with
-        # its eyes in the back?!
-        self.face(-self.getVelocity())
+        self.face(self.getVelocity())
         
         return task.cont
     
