@@ -1,6 +1,4 @@
 #!/usr/bin/env ppython
-import sys
-
 from direct.showbase.ShowBase import ShowBase
 from pandac.PandaModules import ClockObject, WindowProperties
 from panda3d.core import NodePath
@@ -31,11 +29,7 @@ class World(ShowBase):
         """Instantiate objects"""
         self.objectsNode.removeChildren()
         self.scenario = Scenario(self.objectsNode, "arena2")
-        if len(sys.argv) == 2:
-            model = sys.argv[1]
-        else:
-            model = "character"
-        self.character = Character(self.objectsNode, model)
+        self.character = Character(self.objectsNode, "character")
         self.enemy = Enemy(self.objectsNode, "enemy")
         self.landscape = Landscape(self.objectsNode, "landscape")
         self.sea = Sea(self.objectsNode, "sea")
