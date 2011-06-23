@@ -21,7 +21,7 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
             ("a", self.setKey, ["left", 1]),
             ("s", self.setKey, ["down", 1]),
             ("d", self.setKey, ["right", 1]),
-
+            
             ("w-up", self.setKey, ["up", 0]),
             ("a-up", self.setKey, ["left", 0]),
             ("s-up", self.setKey, ["down", 0]),
@@ -31,7 +31,7 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
             ("arrow_left", self.setKey, ["left", 1]),
             ("arrow_down", self.setKey, ["down", 1]),
             ("arrow_right", self.setKey, ["right", 1]),
-
+            
             ("arrow_up-up", self.setKey, ["up", 0]),
             ("arrow_left-up", self.setKey, ["left", 0]),
             ("arrow_down-up", self.setKey, ["down", 0]),
@@ -47,9 +47,9 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
             #("arrow_down-repeat", self.handleKeyboardEvent, ["down", 1]),
             #("arrow_right-repeat", self.handleKeyboardEvent, ["right", 1]),
         )
-    
-        taskMgr.add(self.handleKeyboardEvent, "character_move_task")
         
+        taskMgr.add(self.handleKeyboardEvent, "character_move_task")
+    
     def setup(self):
         self.setZ(5)
         self.setScale(0.8)
@@ -92,11 +92,13 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
     def is_above_limit(self):
         speed = self.getVelocity().length()
         return speed > self._speedLimit
-
+    
     def face(self, direction):
+        """Makes the character look at a given the direction.
+        
+        `direction': vector
         """
-        Makes the character look at the direction given by the 
-        'direction' vector.
-        """
-        velocity = self.getVelocity()
-        self.model.lookAt(velocity.x, velocity.y, 0)
+        # It seems that headsUp works better than lookAt.
+        self.model.headsUp(direction.x, direction.y, direction.z)
+        #self.model.lookAt(direction.x, direction.y, direction.z)
+
