@@ -11,7 +11,7 @@ class ModelNode(NodePath):
     def __init__(self, parent, model, name=""):
         NodePath.__init__(self, name)
         
-        self.model = loader.loadModel("models/" + model)
+        self.model = loader.loadModel("models/%s.egg" % (model,))
         self.model.reparentTo(self)
 
         self.reparentTo(parent)
