@@ -77,7 +77,11 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
                 impulse += vec * increment
         
         self.addImpulse(impulse)
-        self.face(self.getVelocity())
+        
+        # Looks like a hack...
+        # Face the symmetric of the velocity works but.. is the model with
+        # its eyes in the back?!
+        self.face(-self.getVelocity())
         
         return task.cont
     
