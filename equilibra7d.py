@@ -25,7 +25,7 @@ class World(ShowBase):
         else:
             model = "main_character"
         self.character = Character(self.render, model)
-        self.enemy = Enemy(self.render, "enemyfish1")
+        self.enemy = Enemy(self.render, "enemyfish")
         self.landscape = Landscape(self.render, "landscape")
         self.sea = Sea(self.render, "sea")
         
