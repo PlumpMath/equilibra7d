@@ -2,6 +2,7 @@ AI:
     - Implement different opponent behaviors
 
 Game state:
+    - setup and clear of objects (character, enemy, ...)
     - Implement Restart game (as a consequence of having states)
     - PAUSE Game
 
