@@ -53,7 +53,10 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
     def setup(self):
         self.setZ(5)
         self.setScale(0.8)
-    
+
+        # Fixes orientation
+        self.actor.setH(180)
+        
     def handleCollisionEvent(self, entry, type):
         normal = entry.getSurfaceNormal(self)
         normal.z = 0
