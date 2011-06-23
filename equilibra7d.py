@@ -23,7 +23,7 @@ class World(ShowBase):
         if len(sys.argv) == 2:
             model = sys.argv[1]
         else:
-            model = "main_character"
+            model = "character"
         self.character = Character(self.render, model)
         self.enemy = Enemy(self.render, "enemy")
         self.landscape = Landscape(self.render, "landscape")
