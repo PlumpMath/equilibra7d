@@ -15,6 +15,7 @@ class World(ShowBase):
     def __init__(self):
         ShowBase.__init__(self)
         
+        # Create parent for all objects
         self.objectsNode = NodePath("objects")
         self.objectsNode.reparentTo(self.render)
         
@@ -23,10 +24,14 @@ class World(ShowBase):
         
         # Set up state engine
         self.gameState = GameState()
+        
+        # Start new game
         self.reset()
     
     def createObjects(self):
-        """Instantiate objects"""
+        """Instantiate objects.
+        
+        Can be run multiple times to recreate all objects."""
         self.objectsNode.removeChildren()
         self.scenario = Scenario(self.objectsNode, "arena2")
         self.character = Character(self.objectsNode, "character")
@@ -35,7 +40,9 @@ class World(ShowBase):
         self.sea = Sea(self.objectsNode, "sea")
     
     def createManagers(self):
-        """Instantiate managers"""
+        """Instantiate managers.
+        
+        Probably run only once."""
         self.keyboardManager = KeyboardManager()
         self.physicsManager = PhysicsManager()
         self.collisionManager = CollisionManager()
@@ -44,6 +51,9 @@ class World(ShowBase):
         self.aiManager = AIManager()
     
     def configWorld(self):
+        """Set general settings.
+        
+        Probably run only once."""
         # Set window title
         props = WindowProperties()
         props.setTitle("Equilibra7D")
