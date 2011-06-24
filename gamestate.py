@@ -90,6 +90,13 @@ class GameState(FSM):
         print "exitGameOver"
         # Does nothing
     
+    def filterGameOver(self, request, args):
+        # The only transition allowed from `GameOver' is `NewGame'
+        if request == "NewGame":
+            return (request,) + args
+        else:
+            return None
+    
     def handleGameOver(self, task):
         """Task that determines whether the gamer has finished.
         
