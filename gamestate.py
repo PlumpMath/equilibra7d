@@ -6,12 +6,12 @@ from direct.fsm.FSM import FSM
 class GameState(FSM):
     def __init__(self):
         FSM.__init__(self, 'EquilibraFSM')
-#        self.defaultTransitions = {
-#            'NewGame': ['NewGame', 'InGame', 'Pause', 'GameOver'],
-#            'InGame': ['NewGame', 'Pause', 'GameOver'],
-#            'Pause': ['NewGame', 'InGame'],
-#            'GameOver': ['NewGame'],
-#        }
+        self.defaultTransitions = {
+            'NewGame': ['NewGame', 'Pause', 'GameOver'],
+            'InGame': ['NewGame', 'Pause', 'GameOver'],
+            'Pause': ['NewGame', 'InGame'],
+            'GameOver': ['NewGame'],
+        }
     
     def enterNewGame(self):
         print "enterNewGame"
