@@ -42,23 +42,45 @@ class GameState(FSM):
             taskMgr.remove(task_name)
         taskMgr.add(self.handleGameOver, task_name)
         
-        print
-        print "# tasks"
-        _tasks = sorted([t.name for t in taskMgr.getAllTasks()])
-        for i, name in enumerate(_tasks, 1):
-            c = _tasks.count(name)
-            if c > 1:
-                if i == _tasks.index(name) + 1:
-                    print "%02d. %s [%d]" % (i, name, c)
-                else:
-                    # don't print anything
-                    pass
-            else:
-                print "%02d. %s" % (i, name)
-        print
+        self.printTasks()
     
     def exitNewGame(self):
         print "exitNewGame"
+        # Does nothing
+    
+    def enterInGame(self):
+        print "enterInGame"
+        # Does nothing
+    
+    def exitInGame(self):
+        print "exitInGame"
+        # Does nothing
+    
+    def enterPause(self):
+        print "enterPause"
+        # Disable some things
+        base.aiManager.clear()
+        self._kb_handlers = base.keyboardManager.clear()
+        base.disableParticles()
+    
+    def exitPause(self):
+        print "exitPause"
+        # Re-enable things
+        base.aiManager.setup()
+        for handler in self._kb_handlers:
+            base.keyboardManager.addKeyboardEventHandler(handler)
+        base.enableParticles()
+    
+    def filterPause(self, request, args):
+        if request == "Pause":
+            # Unpause game, go to "InGame"
+            return ("InGame",) + args
+        else:
+            return (request,) + args
+    
+    def enterGameOver(self, func):
+        print "enterGameOver"
+        func()
         # Clear managers
         base.keyboardManager.clear()
         base.physicsManager.clear()
@@ -67,24 +89,9 @@ class GameState(FSM):
         #base.hudManager.clear()
         base.aiManager.clear()
     
-    def enterInGame(self):
-        print "enterInGame"
-    
-    def exitInGame(self):
-        print "exitInGame"
-    
-    def enterPause(self):
-        print "enterPause"
-    
-    def exitPause(self):
-        print "exitPause"
-    
-    def enterGameOver(self, func):
-        print "enterGameOver"
-        func()
-    
     def exitGameOver(self):
         print "exitGameOver"
+        # Does nothing
     
     def handleGameOver(self, task):
         enemy_z = base.enemy.getBounds().getCenter().getZ()
@@ -105,4 +112,20 @@ class GameState(FSM):
     
     def pause(self):
         self.request("Pause")
+    
+    def printTasks(self):
+        print
+        print "# tasks"
+        _tasks = sorted([t.name for t in taskMgr.getAllTasks()])
+        for i, name in enumerate(_tasks, 1):
+            c = _tasks.count(name)
+            if c > 1:
+                if i == _tasks.index(name) + 1:
+                    print "%02d. %s [%d]" % (i, name, c)
+                else:
+                    # don't print anything
+                    pass
+            else:
+                print "%02d. %s" % (i, name)
+        print
 
