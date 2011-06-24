@@ -6,11 +6,20 @@ from direct.fsm.FSM import FSM
 class GameState(FSM):
     def __init__(self):
         FSM.__init__(self, 'EquilibraFSM')
+#        self.defaultTransitions = {
+#            'NewGame': ['NewGame', 'InGame', 'Pause', 'GameOver'],
+#            'InGame': ['NewGame', 'Pause', 'GameOver'],
+#            'Pause': ['NewGame', 'InGame'],
+#            'GameOver': ['NewGame'],
+#        }
     
     def enterNewGame(self):
         print "enterNewGame"
-        # Recreate objects
+        # (Re)create objects
         base.createObjects()
+        
+        # (Re)create managers
+        base.createManagers()
         
         # Set up objects
         base.character.setup()
@@ -29,7 +38,7 @@ class GameState(FSM):
         
         # Check for a Game Over
         taskMgr.add(self.handleGameOver, "gameover_task")
-        
+    
     def exitNewGame(self):
         print "exitNewGame"
         # Clear managers
@@ -39,14 +48,25 @@ class GameState(FSM):
         #base.lightManager.clear()
         #base.hudManager.clear()
         base.aiManager.clear()
-        
+    
+#    def enterInGame(self):
+#        print "enterInGame"
+#    
+#    def exitInGame(self):
+#        print "exitInGame"
+#    
+#    def enterPause(self):
+#        print "enterPause"
+#    
+#    def exitPause(self):
+#        print "exitPause"
+    
     def enterGameOver(self, func):
         print "enterGameOver"
         func()
-        
+    
     def exitGameOver(self):
         print "exitGameOver"
-        base.hudManager.clear()
     
     def handleGameOver(self, task):
         enemy_z = base.enemy.getBounds().getCenter().getZ()
@@ -63,6 +83,8 @@ class GameState(FSM):
     
     def reset(self):
         """Set the initial position of things defined in the world."""
-        print "restarting..."
         self.request("NewGame")
+    
+#    def pause(self):
+#        self.request("Pause")
 

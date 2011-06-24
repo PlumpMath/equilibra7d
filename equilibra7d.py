@@ -4,8 +4,7 @@ from pandac.PandaModules import ClockObject, WindowProperties
 from panda3d.core import NodePath
 
 from objects import Character, Enemy, Landscape, Scenario, Sea
-from managers import (AIManager, CollisionManager, HUDManager, KeyboardManager,
-                      LightManager, PhysicsManager)
+import managers
 from gamestate import GameState
 
 
@@ -20,7 +19,6 @@ class World(ShowBase):
         self.objectsNode.reparentTo(self.render)
         
         self.configWorld()
-        self.createManagers()
         
         # Set up state engine
         self.gameState = GameState()
@@ -32,6 +30,7 @@ class World(ShowBase):
         """Instantiate objects.
         
         Can be run multiple times to recreate all objects."""
+        # Remove nodes if they already exist.
         self.objectsNode.removeChildren()
         self.scenario = Scenario(self.objectsNode, "arena2")
         self.character = Character(self.objectsNode, "character")
@@ -42,13 +41,22 @@ class World(ShowBase):
     def createManagers(self):
         """Instantiate managers.
         
-        Probably run only once."""
-        self.keyboardManager = KeyboardManager()
-        self.physicsManager = PhysicsManager()
-        self.collisionManager = CollisionManager()
-        self.lightManager = LightManager()
-        self.hudManager = HUDManager()
-        self.aiManager = AIManager()
+        Can be run multiple times to clear all managers."""
+        for kind in "Keyboard Physics Collision Light HUD AI".split():
+            manager_attribute_name = "%sManager" % kind.lower()
+            if hasattr(self, manager_attribute_name):
+                manager = getattr(self, manager_attribute_name)
+                # Clear the manager since it already exists
+                manager.clear()
+            else:
+                # Take the *Manager class from the `managers' package
+                class_name = "%sManager" % kind
+                klass = getattr(managers, class_name)
+                
+                # Create new Manager. This is similar to
+                # self.keyboardManager = managers.KeyboardManager()
+                # done for each manager class.
+                setattr(self, manager_attribute_name, klass())
     
     def configWorld(self):
         """Set general settings.
@@ -79,6 +87,9 @@ class World(ShowBase):
     
     def reset(self):
         self.gameState.reset()
+    
+#    def pause(self):
+#        self.gameState.pause()
 
 
 if __name__ == "__main__":
