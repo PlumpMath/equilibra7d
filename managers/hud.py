@@ -25,6 +25,7 @@ class HUDManager(Manager):
         self._hud.append(OnscreenText(text=text, **props))
     
     def show_centered(self, text, **kwargs):
+        """Display text centered in the HUD."""
         props = dict(
             pos = (0, +0.5),
             scale = 0.26,
@@ -35,14 +36,21 @@ class HUDManager(Manager):
         self.show(text, **props)
     
     def help(self):
-        text = """\
+        """Display informative text on HUD."""
+        text = u"""\
 Comandos:
-     W
-    A D - Movimentar jogador
-      S
-     
-    Esc - Sair do jogo
+
+         W
+      A S D   - Movimentar jogador
+
+    <setas> - Movimentar jogador
 """
+        commands = (
+            ("F2", "Novo jogo"),
+            ("Pause", "Pausar/Continuar"),
+            ("F5", "Ligar/Desligar IA"),
+            ("Esc", "Sair do jogo"),
+        )
         props = dict(
             pos = (-1.1, -0.55),
             scale = 0.07,
@@ -51,11 +59,21 @@ Comandos:
             shadow = (0, 0, 0, 1),
         )
         self.show(text, **props)
-
+        
+        props.update(
+            pos = (0.2, -0.70)
+        )
+        self.show("\n".join(map(lambda t: t[0], commands)), **props)
+        
+        props.update(
+            pos = (0.42, -0.70)
+        )
+        self.show("\n".join(map(lambda t: "- %s" % t[1], commands)), **props)
+    
     def win(self):
         text = u"Você venceu!"
         self.show_centered(text, fg=(0.3, 1, 0.2, 1))
-
+    
     def lose(self):
         text = u"Você perdeu!"
         self.show_centered(text, fg=(1, 0.3, 0.2, 1))
