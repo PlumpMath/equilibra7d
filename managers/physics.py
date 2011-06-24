@@ -7,11 +7,11 @@ class PhysicsManager(Manager):
     """Handles the physics simulation."""
     
     def __init__(self):
-        #self._physicals = set()
         base.enableParticles()
-        self.forces = render.attachNewNode(ForceNode("global_forces"))
         base.physicsMgr.attachAngularIntegrator(AngularEulerIntegrator())
+        self.forces = render.attachNewNode(ForceNode("global_forces"))
         self.gravity = None
+        self._physicalnodes = []
     
     def setGravity(self, value):
         if self.gravity:
@@ -19,6 +19,7 @@ class PhysicsManager(Manager):
         self.gravity = self.addLinearForce(0, 0, -value)
     
     def setup(self):
+        base.enableParticles()
         self.setGravity(9.8)
         self.addActor(base.character)
         self.addActor(base.enemy)
@@ -27,38 +28,9 @@ class PhysicsManager(Manager):
         self.forces.removeChildren()
         base.physicsMgr.clearAngularForces()
         base.physicsMgr.clearLinearForces()
-        
-        # TODO: The current implementation is not perfect.
-        #       Only the gravity gets removed by the code above.
-        #       To remove movement from nodes such as the main character,
-        #       the enemy and the scenario, we could do:
-        #
-        base.physicsMgr.clearPhysicals()
-        #
-        #       However, after that, in order to restart the game we still need
-        #       to reconnect a lot of "wires". For example, the code below
-        #       inserts a new main character, but without collision against
-        #       the scenario...
-        
-#        base.character.removeChildren()
-#        import sys
-#        from character import Character
-#        # Place the character in the world
-#        if len(sys.argv) == 2:
-#            model = sys.argv[1]
-#        else:
-#            model = "character_1_4"
-#        base.character = Character(render, model)
-#        base.character.setZ(5)
-#        base.character.setScale(0.8)
-#        self.addActor(base.character)
-        
-        #       Finally, we could store every physicalNode and then clear
-        #       their forces:
-        
-        #for node in self._physicals:
-        #for node in (base.enemy, base.character):
-        #    node.clearForces()
+        while self._physicalnodes:
+            base.physicsMgr.removePhysicalNode(self._physicalnodes.pop())
+        base.disableParticles()
     
     def addLinearForce(self, x, y, z, physicalNode=None):
         """Adds a linear vector force to the simulation with the given 
@@ -71,7 +43,6 @@ class PhysicsManager(Manager):
         self.forces.node().addForce(force)
         physicalNode = physicalNode or base.physicsMgr
         physicalNode.addLinearForce(force)
-        #self._physicals.add(physicalNode)
         return force
     
     def removeLinearForce(self, force, physicalNode=None):
@@ -83,5 +54,7 @@ class PhysicsManager(Manager):
         The parameter 'physicalNode' must be an instance of 
         PhysicalNode.
         """
-        base.physicsMgr.attachPhysicalNode(physicalNode.actor.node())
+        node = physicalNode.actor.node()
+        base.physicsMgr.attachPhysicalNode(node)
+        self._physicalnodes.append(node)
 

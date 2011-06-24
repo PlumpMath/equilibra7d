@@ -61,7 +61,7 @@ class GameState(FSM):
         # Disable some things
         base.aiManager.clear()
         self._kb_handlers = base.keyboardManager.clear()
-        base.disableParticles()
+        base.physicsManager.clear()
     
     def exitPause(self):
         print "exitPause"
@@ -69,7 +69,7 @@ class GameState(FSM):
         base.aiManager.setup()
         for handler in self._kb_handlers:
             base.keyboardManager.addKeyboardEventHandler(handler)
-        base.enableParticles()
+        base.physicsManager.setup()
     
     def filterPause(self, request, args):
         if request == "Pause":
@@ -82,18 +82,19 @@ class GameState(FSM):
         print "enterGameOver"
         func()
         # Clear managers
+        base.aiManager.clear()
         base.keyboardManager.clear()
         base.physicsManager.clear()
-        base.collisionManager.clear()
-        #base.lightManager.clear()
-        #base.hudManager.clear()
-        base.aiManager.clear()
     
     def exitGameOver(self):
         print "exitGameOver"
         # Does nothing
     
     def handleGameOver(self, task):
+        """Task that determines whether the gamer has finished.
+        
+        When the character or the enemy are under water, the state changes to
+        GameOver and the HUD shows the winner."""
         enemy_z = base.enemy.getBounds().getCenter().getZ()
         character_z = base.character.getBounds().getCenter().getZ()
         
@@ -107,10 +108,11 @@ class GameState(FSM):
         return task.cont
     
     def reset(self):
-        """Set the initial position of things defined in the world."""
+        """Start a new game."""
         self.request("NewGame")
     
     def pause(self):
+        """Toggle pause the current game."""
         self.request("Pause")
     
     def printTasks(self):
