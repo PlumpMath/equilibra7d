@@ -38,6 +38,21 @@ class GameState(FSM):
         
         # Check for a Game Over
         taskMgr.add(self.handleGameOver, "gameover_task")
+        
+        print
+        print "# tasks"
+        _tasks = sorted([t.name for t in taskMgr.getAllTasks()])
+        for i, name in enumerate(_tasks, 1):
+            c = _tasks.count(name)
+            if c > 1:
+                if i == _tasks.index(name) + 1:
+                    print "%02d. %s [%d]" % (i, name, c)
+                else:
+                    # don't print anything
+                    pass
+            else:
+                print "%02d. %s" % (i, name)
+        print
     
     def exitNewGame(self):
         print "exitNewGame"
@@ -49,17 +64,17 @@ class GameState(FSM):
         #base.hudManager.clear()
         base.aiManager.clear()
     
-#    def enterInGame(self):
-#        print "enterInGame"
-#    
-#    def exitInGame(self):
-#        print "exitInGame"
-#    
-#    def enterPause(self):
-#        print "enterPause"
-#    
-#    def exitPause(self):
-#        print "exitPause"
+    def enterInGame(self):
+        print "enterInGame"
+    
+    def exitInGame(self):
+        print "exitInGame"
+    
+    def enterPause(self):
+        print "enterPause"
+    
+    def exitPause(self):
+        print "exitPause"
     
     def enterGameOver(self, func):
         print "enterGameOver"
@@ -85,6 +100,6 @@ class GameState(FSM):
         """Set the initial position of things defined in the world."""
         self.request("NewGame")
     
-#    def pause(self):
-#        self.request("Pause")
+    def pause(self):
+        self.request("Pause")
 

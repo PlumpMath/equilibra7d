@@ -88,8 +88,8 @@ class World(ShowBase):
     def reset(self):
         self.gameState.reset()
     
-#    def pause(self):
-#        self.gameState.pause()
+    def pause(self):
+        self.gameState.pause()
 
 
 if __name__ == "__main__":
