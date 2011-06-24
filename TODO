@@ -2,21 +2,18 @@ AI:
     - Implement different opponent behaviors
 
 Game state:
-    - setup and clear of objects (character, enemy, ...)
-    - Implement Restart game (as a consequence of having states)
-    - PAUSE Game
+    
 
 Gameplay:
     - Main character movements
     - Tune mass, collision, speed, ...
-    - character.py: handleCollisionEvent
 
 Game story:
     - Write the GDD
     - Give a name to the main character
 
 Models:
-    - Is there a ice.png referenced by arena2.egg?
+    
 
 Documentation:
     - Fill in the README file
