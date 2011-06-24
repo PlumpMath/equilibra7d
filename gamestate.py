@@ -37,7 +37,10 @@ class GameState(FSM):
         base.aiManager.setup()
         
         # Check for a Game Over
-        taskMgr.add(self.handleGameOver, "gameover_task")
+        task_name = "gameover_task"
+        if taskMgr.hasTaskNamed(task_name):
+            taskMgr.remove(task_name)
+        taskMgr.add(self.handleGameOver, task_name)
         
         print
         print "# tasks"

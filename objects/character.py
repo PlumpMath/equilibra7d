@@ -48,7 +48,10 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
             #("arrow_right-repeat", self.handleKeyboardEvent, ["right", 1]),
         )
         
-        taskMgr.add(self.handleKeyboardEvent, "character_move_task")
+        task_name = "character_movement"
+        if taskMgr.hasTaskNamed(task_name):
+            taskMgr.remove(task_name)
+        taskMgr.add(self.handleKeyboardEvent, task_name)
     
     def setup(self):
         self.setZ(5)
