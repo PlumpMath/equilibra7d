@@ -62,6 +62,7 @@ class GameState(FSM):
         base.aiManager.clear()
         self._kb_handlers = base.keyboardManager.clear()
         base.physicsManager.clear()
+        base.hudManager.pause()
     
     def exitPause(self):
         print "exitPause"
@@ -70,6 +71,8 @@ class GameState(FSM):
         for handler in self._kb_handlers:
             base.keyboardManager.addKeyboardEventHandler(handler)
         base.physicsManager.setup()
+        base.hudManager.clear()
+        base.hudManager.setup()
     
     def filterPause(self, request, args):
         if request == "Pause":

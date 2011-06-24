@@ -59,4 +59,8 @@ Comandos:
     def lose(self):
         text = u"Você perdeu!"
         self.show_centered(text, fg=(1, 0.3, 0.2, 1))
+    
+    def pause(self):
+        text = u"Pausado"
+        self.show_centered(text, fg=(0.8, 0.8, 0.2, 1))
 
