@@ -16,7 +16,7 @@ class KeyboardManager(Manager):
     
     def __init__(self):
         """All accepted keys are defined here."""
-        self.keyboardEventHandlers = []
+        self._keyboardEventHandlers = []
         
         def toggle_lights(state=[False]):
             if state[0]:
@@ -80,7 +80,7 @@ class KeyboardManager(Manager):
                              base.hudManager.lose())),
             ("pause", base.pause),
         )
-        self.loadKeyBindings(self.global_bindings)
+        self.__loadKeyBindings(self.global_bindings)
     
     def setup(self):
         self.addKeyboardEventHandler(base.character)
@@ -90,14 +90,14 @@ class KeyboardManager(Manager):
         
         Global bindings are kept.
         """
-        old_handlers = self.keyboardEventHandlers[:]
-        while self.keyboardEventHandlers:
-            handler = self.keyboardEventHandlers.pop()
+        old_handlers = self._keyboardEventHandlers[:]
+        while self._keyboardEventHandlers:
+            handler = self._keyboardEventHandlers.pop()
             for binding in handler.bindings:
                 base.ignore(binding[0])
         return old_handlers
     
-    def loadKeyBindings(self, bindings):
+    def __loadKeyBindings(self, bindings):
         for binding in bindings:
             base.accept(*binding)
     
@@ -108,6 +108,6 @@ class KeyboardManager(Manager):
         class. Its 'handleKeyboardEvent' method will be called at each 
         frame.
         """
-        self.keyboardEventHandlers.append(handler)
-        self.loadKeyBindings(handler.bindings)
+        self._keyboardEventHandlers.append(handler)
+        self.__loadKeyBindings(handler.bindings)
 
