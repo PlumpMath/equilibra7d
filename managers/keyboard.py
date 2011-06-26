@@ -19,54 +19,13 @@ class KeyboardManager(Manager):
         """All accepted keys are defined here."""
         self._keyboardEventHandlers = []
         
-        self._state = state = defaultdict(lambda: True)
-        status_msgs = ("off", "on")
-        
-        def toggle_lights():
-            if state["lights"]:
-                base.lightManager.clear()
-            else:
-                base.lightManager.setup()
-            state["lights"] = not state["lights"]
-            print "<Lights %s>" % status_msgs[state["lights"]].upper()
-        
-        def toggle_gravity():
-            if state["gravity"]:
-                gravity = 0
-            else:
-                gravity = 9.8
-            base.physicsManager.setGravity(gravity)
-            state["gravity"] = not state["gravity"]
-            print "<Gravity %s>" % status_msgs[state["gravity"]].upper()
-        
-        def toggle_controls():
-            if state["controls"]:
-                state["controls-backup"] = self.clear()
-            else:
-                for handler in state["controls-backup"]:
-                    self.addKeyboardEventHandler(handler)
-            state["controls"] = not state["controls"]
-            print "<Controls %s>" % status_msgs[state["controls"]].upper()
-        
-        def toggle_ai():
-            if state["ai"]:
-                base.aiManager.clear()
-            else:
-                base.aiManager.setup()
-            state["ai"] = not state["ai"]
-            print "<AI %s>" % status_msgs[state["ai"]].upper()
-        
-        self.global_bindings = (
+        global_bindings = [
             ("escape", sys.exit),
             ("f1",  lambda: (base.hudManager.clear(),
                              base.hudManager.help())),
             ("f2", base.reset),
-            ("f4", toggle_controls),
-            ("f5", toggle_ai),
             ("f6", lambda: base.collisionManager.clear()),
             ("f7", lambda: base.physicsManager.clear()),
-            ("f8", toggle_gravity),
-            ("f9", toggle_lights),
             ("f10", lambda: base.hudManager.clear()),
             ("f11", lambda: (base.hudManager.clear(),
                              base.hudManager.help(),
@@ -75,8 +34,37 @@ class KeyboardManager(Manager):
                              base.hudManager.help(),
                              base.hudManager.lose())),
             ("pause", base.pause),
-        )
-        self.__loadKeyBindings(self.global_bindings)
+        ]
+        
+        self._state = state = defaultdict(lambda: True)
+        
+        def toggle(what, key, on, off):
+            status_msgs = ("off", "on")
+            def toggle_func():
+                if state[what]:
+                    off()
+                else:
+                    on()
+                state[what] = not state[what]
+                print ("<%s %s>" % (what, status_msgs[state[what]])).upper()
+            global_bindings.append((key, toggle_func))
+            return toggle_func
+        
+        toggle("controls", "f4",
+            lambda: [self.addKeyboardEventHandler(handler) for
+                        handler in state.get("controls-backup", [])][:0],
+            lambda: state.__setitem__("controls-backup", self.clear()))
+        
+        toggle("ai", "f5", lambda: base.aiManager.setup(),
+                           lambda: base.aiManager.clear())
+        
+        toggle("gravity", "f8", lambda: base.physicsManager.setGravity(9.8),
+                                lambda: base.physicsManager.setGravity(0.0))
+        
+        toggle("lights", "f9", lambda: base.lightManager.setup(),
+                               lambda: base.lightManager.clear())
+        
+        self.__loadKeyBindings(global_bindings)
     
     def setup(self):
         self.addKeyboardEventHandler(base.character)
