@@ -1,3 +1,4 @@
+from collections import defaultdict
 import sys
 
 from base import Manager
@@ -18,47 +19,42 @@ class KeyboardManager(Manager):
         """All accepted keys are defined here."""
         self._keyboardEventHandlers = []
         
-        def toggle_lights(state=[False]):
-            if state[0]:
-                status = "on"
-                base.lightManager.setup()
-            else:
-                status = "off"
+        self._state = state = defaultdict(lambda: True)
+        status_msgs = ("off", "on")
+        
+        def toggle_lights():
+            if state["lights"]:
                 base.lightManager.clear()
-            state[0] = not state[0]
-            print "<Lights %s>" % status.upper()
-        
-        def toggle_gravity(state=[False]):
-            if state[0]:
-                status = "on"
-                gravity = 9.8
             else:
-                status = "off"
+                base.lightManager.setup()
+            state["lights"] = not state["lights"]
+            print "<Lights %s>" % status_msgs[state["lights"]].upper()
+        
+        def toggle_gravity():
+            if state["gravity"]:
                 gravity = 0
+            else:
+                gravity = 9.8
             base.physicsManager.setGravity(gravity)
-            state[0] = not state[0]
-            print "<Gravity %s>" % status.upper()
+            state["gravity"] = not state["gravity"]
+            print "<Gravity %s>" % status_msgs[state["gravity"]].upper()
         
-        def toggle_controls(state=[False, ()]):
-            if state[0]:
-                status = "on"
-                for handler in state[1]:
+        def toggle_controls():
+            if state["controls"]:
+                state["controls-backup"] = self.clear()
+            else:
+                for handler in state["controls-backup"]:
                     self.addKeyboardEventHandler(handler)
-            else:
-                status = "off"
-                state[1] = self.clear()
-            state[0] = not state[0]
-            print "<Controls %s>" % status.upper()
+            state["controls"] = not state["controls"]
+            print "<Controls %s>" % status_msgs[state["controls"]].upper()
         
-        def toggle_ai(state=[False]):
-            if state[0]:
-                status = "on"
-                base.aiManager.setup()
-            else:
-                status = "off"
+        def toggle_ai():
+            if state["ai"]:
                 base.aiManager.clear()
-            state[0] = not state[0]
-            print "<AI %s>" % status.upper()
+            else:
+                base.aiManager.setup()
+            state["ai"] = not state["ai"]
+            print "<AI %s>" % status_msgs[state["ai"]].upper()
         
         self.global_bindings = (
             ("escape", sys.exit),
@@ -90,6 +86,9 @@ class KeyboardManager(Manager):
         
         Global bindings are kept.
         """
+        # Clear the state used in toggle functions
+        self._state.clear()
+        # Remove registered keyboard handlers
         old_handlers = self._keyboardEventHandlers[:]
         while self._keyboardEventHandlers:
             handler = self._keyboardEventHandlers.pop()
