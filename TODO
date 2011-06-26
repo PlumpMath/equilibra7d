@@ -2,7 +2,7 @@ AI:
     - Implement different opponent behaviors
 
 Game state:
-    
+    - Bug: Turn off AI [F5] -> Restart game [F2] -> Turn off AI [F5]
 
 Gameplay:
     - Main character movements
@@ -13,7 +13,7 @@ Game story:
     - Give a name to the main character
 
 Models:
-    
+    - Fish collision solid
 
 Documentation:
     - Fill in the README file
