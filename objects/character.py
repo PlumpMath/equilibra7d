@@ -1,4 +1,4 @@
-from panda3d.core import Vec3
+from panda3d.core import Vec3, Point3
 
 from handlers.collision import CollisionEventHandler
 from handlers.keyboard import KeyboardEventHandler
@@ -11,9 +11,14 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
         
         self.addCollisionSphere(1.15)
         
-        self._impulseIncrement = 2.0
-        self._speedLimit = 3.0
-        self._impact = 3
+        self._impulseIncrement = 4.0
+        self._speedLimit = 5.0
+        self._impact = 4
+        self._turningSpeed = 0.1
+
+        self._hit = False
+        self._currentDirection = Vec3.forward()
+        self._currentAngle = 0
         
         self.keys = dict.fromkeys("left right up down".split(), 0)
         self.bindings = (
@@ -61,11 +66,14 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
         # Seems that the model has its eyes in the back?!
         self.actor.setH(180)
         
-    def handleCollisionEvent(self, entry, type):
+    def handleCollisionEvent(self, entry, type):       
         normal = entry.getSurfaceNormal(self)
         normal.z = 0
         normal.normalize()
         self.addImpulse(normal * self._impact)
+        
+        self.face(-normal)
+        self._hit = True
     
     def handleKeyboardEvent(self, task):
         keys = self.keys
@@ -82,10 +90,19 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
                          ("down", Vec3.back())):
             if keys[key] and (not above_limit or self.is_braking(vec)):
                 impulse += vec * increment
-        
+                
         self.addImpulse(impulse)
         
-        self.face(self.getVelocity())
+        # If the character was not hit by an enemy look at the movement
+        # direction.
+        # Otherwise look at the enemy until the character turns around.
+        if not self._hit:
+            self.face(self.getVelocity())
+        
+        elif ((impulse.length() > 0) and
+              (self.getVelocity().length() > 0.5) and
+              (not self.is_braking(impulse))):
+                    self._hit = False
         
         return task.cont
     
@@ -103,10 +120,26 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
     
     def face(self, direction):
         """Makes the character look at a given the direction.
+        This method makes only heading rotations.
         
         `direction': vector
         """
-        # It seems that headsUp works better than lookAt.
-        self.model.headsUp(direction.x, direction.y, direction.z)
-        #self.model.lookAt(direction.x, direction.y, direction.z)
+        
+        direction = Vec3(direction.x, direction.y, 0)
+        direction.normalize()
+        
+        if direction.length() > 0:
+            currentDirection = self._currentDirection
+            
+            headingAngle = direction.signedAngleDeg(currentDirection, 
+                                                    Vec3.down())
+            headingAngle += self._currentAngle
+            
+            if abs(headingAngle) > 1:
+                interval = self.model.hprInterval(self._turningSpeed,
+                                                  Point3(headingAngle, 0, 0))
+                interval.start()
+                
+                self._currentDirection = direction
+                self._currentAngle = headingAngle
 
