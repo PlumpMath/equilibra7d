@@ -21,11 +21,8 @@ class KeyboardManager(Manager):
         
         global_bindings = [
             ("escape", sys.exit),
-            ("f1",  lambda: (base.hudManager.clear(),
-                             base.hudManager.help())),
             ("f2", base.reset),
             ("f6", lambda: base.collisionManager.clear()),
-            ("f10", lambda: base.hudManager.clear()),
             ("f11", lambda: (base.hudManager.clear(),
                              base.hudManager.help(),
                              base.hudManager.win())),
@@ -48,6 +45,9 @@ class KeyboardManager(Manager):
                 print ("<%s %s>" % (what, status_msgs[state[what]])).upper()
             global_bindings.append((key, toggle_func))
             return toggle_func
+        
+        toggle("hud", "f1", lambda: base.hudManager.setup(),
+                            lambda: base.hudManager.clear())
         
         toggle("controls", "f4",
             lambda: [self.addKeyboardEventHandler(handler) for
