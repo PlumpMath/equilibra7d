@@ -25,7 +25,6 @@ class KeyboardManager(Manager):
                              base.hudManager.help())),
             ("f2", base.reset),
             ("f6", lambda: base.collisionManager.clear()),
-            ("f7", lambda: base.physicsManager.clear()),
             ("f10", lambda: base.hudManager.clear()),
             ("f11", lambda: (base.hudManager.clear(),
                              base.hudManager.help(),
@@ -57,6 +56,9 @@ class KeyboardManager(Manager):
         
         toggle("ai", "f5", lambda: base.aiManager.setup(),
                            lambda: base.aiManager.clear())
+        
+        toggle("physics", "f7", lambda: base.physicsManager.setup(),
+                                lambda: base.physicsManager.clear())
         
         toggle("gravity", "f8", lambda: base.physicsManager.setGravity(9.8),
                                 lambda: base.physicsManager.setGravity(0.0))
