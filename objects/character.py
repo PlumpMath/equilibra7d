@@ -14,7 +14,7 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
         self._impulseIncrement = 4.0
         self._speedLimit = 5.0
         self._impact = 4
-        self._turningSpeed = 0.1
+        self._turningSpeed = 0.2
 
         self._hit = False
         self._currentDirection = Vec3.forward()
@@ -59,7 +59,7 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
         taskMgr.add(self.handleKeyboardEvent, task_name)
     
     def setup(self):
-        self.setZ(5)
+        self.setZ(1)
         self.setScale(0.8)
         
         # Little "hack" to fix orientation
@@ -98,7 +98,7 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
         # Otherwise look at the enemy until the character turns around.
         if not self._hit:
             self.face(self.getVelocity())
-        
+            
         elif ((impulse.length() > 0) and
               (self.getVelocity().length() > 0.5) and
               (not self.is_braking(impulse))):
@@ -126,9 +126,10 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
         """
         
         direction = Vec3(direction.x, direction.y, 0)
-        direction.normalize()
         
-        if direction.length() > 0:
+        if direction != Vec3.zero():
+            direction.normalize()
+            
             currentDirection = self._currentDirection
             
             headingAngle = direction.signedAngleDeg(currentDirection, 
