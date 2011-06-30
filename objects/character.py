@@ -9,6 +9,8 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
     def __init__(self, parent, model):
         PhysicalNode.__init__(self, parent, model, "character")
         
+        self.mass = 500.0
+        
         self.addCollisionSphere(1.15)
         
         self._impulseIncrement = 4.0
@@ -66,14 +68,18 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
         # Seems that the model has its eyes in the back?!
         self.actor.setH(180)
         
-    def handleCollisionEvent(self, entry, type):       
+    def handleCollisionEvent(self, entry, type):
         normal = entry.getSurfaceNormal(self)
         normal.z = 0
         normal.normalize()
-        self.addImpulse(normal * self._impact)
+
+        otherVelocity = base.enemy.velocity
+        otherMass = base.enemy.mass
+        self.collide(normal, otherVelocity, otherMass, 0.5)
         
         self.face(-normal)
         self._hit = True
+        
     
     def handleKeyboardEvent(self, task):
         keys = self.keys

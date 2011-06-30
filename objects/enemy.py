@@ -17,5 +17,10 @@ class Enemy(PhysicalNode, CollisionEventHandler):
     
     def handleCollisionEvent(self, entry, type):
         normal = entry.getSurfaceNormal(self)
-        self.addImpulse(normal * (-self._impact))
+        normal.z = 0
+        normal.normalize()
 
+        otherVelocity = base.character.velocity
+        otherMass = base.character.mass
+        self.collide(-normal, otherVelocity, otherMass, 1.0)
+        
