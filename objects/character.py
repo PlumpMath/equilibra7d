@@ -97,10 +97,10 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
         # direction.
         # Otherwise look at the enemy until the character turns around.
         if not self._hit:
-            self.face(self.getVelocity())
+            self.face(self.velocity)
             
         elif ((impulse.length() > 0) and
-              (self.getVelocity().length() > 0.5) and
+              (self.velocity.length() > 0.5) and
               (not self.is_braking(impulse))):
                     self._hit = False
         
@@ -110,12 +110,11 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
         self.keys[key] = value
     
     def is_braking(self, coordinate):
-        velocity = self.getVelocity()
-        return velocity.dot(coordinate) < 0
+        return self.velocity.dot(coordinate) < 0
     
     @property
     def is_above_limit(self):
-        speed = self.getVelocity().length()
+        speed = self.velocity.length()
         return speed > self._speedLimit
     
     def face(self, direction):

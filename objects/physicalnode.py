@@ -87,9 +87,15 @@ class PhysicalNode(ModelNode):
     
     # --------------------------------------------------------------------------
     
-    def getVelocity(self):
+    @property
+    def velocity(self):
         """Returns the node's current velocity vector as a Vec3."""
         return self.actor.node().getPhysicsObject().getVelocity()
+
+    @velocity.setter
+    def velocity(self, value):
+        """Updates the node's current velocity vector with a Vec3."""
+        return self.actor.node().getPhysicsObject().setVelocity(value)
     
     @property
     def mass(self):
@@ -97,7 +103,7 @@ class PhysicalNode(ModelNode):
         return self.actor.node().getPhysicsObject().getMass()
     
     @mass.setter
-    def mass(self, mass):
+    def mass(self, value):
         """Updates the actor's mass."""
-        self.actor.node().getPhysicsObject().setMass(mass)
+        self.actor.node().getPhysicsObject().setMass(value)
 
