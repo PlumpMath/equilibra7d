@@ -10,7 +10,7 @@ class AIManager(Manager):
         self.aiChar = None
     
     def setup(self):
-        self.aiChar = AICharacter("seeker", base.enemy.actor, 100, 0.05, 1.0)
+        self.aiChar = AICharacter("seeker", base.enemy.actor, base.enemy.mass, 0.05, 1.0)
         self.aiWorld.addAiChar(self.aiChar)
         aiBehaviors = self.aiChar.getAiBehaviors()
         aiBehaviors.pursue(base.character.actor)
