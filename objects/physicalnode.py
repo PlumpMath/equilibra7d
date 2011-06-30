@@ -13,7 +13,7 @@ class PhysicalNode(ModelNode):
                                -> CollisionNode (optional)
     """
     
-    def __init__(self, parent, model, name):
+    def __init__(self, parent, model, name, animations=[]):
         ModelNode.__init__(self, parent, model, name)
         
         actorNode = ActorNode(name + "_actor_node")
