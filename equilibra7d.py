@@ -33,7 +33,7 @@ class World(ShowBase):
         # Remove nodes if they already exist.
         self.objectsNode.removeChildren()
         self.scenario = Scenario(self.objectsNode, "arena2")
-        self.character = Character(self.objectsNode, "character")
+        self.character = Character(self.objectsNode, "walkingcharacter")
         self.enemy = Enemy(self.objectsNode, "enemyfish")
         self.landscape = Landscape(self.objectsNode, "landscape")
         self.sea = Sea(self.objectsNode, "sea")
