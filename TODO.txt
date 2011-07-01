@@ -1,0 +1,28 @@
+AI:
+    - Implement different opponent behaviors
+
+Game state:
+    - Bug: Turn off AI [F5] -> Restart game [F2] -> Turn off AI [F5]
+
+Gameplay:
+    - Main character movements
+    - Tune mass, collision, speed, ...
+
+Game story:
+    - Write the GDD
+    - Give a name to the main character
+
+Models:
+	- Finish the hat of the main character
+	- Export animation
+	- Adjust animation to the ground
+	- Animate the fish
+	- Create another enemy
+	- Animate new enemy
+	- Organize files
+
+Documentation:
+    - Fill in the README file
+    - Make Equilibra7D distributable:
+        http://www.panda3d.org/manual/index.php/Distributing_Panda3D_Applications
+
