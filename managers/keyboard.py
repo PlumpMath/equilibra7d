@@ -78,7 +78,8 @@ class KeyboardManager(Manager):
             ("f12", lambda: (base.hudManager.clear(),
                              base.hudManager.help(),
                              base.hudManager.lose())),
-            ("pause", base.pause),
+            #("pause", base.pause),
+            ("p", base.pause),
         )
         self.__loadKeyBindings(self.global_bindings)
     
