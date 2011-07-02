@@ -12,11 +12,16 @@ class ModelNode(NodePath):
     def __init__(self, parent, model, name="", animations=[]):
         NodePath.__init__(self, name)
         
-        animationDict = {}
-        for name in animations:
-            animationDict[name] = "models/%s-%s.egg" % (model, name) 
-
-        self.model = Actor("models/%s.egg" % (model,), animationDict)
+        if animations:  # List is not empty
+            animationDict = {}
+            for name in animations:
+                animationDict[name] = "models/%s-%s.egg" % (model, name) 
+            
+            self.model = Actor("models/%s.egg" % (model,), animationDict)
+            
+        else:
+            self.model = loader.loadModel("models/%s.egg" % (model,))
+            
         self.model.reparentTo(self)
         
         self.reparentTo(parent)
