@@ -6,8 +6,10 @@ from physicalnode import PhysicalNode
 
 
 class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
+    ANIM_WALK = "anim1"
+    
     def __init__(self, parent, model):
-        PhysicalNode.__init__(self, parent, model, "character")
+        PhysicalNode.__init__(self, parent, model, "character", [self.ANIM_WALK])
         
         self.mass = 500.0
         
@@ -109,6 +111,8 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
               (self.velocity.length() > 0.5) and
               (not self.is_braking(impulse))):
                     self._hit = False
+
+        self.doWalkAnimation(impulse)
         
         return task.cont
     
@@ -118,6 +122,14 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
     def is_braking(self, coordinate):
         return self.velocity.dot(coordinate) < 0
     
+    def doWalkAnimation(self, impulse):
+        if impulse.length() > 0:
+            if self.model.getCurrentAnim() is None:
+                self.model.loop(self.ANIM_WALK)
+        else:
+            self.model.stop()
+            self.model.pose(self.ANIM_WALK, 1)
+
     @property
     def is_above_limit(self):
         speed = self.velocity.length()

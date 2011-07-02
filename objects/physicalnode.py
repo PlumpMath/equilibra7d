@@ -14,7 +14,7 @@ class PhysicalNode(ModelNode):
     """
     
     def __init__(self, parent, model, name, animations=[]):
-        ModelNode.__init__(self, parent, model, name)
+        ModelNode.__init__(self, parent, model, name, animations)
         
         actorNode = ActorNode(name + "_actor_node")
         self.actor = self.attachNewNode(actorNode)

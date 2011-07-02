@@ -5,7 +5,6 @@ Game state:
     - Bug: Turn off AI [F5] -> Restart game [F2] -> Turn off AI [F5]
 
 Gameplay:
-    - Main character movements
     - Tune mass, collision, speed, ...
 
 Game story:
