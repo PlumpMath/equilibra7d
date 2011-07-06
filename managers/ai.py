@@ -10,10 +10,7 @@ class AIManager(Manager):
         self.aiChar = None
     
     def setup(self):
-        self.aiChar = AICharacter("seeker", base.enemy.actor, 50, 0.5, 1.5)
-        self.aiWorld.addAiChar(self.aiChar)
-        aiBehaviors = self.aiChar.getAiBehaviors()
-        aiBehaviors.pursue(base.character.actor)
+        base.enemyManager.addAI()
         taskMgr.add(self.update, "AIUpdate")
     
     def update(self, task):
@@ -21,6 +18,12 @@ class AIManager(Manager):
         self.aiWorld.update()
         return task.cont
     
+    def addEnemy(self, modelNode, mass, movtForce, maxForce):
+        self.aiChar = AICharacter("seeker", modelNode.actor, mass, movtForce, maxForce)
+        self.aiWorld.addAiChar(self.aiChar)
+        aiBehaviors = self.aiChar.getAiBehaviors()
+        aiBehaviors.pursue(base.character.actor)
+        
     def clear(self):
         self.aiWorld.removeAiChar("seeker")
         taskMgr.remove("AIUpdate")

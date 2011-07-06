@@ -25,11 +25,6 @@ class CollisionManager(Manager):
     
     def setup(self):
         self.addCollider(base.character)
-        self.addCollider(base.enemy)
-        self.addCollisionHandling(base.enemy.collider,
-                                  "into",
-                                  base.character,
-                                  base.enemy)
         self.addCollisionHandling(base.scenario.collider,
                                   "into",
                                   base.scenario)

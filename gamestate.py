@@ -23,13 +23,13 @@ class GameState(FSM):
         
         # Set up objects
         base.character.setup()
-        base.enemy.setup()
         base.landscape.setup()
         base.scenario.setup()
         base.sea.setup()
         
         # Set up managers
         base.keyboardManager.setup()
+        base.enemyManager.setup()
         base.physicsManager.setup()
         base.collisionManager.setup()
         base.lightManager.setup()
@@ -105,7 +105,7 @@ class GameState(FSM):
         
         When the character or the enemy are under water, the state changes to
         GameOver and the HUD shows the winner."""
-        enemy_z = base.enemy.getBounds().getCenter().getZ()
+        enemy_z = base.enemyManager.enemy.getBounds().getCenter().getZ()
         character_z = base.character.getBounds().getCenter().getZ()
         
         if enemy_z < -10:

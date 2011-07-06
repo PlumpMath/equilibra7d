@@ -21,8 +21,12 @@ class PhysicsManager(Manager):
     def setup(self):
         base.enableParticles()
         self.setGravity(9.8)
+        
+        # Character
         self.addActor(base.character)
-        self.addActor(base.enemy)
+        
+        # Enemies
+        base.enemyManager.addPhysics()
     
     def clear(self):
         self.forces.removeChildren()

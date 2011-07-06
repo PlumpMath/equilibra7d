@@ -74,9 +74,12 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
         normal = entry.getSurfaceNormal(self)
         normal.z = 0
         normal.normalize()
-
-        otherVelocity = base.enemy.velocity
-        otherMass = base.enemy.mass
+        
+        nodePath = entry.getIntoNodePath()
+        enemy = base.enemyManager.getEnemyFromCollisionNode(nodePath)
+        
+        otherVelocity = enemy.velocity
+        otherMass = enemy.mass
         self.collide(normal, otherVelocity, otherMass, 0.5)
         
         self.face(-normal)
