@@ -14,16 +14,18 @@ Game story:
     - Give a name to the main character
 
 Models:
-	- Finish the hat of the main character
 	- Export animation
-	- Adjust animation to the ground
-	- Animate the fish
 	- Create another enemy
 	- Animate new enemy
 	- Organize files
+	- Create new textures (fish) 
 
 Documentation:
     - Fill in the README file
+    - Update blog
     - Make Equilibra7D distributable:
         http://www.panda3d.org/manual/index.php/Distributing_Panda3D_Applications
 
+Audio:
+    - Music
+    - Sound Effects
