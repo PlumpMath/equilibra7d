@@ -69,6 +69,7 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
         # Little "hack" to fix orientation
         # Seems that the model has its eyes in the back?!
         self.actor.setH(180)
+        self.actor.setZ(-1)
         
     def handleCollisionEvent(self, entry, type):
         normal = entry.getSurfaceNormal(self)

@@ -3,8 +3,8 @@ from handlers.collision import CollisionEventHandler
 
 
 class Enemy(PhysicalNode, CollisionEventHandler):
-    def __init__(self, parent, model):
-        PhysicalNode.__init__(self, parent, model, "enemy")
+    def __init__(self, parent, model, name="enemy"):
+        PhysicalNode.__init__(self, parent, model, name)
         
         self.mass = 20.0
         
@@ -18,5 +18,5 @@ class Enemy(PhysicalNode, CollisionEventHandler):
 
         otherVelocity = base.character.velocity
         otherMass = base.character.mass
-        self.collide(-normal, otherVelocity, otherMass, 1.0)
+        self.collide(-normal, otherVelocity, otherMass, 0.75)
         

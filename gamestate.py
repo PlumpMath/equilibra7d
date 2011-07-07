@@ -105,13 +105,14 @@ class GameState(FSM):
         
         When the character or the enemy are under water, the state changes to
         GameOver and the HUD shows the winner."""
-        enemy_z = base.enemyManager.enemy.getBounds().getCenter().getZ()
+#        enemy_z = base.enemyManager.enemy.getBounds().getCenter().getZ()
         character_z = base.character.getBounds().getCenter().getZ()
         
-        if enemy_z < -10:
-            self.request("GameOver", base.hudManager.win)
-            return task.done
-        elif character_z < -10:
+#        if enemy_z < -10:
+#            self.request("GameOver", base.hudManager.win)
+#            return task.done
+#        elif character_z < -10:
+        if character_z < -10:
             self.request("GameOver", base.hudManager.lose)
             return task.done
         

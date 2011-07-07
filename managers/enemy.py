@@ -1,3 +1,5 @@
+from panda3d.core import Point3
+
 from objects import Enemy
 
 from base import Manager
@@ -5,35 +7,48 @@ from base import Manager
 
 class EnemyManager(Manager):
     """Handles the dynamic creation and destruction of Enemy objects."""
-
+    
     def __init__(self):
-        pass
+        self.enemies = []
     
     def setup(self):
-        self.enemy = Enemy(base.objectsNode, "enemyfish")
-        self.enemy.setPos(4, 0, 1)
-        self.enemy.setScale(0.4)
-        
-        # Collision
-        self.addCollision()
+        self.addEnemy("enemyfish", Point3(-4, 0, 1), 0.4)
+        self.addEnemy("enemyfish", Point3(-4, 2, 1), 0.4)
+        self.addEnemy("enemyfish", Point3(-4, -2, 1), 0.4)
+        self.addEnemy("enemyfish", Point3(-4, 4, 1), 0.4)
+        self.addEnemy("enemyfish", Point3(-4, -4, 1), 0.4)
         
     def clear(self):
-        pass
+        self.enemies = []
 
-    def addCollision(self):
-        base.collisionManager.addCollider(self.enemy)
-        base.collisionManager.addCollisionHandling(self.enemy.collider,
-                                                   "into",
-                                                   base.character,
-                                                   self.enemy)
+    def addEnemy(self, model, position, scale):
+        name = "enemy_%d" % (len(self.enemies),)
+        enemy = Enemy(base.objectsNode, model, name)
+        enemy.setPos(position)
+        enemy.setScale(scale)
+        
+        self.addCollision(enemy)
+
+        self.enemies.append(enemy)
+        
+    def addCollision(self, enemy):
+        base.collisionManager.addCollider(enemy)
+        base.collisionManager.addMutualCollisionHandling(base.character, enemy)
+        
+        for otherEnemy in self.enemies:
+            base.collisionManager.addMutualCollisionHandling(enemy, otherEnemy)
         
     def addAI(self):
-        base.aiManager.addEnemy(self.enemy, 50, 0.5, 1.5)
+        for enemy in self.enemies:
+            base.aiManager.addEnemy(enemy, 50, 0.5, 1.5)
         
     def addPhysics(self):
-        base.physicsManager.addActor(self.enemy)
+        for enemy in self.enemies:
+            base.physicsManager.addActor(enemy)
 
     def getEnemyFromCollisionNode(self, nodePath):
         """Returns the Enemy object pointed by the given nodePath."""
-        # There's only one enemy.
-        return self.enemy
+        
+        # name format: enemy_2_collision_node
+        index = int(nodePath.getName()[len("enemy_")])
+        return self.enemies[index]
