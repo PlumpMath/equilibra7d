@@ -1,7 +1,7 @@
 from random import random
 from math import sin, cos
 
-from panda3d.core import Point3
+from panda3d.core import Point3, Vec3
 
 from objects import Enemy
 
@@ -13,7 +13,8 @@ class EnemyManager(Manager):
     
     def __init__(self):
         self.enemies = []
-        self.spawnProbability = 0.002
+        self.spawnProbability = 0.003
+        self.idleTime = 0.5
     
     def setup(self):
         taskMgr.add(self.spawn, "EnemySpawn")
@@ -26,7 +27,8 @@ class EnemyManager(Manager):
         name = "enemy_%d" % (len(self.enemies),)
         enemy = Enemy(base.objectsNode, model, name)
         enemy.setPos(position)
-        enemy.setScale(scale)
+        enemy.model.setScale(scale)
+        enemy.collider.setScale(scale)
         
         # Collision
         self.addCollision(enemy)
@@ -38,15 +40,26 @@ class EnemyManager(Manager):
         base.aiManager.addEnemy(enemy, 50, 0.5, 1.5)
         
         self.enemies.append(enemy)
+        return enemy
     
     def spawn(self, task):
-        if random() < self.spawnProbability: 
-            self.addEnemy("enemyfish", Point3(-4, 0, 1), 0.4)
+        if task.time < self.idleTime:
+            return task.cont
+        
+        if random() < self.spawnProbability:
+            angle = random() * 360
+            x = 16 * cos(angle)
+            y = 16 * sin(angle)
             
-#        self.addEnemy("enemyfish", Point3(-4, 2, 1), 0.4)
-#        self.addEnemy("enemyfish", Point3(-4, -2, 1), 0.4)
-#        self.addEnemy("enemyfish", Point3(-4, 4, 1), 0.4)
-#        self.addEnemy("enemyfish", Point3(-4, -4, 1), 0.4)
+            position = Point3(x, y, -1)
+            
+            scale = random() * 0.35 + 0.15
+            enemy = self.addEnemy("enemyfish", position, scale)
+            
+            force = (Point3(0, 0, 0) - position) * 0.35
+            force += Vec3(0, 0, 6)
+            enemy.addImpulse(force)
+            
         return task.cont
     
     def addCollision(self, enemy):

@@ -62,6 +62,7 @@ class GameState(FSM):
         base.aiManager.clear()
         self._kb_handlers = base.keyboardManager.clear()
         base.physicsManager.clear()
+        base.enemyManager.clear()
         base.hudManager.pause()
     
     def exitPause(self):
@@ -71,6 +72,7 @@ class GameState(FSM):
         for handler in self._kb_handlers:
             base.keyboardManager.addKeyboardEventHandler(handler)
         base.physicsManager.setup()
+        base.enemyManager.setup()
         base.hudManager.clear()
         base.hudManager.setup()
     
@@ -88,6 +90,7 @@ class GameState(FSM):
         base.aiManager.clear()
         base.keyboardManager.clear()
         base.physicsManager.clear()
+        base.enemyManager.clear()
     
     def exitGameOver(self):
         print "exitGameOver"
