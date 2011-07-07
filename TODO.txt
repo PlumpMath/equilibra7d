@@ -4,6 +4,7 @@ AI:
 Game state:
     - Bug: Turn off AI [F5] -> Restart game [F2] -> Turn off AI [F5]
     - New winning conditions
+    - Title screen
 
 Gameplay:
     - Tune mass, collision, speed, ...
