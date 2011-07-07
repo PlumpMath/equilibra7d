@@ -54,7 +54,7 @@ class EnemyManager(Manager):
             position = Point3(x, y, -1)
             
             scale = random() * 0.35 + 0.15
-            enemy = self.addEnemy("movingenemyfish", position, scale)
+            enemy = self.addEnemy("enemyfish", position, scale)
             
             force = (Point3(0, 0, 0) - position) * 0.35
             force += Vec3(0, 0, 6)
