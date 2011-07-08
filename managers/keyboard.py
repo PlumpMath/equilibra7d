@@ -40,7 +40,9 @@ class KeyboardManager(Manager):
                     on()
                 print state
                 state[what] = not state[what]
-                print ("<%s %s>" % (what, status_msgs[state[what]])).upper()
+                msg = ("<%s %s>" % (what, status_msgs[state[what]])).upper()
+                print msg
+                base.hudManager.info(msg)
             global_bindings.append((key, toggle_func))
             return toggle_func
         

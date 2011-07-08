@@ -81,4 +81,15 @@ Comandos:
     def pause(self):
         text = u"Pausado"
         self.show_centered(text, fg=(0.8, 0.8, 0.2, 1))
+    
+    def info(self, msg):
+        """Display information in the HUD."""
+        props = dict(
+            pos = (0, -0.6),
+            scale = 0.05,
+            align = TextNode.ACenter,
+            fg = (0.9, 0.8, 0.4, 1),
+            shadow = (0, 0, 0, 1),
+        )
+        self.show(msg, **props)
 
