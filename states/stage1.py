@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import sys
+
 from objects import Character, Landscape, Scenario, Sea
 import managers
 
@@ -32,6 +34,62 @@ class Stage1:
         if taskMgr.hasTaskNamed(task_name):
             taskMgr.remove(task_name)
         taskMgr.add(game_over_handler, task_name)
+        
+        #----------------------------------------------------------------------
+        state = base.keyboardManager._state
+        
+        global_bindings = [
+            ("escape", sys.exit),
+            ("f2", base.reset),
+            ("f6", lambda: base.collisionManager.clear()),
+            ("f11", lambda: (base.hudManager.clear(),
+                             base.hudManager.help(),
+                             base.hudManager.win())),
+            ("f12", lambda: (base.hudManager.clear(),
+                             base.hudManager.help(),
+                             base.hudManager.lose())),
+        ]
+        
+        def toggle(what, key, on, off, default_on=True):
+            status_msgs = ("off", "on")
+            def toggle_func():
+                if state.setdefault(what, default_on):
+                    off()
+                else:
+                    on()
+                print state
+                state[what] = not state[what]
+                msg = ("<%s %s>" % (what, status_msgs[state[what]])).upper()
+                print msg
+                base.hudManager.info(msg)
+            global_bindings.append((key, toggle_func))
+            return toggle_func
+        
+        toggle("hud", "f1", lambda: base.hudManager.setup(),
+                            lambda: base.hudManager.clear())
+        
+        toggle("controls", "f4",
+            lambda: [self.addKeyboardEventHandler(handler) for
+                        handler in state.get("controls-backup", [])],
+            lambda: state.__setitem__("controls-backup", self.clear()))
+        
+        toggle("ai", "f5", lambda: base.aiManager.setup(),
+                           lambda: base.aiManager.clear())
+        
+        toggle("physics", "f7", lambda: base.physicsManager.setup(),
+                                lambda: base.physicsManager.clear())
+        
+        toggle("gravity", "f8", lambda: base.physicsManager.setGravity(9.8),
+                                lambda: base.physicsManager.setGravity(0.0))
+        
+        toggle("lights", "f9", lambda: base.lightManager.setup(),
+                               lambda: base.lightManager.clear())
+       
+        toggle("pause", "p", lambda: (base.pause(), state.setdefault("paused", True)),
+                             lambda: (base.pause(), state.pop("paused")),
+                             False)
+        
+        base.keyboardManager.loadKeyBindings(global_bindings)
     
     @staticmethod
     def exit():
