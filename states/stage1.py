@@ -66,11 +66,6 @@ class Stage1:
         toggle("hud", "f1", lambda: base.hudManager.setup(),
                             lambda: base.hudManager.clear())
         
-        toggle("controls", "f4",
-            lambda: [self.addKeyboardEventHandler(handler) for
-                        handler in state.get("controls-backup", [])],
-            lambda: state.__setitem__("controls-backup", self.clear()))
-        
         toggle("ai", "f5", lambda: base.aiManager.setup(),
                            lambda: base.aiManager.clear())
         
