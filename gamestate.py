@@ -2,6 +2,8 @@ from time import sleep
 
 from direct.fsm.FSM import FSM
 
+import states.stage1
+
 
 class GameState(FSM):
     def __init__(self):
@@ -15,39 +17,12 @@ class GameState(FSM):
     
     def enterNewGame(self):
         print "enterNewGame"
-        # (Re)create objects
-        base.createObjects()
-        
-        # (Re)create managers
-        base.createManagers()
-        
-        # Set up objects
-        base.character.setup()
-        base.landscape.setup()
-        base.scenario.setup()
-        base.sea.setup()
-        
-        # Set up managers
-        base.keyboardManager.setup()
-        base.enemyManager.setup()
-        base.physicsManager.setup()
-        base.collisionManager.setup()
-        base.lightManager.setup()
-        base.hudManager.setup()
-        base.aiManager.setup()
-        base.audioManager.setup()
-        
-        # Check for a Game Over
-        task_name = "gameover_task"
-        if taskMgr.hasTaskNamed(task_name):
-            taskMgr.remove(task_name)
-        taskMgr.add(self.handleGameOver, task_name)
-        
+        states.stage1.Stage1.enter(self.handleGameOver)
         self.printTasks()
     
     def exitNewGame(self):
         print "exitNewGame"
-        # Does nothing
+        states.stage1.Stage1.exit()
     
     def enterInGame(self):
         print "enterInGame"
