@@ -1,4 +1,5 @@
 #!/usr/bin/env ppython
+# -*- coding: utf-8 -*-
 from direct.showbase.ShowBase import ShowBase
 from pandac.PandaModules import ClockObject, WindowProperties
 from panda3d.core import NodePath
@@ -20,11 +21,15 @@ class World(ShowBase):
         
         self.configWorld()
         
+        self.keyboardManager = managers.KeyboardManager()
+        self.hudManager = managers.HUDManager()
+        self.hudManager.show_centered(u"F2 para começar")
+        
         # Set up state engine
         self.gameState = GameState()
         
         # Start new game
-        self.reset()
+        #self.reset()
     
     def createObjects(self):
         """Instantiate objects.
