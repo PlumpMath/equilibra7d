@@ -17,6 +17,8 @@ class World(ShowBase):
         self.objectsNode = NodePath("objects")
         self.objectsNode.reparentTo(self.render)
         
+        self.managers = set()
+        
         self.configWorld()
         
         # Set up state engine

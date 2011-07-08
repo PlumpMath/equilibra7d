@@ -7,6 +7,14 @@ import managers
 class MainMenu:
     @staticmethod
     def enter():
+        # destroy potential trash
+        
+        for manager in base.managers:
+            manager.clear()
+        base.objectsNode.removeChildren()
+        
+        # -------------------------
+    
         base.keyboardManager = managers.KeyboardManager()
         base.hudManager = managers.HUDManager()
         base.hudManager.show_centered(u"F2 para começar")

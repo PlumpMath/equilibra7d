@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-import sys
-
 from objects import Character, Landscape, Scenario, Sea
 import managers
 
@@ -39,7 +37,7 @@ class Stage1:
         state = base.keyboardManager._state
         
         global_bindings = [
-            ("escape", sys.exit),
+            ("escape", lambda: base.gameState.request("MainMenu")),
             ("f2", base.reset),
             ("f6", lambda: base.collisionManager.clear()),
             ("f11", lambda: (base.hudManager.clear(),
@@ -126,5 +124,7 @@ class Stage1:
                 # Create new Manager. This is similar to
                 # base.keyboardManager = managers.KeyboardManager()
                 # done for each manager class.
-                setattr(base, manager_attribute_name, klass())
+                manager = klass()
+                setattr(base, manager_attribute_name, manager)
+            base.managers.add(manager)
 

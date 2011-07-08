@@ -11,10 +11,10 @@ class GameState(FSM):
         FSM.__init__(self, 'EquilibraFSM')
         self.defaultTransitions = {
             'MainMenu': ['NewGame'],
-            'NewGame': ['NewGame', 'Pause', 'GameOver'],
-            'InGame': ['NewGame', 'Pause', 'GameOver'],
-            'Pause': ['NewGame', 'InGame'],
-            'GameOver': ['NewGame'],
+            'NewGame': ['MainMenu', 'NewGame', 'Pause', 'GameOver'],
+            'InGame': ['MainMenu', 'NewGame', 'Pause', 'GameOver'],
+            'Pause': ['MainMenu', 'NewGame', 'InGame'],
+            'GameOver': ['MainMenu', 'NewGame'],
         }
     
     def enterMainMenu(self):
