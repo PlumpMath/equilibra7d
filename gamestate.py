@@ -35,6 +35,7 @@ class GameState(FSM):
         base.lightManager.setup()
         base.hudManager.setup()
         base.aiManager.setup()
+        base.audioManager.setup()
         
         # Check for a Game Over
         task_name = "gameover_task"
