@@ -1,6 +1,9 @@
 AI:
     - Implement different opponent behaviors
 
+Enemy:
+    - Solve model loading lag
+
 Game state:
     - Bug: Turn off AI [F5] -> Restart game [F2] -> Turn off AI [F5]
     - New winning conditions
