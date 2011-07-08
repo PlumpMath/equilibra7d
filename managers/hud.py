@@ -47,7 +47,7 @@ Comandos:
 """
         commands = (
             ("F2", "Novo jogo"),
-            ("Pause", "Pausar/Continuar"),
+            ("P", "Pausar/Continuar"),
             ("F5", "Ligar/Desligar IA"),
             ("Esc", "Sair do jogo"),
         )

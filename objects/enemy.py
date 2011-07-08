@@ -3,16 +3,24 @@ from handlers.collision import CollisionEventHandler
 
 
 class Enemy(PhysicalNode, CollisionEventHandler):
-    def __init__(self, parent, model):
-        PhysicalNode.__init__(self, parent, model, "enemy")
+    ANIM_WALK = "anim1"
+    
+    def __init__(self, parent, model, name="enemy"):
+        PhysicalNode.__init__(self, parent, model, name, [self.ANIM_WALK])
+        
+        self.mass = 20.0
         
         self.addCollisionSphere(1.25)
         self._impact = 2
-    
-    def setup(self):
-        self.setPos(1, 4, 5)
+        
+        self.model.loop(self.ANIM_WALK)
     
     def handleCollisionEvent(self, entry, type):
         normal = entry.getSurfaceNormal(self)
-        self.addImpulse(normal * (-self._impact))
+        normal.z = 0
+        normal.normalize()
 
+        otherVelocity = base.character.velocity
+        otherMass = base.character.mass
+        self.collide(-normal, otherVelocity, otherMass, 0.75)
+        

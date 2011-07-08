@@ -3,7 +3,7 @@ from direct.showbase.ShowBase import ShowBase
 from pandac.PandaModules import ClockObject, WindowProperties
 from panda3d.core import NodePath
 
-from objects import Character, Enemy, Landscape, Scenario, Sea
+from objects import Character, Landscape, Scenario, Sea
 import managers
 from gamestate import GameState
 
@@ -33,8 +33,7 @@ class World(ShowBase):
         # Remove nodes if they already exist.
         self.objectsNode.removeChildren()
         self.scenario = Scenario(self.objectsNode, "arena2")
-        self.character = Character(self.objectsNode, "character")
-        self.enemy = Enemy(self.objectsNode, "enemyfish")
+        self.character = Character(self.objectsNode, "teste")
         self.landscape = Landscape(self.objectsNode, "landscape")
         self.sea = Sea(self.objectsNode, "sea")
     
@@ -42,7 +41,7 @@ class World(ShowBase):
         """Instantiate managers.
         
         Can be run multiple times to clear all managers."""
-        for kind in "Keyboard Physics Collision Light HUD AI".split():
+        for kind in "Keyboard Enemy Physics Collision Light HUD AI".split():
             manager_attribute_name = "%sManager" % kind.lower()
             if hasattr(self, manager_attribute_name):
                 manager = getattr(self, manager_attribute_name)

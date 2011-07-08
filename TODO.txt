@@ -1,0 +1,30 @@
+AI:
+    - Implement different opponent behaviors
+
+Game state:
+    - New winning conditions
+    - Title screen
+
+Gameplay:
+    - Tune mass, collision, speed, ...
+
+Game story:
+    - Write the GDD
+    - Give a name to the main character
+
+Models:
+	- Export animation
+	- Create another enemy
+	- Animate new enemy
+	- Organize files
+	- Create new textures (fish) 
+
+Documentation:
+    - Fill in the README file
+    - Update blog
+    - Make Equilibra7D distributable:
+        http://www.panda3d.org/manual/index.php/Distributing_Panda3D_Applications
+
+Audio:
+    - Music
+    - Sound Effects

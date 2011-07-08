@@ -6,15 +6,19 @@ from physicalnode import PhysicalNode
 
 
 class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
+    ANIM_WALK = "anim1"
+    
     def __init__(self, parent, model):
-        PhysicalNode.__init__(self, parent, model, "character")
+        PhysicalNode.__init__(self, parent, model, "character", [self.ANIM_WALK])
+        
+        self.mass = 500.0
         
         self.addCollisionSphere(1.15)
         
         self._impulseIncrement = 4.0
         self._speedLimit = 5.0
         self._impact = 4
-        self._turningSpeed = 0.1
+        self._turningSpeed = 0.2
 
         self._hit = False
         self._currentDirection = Vec3.forward()
@@ -59,21 +63,29 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
         taskMgr.add(self.handleKeyboardEvent, task_name)
     
     def setup(self):
-        self.setZ(5)
+        self.setZ(1)
         self.setScale(0.8)
         
         # Little "hack" to fix orientation
         # Seems that the model has its eyes in the back?!
         self.actor.setH(180)
+        self.actor.setZ(-1)
         
-    def handleCollisionEvent(self, entry, type):       
+    def handleCollisionEvent(self, entry, type):
         normal = entry.getSurfaceNormal(self)
         normal.z = 0
         normal.normalize()
-        self.addImpulse(normal * self._impact)
+        
+        nodePath = entry.getIntoNodePath()
+        enemy = base.enemyManager.getEnemyFromCollisionNode(nodePath)
+        
+        otherVelocity = enemy.velocity
+        otherMass = enemy.mass
+        self.collide(normal, otherVelocity, otherMass, 0.5)
         
         self.face(-normal)
         self._hit = True
+        
     
     def handleKeyboardEvent(self, task):
         keys = self.keys
@@ -97,12 +109,14 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
         # direction.
         # Otherwise look at the enemy until the character turns around.
         if not self._hit:
-            self.face(self.getVelocity())
-        
+            self.face(self.velocity)
+            
         elif ((impulse.length() > 0) and
-              (self.getVelocity().length() > 0.5) and
+              (self.velocity.length() > 0.5) and
               (not self.is_braking(impulse))):
                     self._hit = False
+
+        self.doWalkAnimation(impulse)
         
         return task.cont
     
@@ -110,12 +124,19 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
         self.keys[key] = value
     
     def is_braking(self, coordinate):
-        velocity = self.getVelocity()
-        return velocity.dot(coordinate) < 0
+        return self.velocity.dot(coordinate) < 0
     
+    def doWalkAnimation(self, impulse):
+        if impulse.length() > 0:
+            if self.model.getCurrentAnim() is None:
+                self.model.loop(self.ANIM_WALK)
+        else:
+            self.model.stop()
+            self.model.pose(self.ANIM_WALK, 1)
+
     @property
     def is_above_limit(self):
-        speed = self.getVelocity().length()
+        speed = self.velocity.length()
         return speed > self._speedLimit
     
     def face(self, direction):
@@ -126,9 +147,10 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
         """
         
         direction = Vec3(direction.x, direction.y, 0)
-        direction.normalize()
         
-        if direction.length() > 0:
+        if direction != Vec3.zero():
+            direction.normalize()
+            
             currentDirection = self._currentDirection
             
             headingAngle = direction.signedAngleDeg(currentDirection, 

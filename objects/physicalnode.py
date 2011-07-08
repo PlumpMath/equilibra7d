@@ -13,8 +13,8 @@ class PhysicalNode(ModelNode):
                                -> CollisionNode (optional)
     """
     
-    def __init__(self, parent, model, name):
-        ModelNode.__init__(self, parent, model, name)
+    def __init__(self, parent, model, name, animations=[]):
+        ModelNode.__init__(self, parent, model, name, animations)
         
         actorNode = ActorNode(name + "_actor_node")
         self.actor = self.attachNewNode(actorNode)
@@ -56,8 +56,6 @@ class PhysicalNode(ModelNode):
         self.actor.node().getPhysicsObject().addImpact(offsetFromCenterOfMass,
                                                        impulse)
     
-    # --------------------------------------------------------------------------
-    
     def addLinearForce(self, force):
         """Adds a linear force to this node.
         
@@ -85,13 +83,52 @@ class PhysicalNode(ModelNode):
         """Removes a torque (AngularForce) from the node."""
         self.actor.node().getPhysical(0).removeAngularForce(torque)
     
-    # --------------------------------------------------------------------------
+    def collide(self, surfaceNormal, otherVelocity, otherMass, restitution):
+        """Updates the node's velocity after an inellastic collision."""
+        
+        # Initial velocities
+        v1_i = self.velocity
+        v1_i_norm = v1_i.project(-surfaceNormal)
+        v1_i_tang = v1_i - v1_i_norm
+        
+        v2_i = otherVelocity
+        v2_i_norm = v2_i.project(surfaceNormal)
+        v2_i_tang = v2_i - v2_i_norm
+        
+        # Initial masses
+        m1 = self.mass
+        m2 = otherMass
+        
+        # Coefficient of Restitution
+        cr = restitution
+        
+        # Final velocity
+        v1_f_norm_mod = ((cr * m2 * (v2_i_norm.length() - v1_i_norm.length()) +
+                          m1 * v1_i_norm.length() + 
+                          m2 * v2_i_norm.length()) / 
+                         (m1 + m2))
+        v1_f_norm = surfaceNormal * v1_f_norm_mod
+        v1_f = v1_f_norm + v1_i_tang
+        
+        self.velocity = v1_f
     
-    def getVelocity(self):
+    @property
+    def velocity(self):
         """Returns the node's current velocity vector as a Vec3."""
         return self.actor.node().getPhysicsObject().getVelocity()
+
+    @velocity.setter
+    def velocity(self, value):
+        """Updates the node's current velocity vector with a Vec3."""
+        return self.actor.node().getPhysicsObject().setVelocity(value)
     
-    def setMass(self, mass):
+    @property
+    def mass(self):
+        """Returns the actor's mass."""
+        return self.actor.node().getPhysicsObject().getMass()
+    
+    @mass.setter
+    def mass(self, value):
         """Updates the actor's mass."""
-        self.actor.node().getPhysicsObject().setMass(mass)
+        self.actor.node().getPhysicsObject().setMass(value)
 

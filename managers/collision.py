@@ -22,23 +22,21 @@ class CollisionManager(Manager):
         self.handler.addInPattern('into-%in')
         self.handler.addAgainPattern('again-%in')
         self.handler.addOutPattern('out-%in')
+        self.handler.addInPattern('%fn-into-%in')
     
     def setup(self):
         self.addCollider(base.character)
-        self.addCollider(base.enemy)
-        self.addCollisionHandling(base.enemy.collider,
-                                  "into",
-                                  base.character,
-                                  base.enemy)
-        self.addCollisionHandling(base.scenario.collider,
-                                  "into",
-                                  base.scenario)
-        self.addCollisionHandling(base.scenario.collider,
-                                  "again",
-                                  base.scenario)
-        self.addCollisionHandling(base.scenario.collider,
-                                  "out",
-                                  base.scenario)
+        
+        # Platform tilting
+#        self.addCollisionHandling(base.scenario.collider,
+#                                  "into",
+#                                  base.scenario)
+#        self.addCollisionHandling(base.scenario.collider,
+#                                  "again",
+#                                  base.scenario)
+#        self.addCollisionHandling(base.scenario.collider,
+#                                  "out",
+#                                  base.scenario)
     
     def clear(self):
         base.cTrav.clearColliders()
@@ -55,7 +53,7 @@ class CollisionManager(Manager):
             physicalNode.collider.show()
     
     def addCollisionHandling(self, intoNode, type, *handlers):
-        """Notifies that a collision event must be handled.
+        """Notifies that a collision event should be handled.
         
         The given 'type' should be "into", "again" or "out".
         The given handlers must inherit from the CollisionEventHandler 
@@ -64,6 +62,20 @@ class CollisionManager(Manager):
         """
         pattern = "%s-%s" % (type, intoNode.getName())
         base.accept(pattern, self._callHandlers, [handlers, type])
+        
+    def addMutualCollisionHandling(self, fromNode, intoNode):
+        """Notifies that a 'into' collision event between two specific 
+        nodes should be handled by them.
+
+        The given nodes must inherit from the CollisionEventHandler 
+        class. Its 'handleCollisionEvent' method will be called whenever
+        a collision with the node given by 'intoNode' occurs.
+        """
+        pattern = "%s-into-%s" % (fromNode.collider.getName(), 
+                                  intoNode.collider.getName())
+        
+        handlers = [fromNode, intoNode]
+        base.accept(pattern, self._callHandlers, [handlers, "into"])
         
     def _callHandlers(self, handlers, type, entry):
         for handler in handlers:

@@ -1,5 +1,6 @@
 from panda3d.core import NodePath
 
+from direct.actor.Actor import Actor
 
 class ModelNode(NodePath):
     """A wrapper class to a Panda3D node that has a model.
@@ -8,10 +9,19 @@ class ModelNode(NodePath):
         PandaNode -> ModelNode
     """
     
-    def __init__(self, parent, model, name=""):
+    def __init__(self, parent, model, name="", animations=[]):
         NodePath.__init__(self, name)
         
-        self.model = loader.loadModel("models/%s.egg" % (model,))
+        if animations:  # List is not empty
+            animationDict = {}
+            for animName in animations:
+                animationDict[animName] = "models/%s-%s.egg" % (model, animName) 
+            
+            self.model = Actor("models/%s.egg" % (model,), animationDict)
+            
+        else:
+            self.model = loader.loadModel("models/%s.egg" % (model,))
+            
         self.model.reparentTo(self)
         
         self.reparentTo(parent)
