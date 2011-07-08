@@ -4,8 +4,6 @@ from direct.showbase.ShowBase import ShowBase
 from pandac.PandaModules import ClockObject, WindowProperties
 from panda3d.core import NodePath
 
-from objects import Character, Landscape, Scenario, Sea
-import managers
 from gamestate import GameState
 
 
@@ -26,37 +24,6 @@ class World(ShowBase):
         
         # Start new game
         self.gameState.request("MainMenu")
-    
-    def createObjects(self):
-        """Instantiate objects.
-        
-        Can be run multiple times to recreate all objects."""
-        # Remove nodes if they already exist.
-        self.objectsNode.removeChildren()
-        self.scenario = Scenario(self.objectsNode, "arena2")
-        self.character = Character(self.objectsNode, "teste")
-        self.landscape = Landscape(self.objectsNode, "landscape")
-        self.sea = Sea(self.objectsNode, "sea")
-    
-    def createManagers(self):
-        """Instantiate managers.
-        
-        Can be run multiple times to clear all managers."""
-        for kind in "Keyboard Enemy Physics Collision Light HUD AI Audio".split():
-            manager_attribute_name = "%sManager" % kind.lower()
-            if hasattr(self, manager_attribute_name):
-                manager = getattr(self, manager_attribute_name)
-                # Clear the manager since it already exists
-                manager.clear()
-            else:
-                # Take the *Manager class from the `managers' package
-                class_name = "%sManager" % kind
-                klass = getattr(managers, class_name)
-                
-                # Create new Manager. This is similar to
-                # self.keyboardManager = managers.KeyboardManager()
-                # done for each manager class.
-                setattr(self, manager_attribute_name, klass())
     
     def configWorld(self):
         """Set general settings.
