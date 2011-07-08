@@ -14,8 +14,8 @@ class ModelNode(NodePath):
         
         if animations:  # List is not empty
             animationDict = {}
-            for name in animations:
-                animationDict[name] = "models/%s-%s.egg" % (model, name) 
+            for animName in animations:
+                animationDict[animName] = "models/%s-%s.egg" % (model, animName) 
             
             self.model = Actor("models/%s.egg" % (model,), animationDict)
             
