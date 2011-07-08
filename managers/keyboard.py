@@ -1,4 +1,3 @@
-from collections import defaultdict
 import sys
 
 from base import Manager
@@ -18,6 +17,7 @@ class KeyboardManager(Manager):
     def __init__(self):
         """All accepted keys are defined here."""
         self._keyboardEventHandlers = []
+        self._state = state = dict()
         
         global_bindings = [
             ("escape", sys.exit),
@@ -29,18 +29,16 @@ class KeyboardManager(Manager):
             ("f12", lambda: (base.hudManager.clear(),
                              base.hudManager.help(),
                              base.hudManager.lose())),
-            ("p", base.pause),
         ]
         
-        self._state = state = defaultdict(lambda: True)
-        
-        def toggle(what, key, on, off):
+        def toggle(what, key, on, off, default_on=True):
             status_msgs = ("off", "on")
             def toggle_func():
-                if state[what]:
+                if state.setdefault(what, default_on):
                     off()
                 else:
                     on()
+                print state
                 state[what] = not state[what]
                 print ("<%s %s>" % (what, status_msgs[state[what]])).upper()
             global_bindings.append((key, toggle_func))
@@ -51,7 +49,7 @@ class KeyboardManager(Manager):
         
         toggle("controls", "f4",
             lambda: [self.addKeyboardEventHandler(handler) for
-                        handler in state.get("controls-backup", [])][:0],
+                        handler in state.get("controls-backup", [])],
             lambda: state.__setitem__("controls-backup", self.clear()))
         
         toggle("ai", "f5", lambda: base.aiManager.setup(),
@@ -65,6 +63,10 @@ class KeyboardManager(Manager):
         
         toggle("lights", "f9", lambda: base.lightManager.setup(),
                                lambda: base.lightManager.clear())
+       
+        toggle("pause", "p", lambda: (base.pause(), state.setdefault("paused", True)),
+                             lambda: (base.pause(), state.pop("paused")),
+                             False)
         
         self.__loadKeyBindings(global_bindings)
     
@@ -77,7 +79,10 @@ class KeyboardManager(Manager):
         Global bindings are kept.
         """
         # Clear the state used in toggle functions
-        self._state.clear()
+        if self._state.has_key("pause"):
+            self._state = dict(pause=self._state["pause"])
+        else:
+            self._state.clear()
         # Remove registered keyboard handlers
         old_handlers = self._keyboardEventHandlers[:]
         while self._keyboardEventHandlers:
