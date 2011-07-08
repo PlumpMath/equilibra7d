@@ -3,17 +3,25 @@ from time import sleep
 from direct.fsm.FSM import FSM
 
 import states.stage1
+import states.main_menu
 
 
 class GameState(FSM):
     def __init__(self):
         FSM.__init__(self, 'EquilibraFSM')
         self.defaultTransitions = {
+            'MainMenu': ['NewGame'],
             'NewGame': ['NewGame', 'Pause', 'GameOver'],
             'InGame': ['NewGame', 'Pause', 'GameOver'],
             'Pause': ['NewGame', 'InGame'],
             'GameOver': ['NewGame'],
         }
+    
+    def enterMainMenu(self):
+        states.main_menu.MainMenu.enter()
+    
+    def exitMainMenu(self):
+        states.main_menu.MainMenu.exit()
     
     def enterNewGame(self):
         print "enterNewGame"

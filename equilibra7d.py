@@ -21,15 +21,11 @@ class World(ShowBase):
         
         self.configWorld()
         
-        self.keyboardManager = managers.KeyboardManager()
-        self.hudManager = managers.HUDManager()
-        self.hudManager.show_centered(u"F2 para começar")
-        
         # Set up state engine
         self.gameState = GameState()
         
         # Start new game
-        #self.reset()
+        self.gameState.request("MainMenu")
     
     def createObjects(self):
         """Instantiate objects.
