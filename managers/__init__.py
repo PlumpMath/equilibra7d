@@ -5,3 +5,4 @@ from keyboard import KeyboardManager
 from light import LightManager
 from physics import PhysicsManager
 from enemy import EnemyManager
+from audio import AudioManager

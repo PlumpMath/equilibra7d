@@ -1,6 +1,9 @@
 AI:
     - Implement different opponent behaviors
 
+Enemy:
+    - Solve model loading lag
+
 Game state:
     - New winning conditions
     - Title screen
@@ -13,11 +16,11 @@ Game story:
     - Give a name to the main character
 
 Models:
-	- Export animation
-	- Create another enemy
-	- Animate new enemy
-	- Organize files
-	- Create new textures (fish) 
+    - Export animation
+    - Create another enemy
+    - Animate new enemy
+    - Organize files
+    - Create new textures (fish) 
 
 Documentation:
     - Fill in the README file

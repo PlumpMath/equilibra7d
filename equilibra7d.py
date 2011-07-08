@@ -41,7 +41,7 @@ class World(ShowBase):
         """Instantiate managers.
         
         Can be run multiple times to clear all managers."""
-        for kind in "Keyboard Enemy Physics Collision Light HUD AI".split():
+        for kind in "Keyboard Enemy Physics Collision Light HUD AI Audio".split():
             manager_attribute_name = "%sManager" % kind.lower()
             if hasattr(self, manager_attribute_name):
                 manager = getattr(self, manager_attribute_name)

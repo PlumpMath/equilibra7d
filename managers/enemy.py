@@ -38,6 +38,10 @@ class EnemyManager(Manager):
         
         # AI
         base.aiManager.addEnemy(enemy, 50, 0.5, 1.5)
+
+        # Audio
+        base.audioManager.playRandomEffect(Enemy.JUMP_SOUND[0], 
+                                           Enemy.JUMP_SOUND[1])
         
         self.enemies.append(enemy)
         return enemy

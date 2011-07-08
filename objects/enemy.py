@@ -4,7 +4,8 @@ from handlers.collision import CollisionEventHandler
 
 class Enemy(PhysicalNode, CollisionEventHandler):
     ANIM_WALK = "anim1"
-    
+    JUMP_SOUND = ["water_jumping", 7]
+
     def __init__(self, parent, model, name="enemy"):
         PhysicalNode.__init__(self, parent, model, name, [self.ANIM_WALK])
         
