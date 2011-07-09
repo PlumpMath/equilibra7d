@@ -42,7 +42,9 @@ class Stage1(FSM, KeyboardEventHandler):
                 state[what] = not state[what]
                 msg = ("<%s %s>" % (what, status_msgs[state[what]])).upper()
                 print msg
-                self.managers['hud'].info(msg)
+                hudManager = self.managers['hud']
+                ost = hudManager.info(msg)
+                self.doMethodLater(3.0, hudManager.clear, 'clear toggle info', [ost])
             self.bindings.append((key, toggle_func))
             return toggle_func
         

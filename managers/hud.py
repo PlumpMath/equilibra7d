@@ -8,21 +8,31 @@ from base import Manager
 class HUDManager(Manager):
     def __init__(self):
         self._hud = []
+        self._info = None
     
     def setup(self):
         self.help()
     
-    def clear(self):
-        """Remove every text from the screen."""
-        # We could remove everything from `aspect2d', however
-        # it's cleaner to just destroy what we have created.
-        #aspect2d.removeChildren()
-        while self._hud:
-            self._hud.pop().destroy()
+    def clear(self, ost=None):
+        """Remove one or every text from the screen.
+        
+        If given a OnscreenText, remove it."""
+        if ost is None:
+            # We could remove everything from `aspect2d', however
+            # it's cleaner to just destroy what we have created.
+            #aspect2d.removeChildren()
+            while self._hud:
+                self._hud.pop().destroy()
+        else:
+            if ost in self._hud:
+                self._hud.remove(ost)
+            ost.destroy()
     
     def show(self, text, **props):
         """Show text on the screen."""
-        self._hud.append(OnscreenText(text=text, **props))
+        ost = OnscreenText(text=text, **props)
+        self._hud.append(ost)
+        return ost
     
     def show_centered(self, text, **kwargs):
         """Display text centered in the HUD."""
@@ -91,5 +101,8 @@ Comandos:
             fg = (0.9, 0.8, 0.4, 1),
             shadow = (0, 0, 0, 1),
         )
-        self.show(msg, **props)
+        if self._info:
+            self.clear(self._info)
+        self._info = self.show(msg, **props)
+        return self._info
 
