@@ -86,6 +86,7 @@ class Stage1(FSM, KeyboardEventHandler):
         print "exitStage1"
         self.unload_bindings()
         
+        self.objects['equismo'].clear()
         self.objects.clear()
         
         while self.managers:
@@ -204,7 +205,7 @@ class Stage1(FSM, KeyboardEventHandler):
             return None
     
     def handleGameOver(self, task):
-        """Task that determines whether the gamer has finished.
+        """Task that determines whether the game has finished.
         
         When Equismo or the enemy is under water, the state changes to
         GameOver and the HUD shows the winner."""

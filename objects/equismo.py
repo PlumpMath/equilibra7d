@@ -61,9 +61,12 @@ class Equismo(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
         self.actor.setH(180)
         self.actor.setZ(-1)
         
-        # TODO: self.unload_bindings() upon "clear"
         self.load_bindings()
-        
+    
+    def clear(self):
+        print "\033[32m unload_bindings from equismo \033[0m"
+        self.unload_bindings()
+    
     def handleCollisionEvent(self, entry, type):
         normal = entry.getSurfaceNormal(self)
         normal.z = 0
