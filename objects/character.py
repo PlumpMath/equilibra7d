@@ -70,7 +70,8 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
         normal.normalize()
         
         nodePath = entry.getIntoNodePath()
-        enemy = base.enemyManager.getEnemyFromCollisionNode(nodePath)
+        enemyManager = base.gameState.currentState.managers['enemy']
+        enemy = enemyManager.getEnemyFromCollisionNode(nodePath)
         
         otherVelocity = enemy.velocity
         otherMass = enemy.mass

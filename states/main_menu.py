@@ -15,16 +15,11 @@ class MainMenu(KeyboardEventHandler):
     def enter(self):
         self.load_bindings()
         
-        # destroy potential trash
-        for manager in base.managers:
-            manager.clear()
-        # -------------------------
-        
-        base.hudManager = managers.HUDManager()
-        base.hudManager.show_centered(u"F2 para começar")
+        self.hudManager = managers.HUDManager()
+        self.hudManager.show_centered(u"F2 para começar")
     
     def exit(self):
         self.unload_bindings()
         
-        base.hudManager.clear()
+        self.hudManager.clear()
 

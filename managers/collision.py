@@ -25,18 +25,7 @@ class CollisionManager(Manager):
         self.handler.addInPattern('%fn-into-%in')
     
     def setup(self):
-        self.addCollider(base.character)
-        
-        # Platform tilting
-#        self.addCollisionHandling(base.scenario.collider,
-#                                  "into",
-#                                  base.scenario)
-#        self.addCollisionHandling(base.scenario.collider,
-#                                  "again",
-#                                  base.scenario)
-#        self.addCollisionHandling(base.scenario.collider,
-#                                  "out",
-#                                  base.scenario)
+        self.addCollider(base.gameState.currentState.objects['character'])
     
     def clear(self):
         base.cTrav.clearColliders()

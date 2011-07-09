@@ -34,14 +34,17 @@ class EnemyManager(Manager):
         self.addCollision(enemy)
         
         # Physics
-        base.physicsManager.addActor(enemy)
+        physicsManager = base.gameState.currentState.managers['physics']
+        physicsManager.addActor(enemy)
         
         # AI
-        base.aiManager.addEnemy(enemy, 50, 0.5, 1.5)
+        aiManager = base.gameState.currentState.managers['ai']
+        aiManager.addEnemy(enemy, 50, 0.5, 1.5)
 
         # Audio
-        base.audioManager.playRandomEffect(Enemy.JUMP_SOUND[0], 
-                                           Enemy.JUMP_SOUND[1])
+        audioManager = base.gameState.currentState.managers['audio']
+        audioManager.playRandomEffect(Enemy.JUMP_SOUND[0], 
+                                      Enemy.JUMP_SOUND[1])
         
         self.enemies.append(enemy)
         return enemy
@@ -67,23 +70,26 @@ class EnemyManager(Manager):
         return task.cont
     
     def addCollision(self, enemy):
-        base.collisionManager.addCollider(enemy)
-        base.collisionManager.addMutualCollisionHandling(base.character, enemy)
+        collisionManager = base.gameState.currentState.managers['collision']
+        collisionManager.addCollider(enemy)
+        character = base.gameState.currentState.objects['character']
+        collisionManager.addMutualCollisionHandling(character, enemy)
         
         for otherEnemy in self.enemies:
-            base.collisionManager.addMutualCollisionHandling(enemy, otherEnemy)
+            collisionManager.addMutualCollisionHandling(enemy, otherEnemy)
         
     def addAI(self):
+        aiManager = base.gameState.currentState.managers['ai']
         for enemy in self.enemies:
-            base.aiManager.addEnemy(enemy, 50, 0.5, 1.5)
+            aiManager.addEnemy(enemy, 50, 0.5, 1.5)
         
     def addPhysics(self):
+        physicsManager = base.gameState.currentState.managers['physics']
         for enemy in self.enemies:
-            base.physicsManager.addActor(enemy)
+            physicsManager.addActor(enemy)
 
     def getEnemyFromCollisionNode(self, nodePath):
         """Returns the Enemy object pointed by the given nodePath."""
-        
         # name format: enemy_2_collision_node
         index = int(nodePath.getName()[len("enemy_")])
         return self.enemies[index]

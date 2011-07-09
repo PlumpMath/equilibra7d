@@ -5,7 +5,7 @@ from handlers.collision import CollisionEventHandler
 class Enemy(PhysicalNode, CollisionEventHandler):
     ANIM_WALK = "anim1"
     JUMP_SOUND = ["water_jumping", 7]
-
+    
     def __init__(self, parent, model, name="enemy"):
         PhysicalNode.__init__(self, parent, model, name, [self.ANIM_WALK])
         
@@ -20,8 +20,9 @@ class Enemy(PhysicalNode, CollisionEventHandler):
         normal = entry.getSurfaceNormal(self)
         normal.z = 0
         normal.normalize()
-
-        otherVelocity = base.character.velocity
-        otherMass = base.character.mass
+        
+        character = base.gameState.currentState.objects['character']
+        otherVelocity = character.velocity
+        otherMass = character.mass
         self.collide(-normal, otherVelocity, otherMass, 0.75)
         

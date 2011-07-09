@@ -10,7 +10,7 @@ class AIManager(Manager):
         self.aiCharList = []
     
     def setup(self):
-        base.enemyManager.addAI()
+        base.gameState.currentState.managers['enemy'].addAI()
         taskMgr.add(self.update, "AIUpdate")
     
     def update(self, task):
@@ -22,7 +22,8 @@ class AIManager(Manager):
         aiChar = AICharacter("seeker", modelNode.actor, mass, movtForce, maxForce)
         self.aiWorld.addAiChar(aiChar)
         aiBehaviors = aiChar.getAiBehaviors()
-        aiBehaviors.pursue(base.character.actor)
+        character = base.gameState.currentState.objects['character']
+        aiBehaviors.pursue(character.actor)
         
         self.aiCharList.append(aiChar)
         

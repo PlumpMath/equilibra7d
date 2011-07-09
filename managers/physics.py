@@ -23,10 +23,10 @@ class PhysicsManager(Manager):
         self.setGravity(9.8)
         
         # Character
-        self.addActor(base.character)
+        self.addActor(base.gameState.currentState.objects['character'])
         
         # Enemies
-        base.enemyManager.addPhysics()
+        base.gameState.currentState.managers['enemy'].addPhysics()
     
     def clear(self):
         self.forces.removeChildren()

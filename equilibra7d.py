@@ -12,8 +12,6 @@ class World(ShowBase):
     def __init__(self):
         ShowBase.__init__(self)
         
-        self.managers = set()
-        
         self.configWorld()
         
         # Set up state engine
