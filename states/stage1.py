@@ -1,42 +1,14 @@
 # -*- coding: utf-8 -*-
 from objects import Character, Landscape, Scenario, Sea
 import managers
+from handlers.keyboard import KeyboardEventHandler
 
-class Stage1:
-    @staticmethod
-    def enter(game_over_handler):
-        # (Re)create objects
-        Stage1.createObjects()
+
+class Stage1(KeyboardEventHandler):
+    def __init__(self):
+        state = dict()
         
-        # (Re)create managers
-        Stage1.createManagers()
-        
-        # Set up objects
-        base.character.setup()
-        base.landscape.setup()
-        base.scenario.setup()
-        base.sea.setup()
-        
-        # Set up managers
-        base.keyboardManager.setup()
-        base.enemyManager.setup()
-        base.physicsManager.setup()
-        base.collisionManager.setup()
-        base.lightManager.setup()
-        base.hudManager.setup()
-        base.aiManager.setup()
-        base.audioManager.setup()
-        
-        # Check for a Game Over
-        task_name = "gameover_task"
-        if taskMgr.hasTaskNamed(task_name):
-            taskMgr.remove(task_name)
-        taskMgr.add(game_over_handler, task_name)
-        
-        #----------------------------------------------------------------------
-        state = base.keyboardManager._state
-        
-        global_bindings = [
+        self.bindings = [
             ("escape", lambda: base.gameState.request("MainMenu")),
             ("f2", base.reset),
             ("f6", lambda: base.collisionManager.clear()),
@@ -60,7 +32,7 @@ class Stage1:
                 msg = ("<%s %s>" % (what, status_msgs[state[what]])).upper()
                 print msg
                 base.hudManager.info(msg)
-            global_bindings.append((key, toggle_func))
+            self.bindings.append((key, toggle_func))
             return toggle_func
         
         toggle("hud", "f1", lambda: base.hudManager.setup(),
@@ -81,15 +53,43 @@ class Stage1:
         toggle("pause", "p", lambda: (base.pause(), state.setdefault("paused", True)),
                              lambda: (base.pause(), state.pop("paused")),
                              False)
+    
+    def enter(self, game_over_handler):
+        self.load_bindings()
         
-        base.keyboardManager.loadKeyBindings(global_bindings)
+        # (Re)create objects
+        self.createObjects()
+        
+        # (Re)create managers
+        self.createManagers()
+        
+        # Set up objects
+        base.character.setup()
+        base.landscape.setup()
+        base.scenario.setup()
+        base.sea.setup()
+        
+        # Set up managers
+        base.keyboardManager.setup()
+        base.enemyManager.setup()
+        base.physicsManager.setup()
+        base.collisionManager.setup()
+        base.lightManager.setup()
+        base.hudManager.setup()
+        base.aiManager.setup()
+        base.audioManager.setup()
+        
+        # Check for a Game Over
+        # TODO: use self.addTask here
+        task_name = "gameover_task"
+        if taskMgr.hasTaskNamed(task_name):
+            taskMgr.remove(task_name)
+        taskMgr.add(game_over_handler, task_name)
     
-    @staticmethod
-    def exit():
-        pass
+    def exit(self):
+        self.unload_bindings()
     
-    @staticmethod
-    def createObjects():
+    def createObjects(self):
         """Instantiate objects.
         
         Can be run multiple times to recreate all objects."""
@@ -100,8 +100,7 @@ class Stage1:
         base.landscape = Landscape(base.objectsNode, "landscape")
         base.sea = Sea(base.objectsNode, "sea")
     
-    @staticmethod
-    def createManagers():
+    def createManagers(self):
         """Instantiate managers.
         
         Can be run multiple times to clear all managers."""

@@ -2,35 +2,32 @@
 import sys
 
 import managers
+from handlers.keyboard import KeyboardEventHandler
 
 
-class MainMenu:
-    @staticmethod
-    def enter():
-        # destroy potential trash
+class MainMenu(KeyboardEventHandler):
+    def __init__(self):
+        self.bindings = (
+            ("escape", sys.exit),
+            ("f2", base.reset),
+        )
+    
+    def enter(self):
+        self.load_bindings()
         
+        # destroy potential trash
         for manager in base.managers:
             manager.clear()
         base.objectsNode.removeChildren()
-        
         # -------------------------
     
         base.keyboardManager = managers.KeyboardManager()
         base.hudManager = managers.HUDManager()
         base.hudManager.show_centered(u"F2 para começar")
-        
-        #----------------------------------------------------------------------
-        state = base.keyboardManager._state
-        
-        global_bindings = [
-            ("escape", sys.exit),
-            ("f2", base.reset),
-        ]
-        
-        base.keyboardManager.loadKeyBindings(global_bindings)
     
-    @staticmethod
-    def exit():
+    def exit(self):
+        self.unload_bindings()
+        
         base.hudManager.clear()
         base.keyboardManager.clear()
 

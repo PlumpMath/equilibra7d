@@ -1,5 +1,3 @@
-from time import sleep
-
 from direct.fsm.FSM import FSM
 
 import states.stage1
@@ -16,21 +14,24 @@ class GameState(FSM):
             'Pause': ['MainMenu', 'NewGame', 'InGame'],
             'GameOver': ['MainMenu', 'NewGame'],
         }
+        self.currentState = None
     
     def enterMainMenu(self):
-        states.main_menu.MainMenu.enter()
+        self.currentState = states.main_menu.MainMenu()
+        self.currentState.enter()
     
     def exitMainMenu(self):
-        states.main_menu.MainMenu.exit()
+        self.currentState.exit()
     
     def enterNewGame(self):
         print "enterNewGame"
-        states.stage1.Stage1.enter(self.handleGameOver)
+        self.currentState = states.stage1.Stage1()
+        self.currentState.enter(self.handleGameOver)
         self.printTasks()
     
     def exitNewGame(self):
         print "exitNewGame"
-        states.stage1.Stage1.exit()
+        self.currentState.exit()
     
     def enterInGame(self):
         print "enterInGame"

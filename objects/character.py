@@ -45,16 +45,6 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
             ("arrow_left-up", self.setKey, ["left", 0]),
             ("arrow_down-up", self.setKey, ["down", 0]),
             ("arrow_right-up", self.setKey, ["right", 0]),
-            
-            # These are fired when the user keeps pressing a key
-            #("w-repeat", self.handleKeyboardEvent, ["up", 1]),
-            #("a-repeat", self.handleKeyboardEvent, ["left", 1]),
-            #("s-repeat", self.handleKeyboardEvent, ["down", 1]),
-            #("d-repeat", self.handleKeyboardEvent, ["right", 1]),
-            #("arrow_up-repeat", self.handleKeyboardEvent, ["up", 1]),
-            #("arrow_left-repeat", self.handleKeyboardEvent, ["left", 1]),
-            #("arrow_down-repeat", self.handleKeyboardEvent, ["down", 1]),
-            #("arrow_right-repeat", self.handleKeyboardEvent, ["right", 1]),
         )
         
         task_name = "character_movement"
@@ -70,6 +60,9 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
         # Seems that the model has its eyes in the back?!
         self.actor.setH(180)
         self.actor.setZ(-1)
+        
+        # TODO: self.unload_bindings() upon "clear"
+        self.load_bindings()
         
     def handleCollisionEvent(self, entry, type):
         normal = entry.getSurfaceNormal(self)
