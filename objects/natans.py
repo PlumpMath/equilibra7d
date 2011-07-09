@@ -66,6 +66,7 @@ class Natans(AIWorld, DirectObject):
     #---------------------------------------------------------------------------
     
     def addEnemy(self, position, scale):
+        """Add a new artificially intelligent NPC."""
         name = "enemy_%d" % len(self.enemies)
         enemy = Natan(self._parent, choice(self._models), name,
                       self, 35.0, 0.5, 1.5)
@@ -89,9 +90,23 @@ class Natans(AIWorld, DirectObject):
         return enemy
     
     def update(self, task):
-        """Update the AI World"""
-        AIWorld.update(self)
+        """Update the AI World.
+        
+        If the AI is paused, does nothing.
+        """
+        if hasattr(self, "_paused") and self._paused:
+            pass
+        else:
+            AIWorld.update(self)
         return task.cont
+    
+    def pause_ai(self):
+        """Temporarily turn off AI."""
+        self._paused = True
+    
+    def resume_ai(self):
+        """Turn AI back on."""
+        self._paused = False
     
     #---------------------------------------------------------------------------
     

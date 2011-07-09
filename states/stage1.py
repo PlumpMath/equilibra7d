@@ -49,8 +49,8 @@ class Stage1(FSM, KeyboardEventHandler):
         toggle("hud", "f1", lambda: self.managers['hud'].setup(),
                             lambda: self.managers['hud'].clear())
         
-        #toggle("ai", "f5", lambda: self.managers['ai'].setup(),
-        #                   lambda: self.managers['ai'].clear())
+        toggle("ai", "f5", lambda: self.objects['enemy'].resume_ai(),
+                           lambda: self.objects['enemy'].pause_ai())
         
         toggle("physics", "f7", lambda: self.managers['physics'].setup(),
                                 lambda: self.managers['physics'].clear())
