@@ -158,6 +158,7 @@ class Stage1(FSM, KeyboardEventHandler):
         self.managers['ai'].clear()
         self.managers['physics'].clear()
         self.managers['enemy'].clear()
+        
         self.managers['hud'].pause()
         
         self.objects['character'].unload_bindings()
@@ -168,6 +169,7 @@ class Stage1(FSM, KeyboardEventHandler):
         self.managers['ai'].setup()
         self.managers['physics'].setup()
         self.managers['enemy'].setup()
+        
         self.managers['hud'].clear()
         self.managers['hud'].setup()
         
