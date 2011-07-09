@@ -19,9 +19,6 @@ class Natan(PhysicalNode, CollisionEventHandler):
         self.mass = mass
         self.addCollisionSphere(1.25)
         
-        # TODO: not used, remove this attribute and Equismo._impact
-        self._impact = 2
-        
         self.model.loop(self.ANIM_WALK)
         
         #-----------------------------------------------------------------------

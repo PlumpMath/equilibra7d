@@ -17,7 +17,6 @@ class Equismo(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
         
         self._impulseIncrement = 4.0
         self._speedLimit = 5.0
-        self._impact = 4
         self._turningSpeed = 0.2
 
         self._hit = False
