@@ -33,7 +33,7 @@ class World(ShowBase):
         Probably run only once."""
         # Set window title
         props = WindowProperties()
-        props.setTitle("Equilibra7D")
+        props.setTitle("Equilibra7d")
         self.win.requestProperties(props)
         
         # Set up the camera
