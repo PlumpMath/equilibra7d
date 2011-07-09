@@ -35,7 +35,9 @@ class Natan(PhysicalNode, CollisionEventHandler):
 class Natans:
     """Handles the dynamic creation and destruction of Natan objects."""
     
-    def __init__(self):
+    def __init__(self, parent, model):
+        self._parent = parent
+        self._model = model
         self.enemies = []
         self.spawnProbability = 0.003
         self.idleTime = 0.5
@@ -47,9 +49,9 @@ class Natans:
         self.enemies = []
         taskMgr.remove("NatanSpawn")
 
-    def addNatan(self, model, position, scale):
-        name = "enemy_%d" % (len(self.enemies),)
-        enemy = Natan(render, model, name) # TODO: it should not go to "render" but to "Stage1.objectsNode"
+    def addNatan(self, position, scale):
+        name = "enemy_%d" % len(self.enemies)
+        enemy = Natan(self._parent, self._model, name)
         enemy.setPos(position)
         enemy.model.setScale(scale)
         enemy.collider.setScale(scale)
@@ -85,7 +87,7 @@ class Natans:
             position = Point3(x, y, -1)
             
             scale = random() * 0.35 + 0.15
-            enemy = self.addNatan("enemyfish_blue", position, scale)
+            enemy = self.addNatan(position, scale)
             
             force = (Point3(0, 0, 0) - position) * 0.35
             force += Vec3(0, 0, 6)
