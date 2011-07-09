@@ -60,7 +60,7 @@ class PhysicalNode(ModelNode):
     # Collision methods
     #---------------------------------------------------------------------------
     def addCollisionSphere(self, size):
-        """Creates a collision sphere and adds it to the node's tree.
+        """Create a collision sphere and adds it to the node's tree.
         
         Its radius is given by 'size' and it is centered at the origin.
         """
@@ -73,7 +73,7 @@ class PhysicalNode(ModelNode):
         self.model.setCollideMask(BitMask32.allOff())
     
     def addCollisionGeometry(self, modelName):
-        """Indicates that a geometry must be used in collision tests.
+        """Indicate that a geometry must be used in collision tests.
         
         A collision geometry must be defined along with the model and
         its name must follow the pattern modelNameC (e.g. treeC).
@@ -81,7 +81,7 @@ class PhysicalNode(ModelNode):
         self.collider = self.model.find("**/%sC" % modelName)
     
     def collide(self, surfaceNormal, otherVelocity, otherMass, restitution):
-        """Updates the node's velocity after an inellastic collision."""
+        """Update the node's velocity after an inellastic collision."""
         # Initial velocities
         v1_i = self.velocity
         v1_i_norm = v1_i.project(-surfaceNormal)

@@ -34,7 +34,7 @@ class CollisionManager(Manager, DirectObject):
         self.ignoreAll()
     
     def addCollider(self, physicalNode):
-        """Adds a node to the collision system.
+        """Add a node to the collision system.
         
         The parameter 'physicalNode' must be an instance of PhysicalNode.
         """
@@ -45,7 +45,7 @@ class CollisionManager(Manager, DirectObject):
             physicalNode.collider.show()
     
     def addCollisionHandling(self, intoNode, type, *handlers):
-        """Notifies that a collision event should be handled.
+        """Notify that a collision event should be handled.
         
         The given 'type' should be "into", "again" or "out".
         The given handlers must inherit from the CollisionEventHandler 
@@ -56,7 +56,7 @@ class CollisionManager(Manager, DirectObject):
         self.accept(pattern, self._callHandlers, [handlers, type])
         
     def addMutualCollisionHandling(self, fromNode, intoNode):
-        """Notifies that a 'into' collision event between two specific 
+        """Notify that a 'into' collision event between two specific 
         nodes should be handled by them.
 
         The given nodes must inherit from the CollisionEventHandler 
