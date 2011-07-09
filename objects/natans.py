@@ -1,4 +1,4 @@
-from random import random
+from random import random, choice
 from math import sin, cos
 
 from panda3d.core import Point3, Vec3
@@ -35,9 +35,9 @@ class Natan(PhysicalNode, CollisionEventHandler):
 class Natans:
     """Handles the dynamic creation and destruction of Natan objects."""
     
-    def __init__(self, parent, model):
+    def __init__(self, parent, models):
         self._parent = parent
-        self._model = model
+        self._models = models
         self.enemies = []
         self.spawnProbability = 0.003
         self.idleTime = 0.5
@@ -51,7 +51,7 @@ class Natans:
 
     def addNatan(self, position, scale):
         name = "enemy_%d" % len(self.enemies)
-        enemy = Natan(self._parent, self._model, name)
+        enemy = Natan(self._parent, choice(self._models), name)
         enemy.setPos(position)
         enemy.model.setScale(scale)
         enemy.collider.setScale(scale)

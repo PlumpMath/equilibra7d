@@ -103,7 +103,9 @@ class Stage1(FSM, KeyboardEventHandler):
         """Instantiate objects."""
         self.objects['scenario'] = Scenario(self.objectsNode, "arena2")
         self.objects['equismo'] = Equismo(self.objectsNode, "teste")
-        self.objects['enemy'] = Natans(self.objectsNode, "enemyfish_blue")
+        self.objects['enemy'] = Natans(self.objectsNode, ["enemyfish_red",
+                                                          "enemyfish_green",
+                                                          "enemyfish_blue"])
         self.objects['landscape'] = Landscape(self.objectsNode, "landscape")
         self.objects['sea'] = Sea(self.objectsNode, "sea")
     
