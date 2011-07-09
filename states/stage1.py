@@ -16,10 +16,10 @@ class Stage1(FSM, KeyboardEventHandler):
         #-----------------------------------------------------------------------
         FSM.__init__(self, 'Stage1_FSM')
         self.defaultTransitions = {
-            'NewGame': ['NewGame', 'Pause', 'GameOver'],
-            'InGame': ['NewGame', 'Pause', 'GameOver'],
-            'Pause': ['NewGame', 'InGame'],
-            'GameOver': ['NewGame'],
+            'NewGame': ['Pause', 'GameOver'],
+            'InGame': ['Pause', 'GameOver'],
+            'Pause': ['InGame'],
+            'GameOver': [],
         }
         
         #-----------------------------------------------------------------------
