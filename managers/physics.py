@@ -26,7 +26,7 @@ class PhysicsManager(Manager):
         self.addActor(base.gameState.currentState.objects['equismo'])
         
         # Enemies
-        base.gameState.currentState.managers['enemy'].addPhysics()
+        base.gameState.currentState.objects['enemy'].addPhysics()
     
     def clear(self):
         self.forces.removeChildren()

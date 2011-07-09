@@ -103,6 +103,7 @@ class Stage1(FSM, KeyboardEventHandler):
         """Instantiate objects."""
         self.objects['scenario'] = Scenario(self.objectsNode, "arena2")
         self.objects['equismo'] = Equismo(self.objectsNode, "teste")
+        self.objects['enemy'] = Natans()
         self.objects['landscape'] = Landscape(self.objectsNode, "landscape")
         self.objects['sea'] = Sea(self.objectsNode, "sea")
     
@@ -118,8 +119,6 @@ class Stage1(FSM, KeyboardEventHandler):
             # done for each manager class.
             manager_name = kind.lower()
             self.managers[manager_name] = klass()
-        
-        self.managers['enemy'] = Natans()
     
     #-----------------------------------------------------------------------
     # FSM states
@@ -160,23 +159,23 @@ class Stage1(FSM, KeyboardEventHandler):
         # Disable some things
         self.managers['ai'].clear()
         self.managers['physics'].clear()
-        self.managers['enemy'].clear()
         
         self.managers['hud'].pause()
         
         self.objects['equismo'].unload_bindings()
+        self.objects['enemy'].clear()
     
     def exitPause(self):
         print "exitPause"
         # Re-enable things
         self.managers['ai'].setup()
         self.managers['physics'].setup()
-        self.managers['enemy'].setup()
         
         self.managers['hud'].clear()
         self.managers['hud'].setup()
         
         self.objects['equismo'].load_bindings()
+        self.objects['enemy'].setup()
     
     def filterPause(self, request, args):
         if request == "Pause":
@@ -191,9 +190,9 @@ class Stage1(FSM, KeyboardEventHandler):
         # Clear managers
         self.managers['ai'].clear()
         self.managers['physics'].clear()
-        self.managers['enemy'].clear()
         
         self.objects['equismo'].unload_bindings()
+        self.objects['enemy'].clear()
     
     def exitGameOver(self):
         print "exitGameOver"

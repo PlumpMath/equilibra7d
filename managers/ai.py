@@ -10,7 +10,7 @@ class AIManager(Manager):
         self.aiCharList = []
     
     def setup(self):
-        base.gameState.currentState.managers['enemy'].addAI()
+        base.gameState.currentState.objects['enemy'].addAI()
         taskMgr.add(self.update, "AIUpdate")
     
     def update(self, task):
