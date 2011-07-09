@@ -9,7 +9,7 @@ class MainMenu(KeyboardEventHandler):
     def __init__(self):
         self.bindings = (
             ("escape", sys.exit),
-            ("f2", base.reset),
+            ("f2", base.start),
         )
     
     def enter(self):

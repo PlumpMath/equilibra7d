@@ -1,16 +1,32 @@
 # -*- coding: utf-8 -*-
+from direct.fsm.FSM import FSM
+
 from objects import Character, Landscape, Scenario, Sea
 import managers
 from handlers.keyboard import KeyboardEventHandler
 
 
-class Stage1(KeyboardEventHandler):
+class Stage1(FSM, KeyboardEventHandler):
     def __init__(self):
+        #-----------------------------------------------------------------------
+        # FSM initialization
+        #-----------------------------------------------------------------------
+        FSM.__init__(self, 'Stage1_FSM')
+        self.defaultTransitions = {
+            'NewGame': ['NewGame', 'Pause', 'GameOver'],
+            'InGame': ['NewGame', 'Pause', 'GameOver'],
+            'Pause': ['NewGame', 'InGame'],
+            'GameOver': ['NewGame'],
+        }
+        
+        #-----------------------------------------------------------------------
+        # KeyboardEventHandler initialization
+        #-----------------------------------------------------------------------
         state = dict()
         
         self.bindings = [
             ("escape", lambda: base.gameState.request("MainMenu")),
-            ("f2", base.reset),
+            ("f2", base.start),
             ("f6", lambda: base.collisionManager.clear()),
             ("f11", lambda: (base.hudManager.clear(),
                              base.hudManager.help(),
@@ -54,36 +70,9 @@ class Stage1(KeyboardEventHandler):
                              lambda: (base.pause(), state.pop("paused")),
                              False)
     
-    def enter(self, game_over_handler):
+    def enter(self):
         self.load_bindings()
-        
-        # (Re)create objects
-        self.createObjects()
-        
-        # (Re)create managers
-        self.createManagers()
-        
-        # Set up objects
-        base.character.setup()
-        base.landscape.setup()
-        base.scenario.setup()
-        base.sea.setup()
-        
-        # Set up managers
-        base.enemyManager.setup()
-        base.physicsManager.setup()
-        base.collisionManager.setup()
-        base.lightManager.setup()
-        base.hudManager.setup()
-        base.aiManager.setup()
-        base.audioManager.setup()
-        
-        # Check for a Game Over
-        # TODO: use self.addTask here
-        task_name = "gameover_task"
-        if taskMgr.hasTaskNamed(task_name):
-            taskMgr.remove(task_name)
-        taskMgr.add(game_over_handler, task_name)
+        self.request("NewGame")
     
     def exit(self):
         self.unload_bindings()
@@ -120,4 +109,120 @@ class Stage1(KeyboardEventHandler):
                 manager = klass()
                 setattr(base, manager_attribute_name, manager)
             base.managers.add(manager)
+    
+    #-----------------------------------------------------------------------
+    # FSM states
+    #-----------------------------------------------------------------------
+    def enterNewGame(self):
+        print "enterNewGame"
+        # (Re)create objects
+        self.createObjects()
+        
+        # (Re)create managers
+        self.createManagers()
+        
+        # Set up objects
+        base.character.setup()
+        base.landscape.setup()
+        base.scenario.setup()
+        base.sea.setup()
+        
+        # Set up managers
+        base.enemyManager.setup()
+        base.physicsManager.setup()
+        base.collisionManager.setup()
+        base.lightManager.setup()
+        base.hudManager.setup()
+        base.aiManager.setup()
+        base.audioManager.setup()
+        
+        # Check for a Game Over
+        # TODO: use self.addTask here
+        task_name = "gameover_task"
+        if taskMgr.hasTaskNamed(task_name):
+            taskMgr.remove(task_name)
+        taskMgr.add(self.handleGameOver, task_name)
+    
+    def exitNewGame(self):
+        print "exitNewGame"
+        # Does nothing
+    
+    def enterInGame(self):
+        print "enterInGame"
+        # Does nothing
+    
+    def exitInGame(self):
+        print "exitInGame"
+        # Does nothing
+    
+    def enterPause(self):
+        print "enterPause"
+        # Disable some things
+        base.aiManager.clear()
+        base.physicsManager.clear()
+        base.enemyManager.clear()
+        base.hudManager.pause()
+        
+        base.character.unload_bindings()
+    
+    def exitPause(self):
+        print "exitPause"
+        # Re-enable things
+        base.aiManager.setup()
+        base.physicsManager.setup()
+        base.enemyManager.setup()
+        base.hudManager.clear()
+        base.hudManager.setup()
+        
+        base.character.load_bindings()
+    
+    def filterPause(self, request, args):
+        if request == "Pause":
+            # Unpause game, go to "InGame"
+            return ("InGame",) + args
+        else:
+            return (request,) + args
+    
+    def enterGameOver(self, func):
+        print "enterGameOver"
+        func()
+        # Clear managers
+        base.aiManager.clear()
+        base.physicsManager.clear()
+        base.enemyManager.clear()
+        
+        base.character.unload_bindings()
+    
+    def exitGameOver(self):
+        print "exitGameOver"
+        # Does nothing
+    
+    def filterGameOver(self, request, args):
+        # The only transition allowed from `GameOver' is `NewGame'
+        if request == "NewGame":
+            return (request,) + args
+        else:
+            return None
+    
+    def handleGameOver(self, task):
+        """Task that determines whether the gamer has finished.
+        
+        When the character or the enemy are under water, the state changes to
+        GameOver and the HUD shows the winner."""
+#        enemy_z = base.enemyManager.enemy.getBounds().getCenter().getZ()
+        character_z = base.character.getBounds().getCenter().getZ()
+        
+#        if enemy_z < -10:
+#            self.request("GameOver", base.hudManager.win)
+#            return task.done
+#        elif character_z < -10:
+        if character_z < -10:
+            self.request("GameOver", base.hudManager.lose)
+            return task.done
+        
+        return task.cont
+    
+    def pause(self):
+        """Toggle pause the current game."""
+        self.request("Pause")
 

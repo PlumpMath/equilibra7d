@@ -24,8 +24,8 @@ class World(ShowBase):
         # Set up state engine
         self.gameState = GameState()
         
-        # Start new game
-        self.gameState.request("MainMenu")
+        # Go to main menu
+        self.reset()
     
     def configWorld(self):
         """Set general settings.
@@ -57,8 +57,8 @@ class World(ShowBase):
     def reset(self):
         self.gameState.reset()
     
-    def pause(self):
-        self.gameState.pause()
+    def start(self):
+        self.gameState.start()
 
 
 if __name__ == "__main__":
