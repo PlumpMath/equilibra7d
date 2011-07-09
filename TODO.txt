@@ -8,6 +8,7 @@ Game state:
     - Don't use taskMgr direcly (use DirectObject.addTask, .removeAllTasks)
     - New winning conditions
     - Pretty and functional Main Menu
+    - Fix event and task leaks
 
 Gameplay:
     - Tune mass, collision, speed, ...
