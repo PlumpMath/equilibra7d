@@ -6,6 +6,8 @@ from objects import Equismo, Natans, Landscape, Scenario, Sea
 import managers
 from handlers.keyboard import KeyboardEventHandler
 
+from utils import print_tasks, print_events
+
 
 class Stage1(FSM, KeyboardEventHandler):
     def __init__(self):
@@ -29,6 +31,8 @@ class Stage1(FSM, KeyboardEventHandler):
             ("escape", lambda: base.reset()),
             ("f2", lambda: base.start()),
             ("f6", lambda: self.managers['collision'].clear()),
+            ("f11", lambda: print_events()),
+            ("f12", lambda: print_tasks()),
         ]
         
         def toggle(what, key, on, off, default_on=True):

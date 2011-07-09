@@ -1,10 +1,11 @@
+from direct.showbase.DirectObject import DirectObject
 from panda3d.core import CollisionTraverser
 from panda3d.physics import PhysicsCollisionHandler
 
 from base import Manager
 
 
-class CollisionManager(Manager):
+class CollisionManager(Manager, DirectObject):
     """Handles the collision between objects on the scene."""
     
     def __init__(self, debug=False):
@@ -29,6 +30,7 @@ class CollisionManager(Manager):
     
     def clear(self):
         base.cTrav.clearColliders()
+        self.ignoreAll()
     
     def addCollider(self, physicalNode):
         """Adds a node to the collision system.
@@ -50,7 +52,7 @@ class CollisionManager(Manager):
         a collision with the node given by 'intoNode' occurs.
         """
         pattern = "%s-%s" % (type, intoNode.getName())
-        base.accept(pattern, self._callHandlers, [handlers, type])
+        self.accept(pattern, self._callHandlers, [handlers, type])
         
     def addMutualCollisionHandling(self, fromNode, intoNode):
         """Notifies that a 'into' collision event between two specific 
@@ -64,7 +66,7 @@ class CollisionManager(Manager):
                                   intoNode.collider.getName())
         
         handlers = [fromNode, intoNode]
-        base.accept(pattern, self._callHandlers, [handlers, "into"])
+        self.accept(pattern, self._callHandlers, [handlers, "into"])
         
     def _callHandlers(self, handlers, type, entry):
         for handler in handlers:
