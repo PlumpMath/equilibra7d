@@ -12,13 +12,6 @@ class LightManager(Manager):
         self.point = l.attachNewNode(PointLight('point_light'))
         self.directional = l.attachNewNode(DirectionalLight('directional_light'))
     
-    def setLights(self, **lights):
-        """Set one or more lights at a time."""
-        for kind in "ambient point directional".split():
-            light = lights.get(kind)
-            if light is not None:
-                getattr(self, "set%sLight" % kind.capitalize())(*light)
-    
     def setup(self):
         default = dict(
             ambient = (0.3, 0.3, 0.3),
@@ -31,6 +24,13 @@ class LightManager(Manager):
         render.clearLight(self.ambient)
         render.clearLight(self.point)
         render.clearLight(self.directional)
+    
+    def setLights(self, **lights):
+        """Set one or more lights at a time."""
+        for kind in "ambient point directional".split():
+            light = lights.get(kind)
+            if light is not None:
+                getattr(self, "set%sLight" % kind.capitalize())(*light)
     
     def setAmbientLight(self, r, g, b):
         """Adds an ambient light with the given RGB values to the scene."""

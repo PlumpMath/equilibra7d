@@ -13,11 +13,6 @@ class PhysicsManager(Manager):
         self.gravity = None
         self._physicalnodes = []
     
-    def setGravity(self, value):
-        if self.gravity:
-            self.removeLinearForce(self.gravity)
-        self.gravity = self.addLinearForce(0, 0, -value)
-    
     def setup(self):
         base.enableParticles()
         self.setGravity(9.8)
@@ -35,6 +30,11 @@ class PhysicsManager(Manager):
         while self._physicalnodes:
             base.physicsMgr.removePhysicalNode(self._physicalnodes.pop())
         base.disableParticles()
+    
+    def setGravity(self, value):
+        if self.gravity:
+            self.removeLinearForce(self.gravity)
+        self.gravity = self.addLinearForce(0, 0, -value)
     
     def addLinearForce(self, x, y, z, physicalNode=None):
         """Adds a linear vector force to the simulation with the given 

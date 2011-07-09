@@ -12,6 +12,12 @@ class AIManager(Manager):
     def setup(self):
         base.gameState.currentState.objects['enemy'].addAI()
         taskMgr.add(self.update, "AIUpdate")
+        
+    def clear(self):
+        self.aiWorld.removeAiChar("seeker")
+        taskMgr.remove("AIUpdate")
+        
+        self.aiCharList = []
     
     def update(self, task):
         """Update the AI World"""
@@ -26,9 +32,4 @@ class AIManager(Manager):
         aiBehaviors.pursue(equismo.actor)
         
         self.aiCharList.append(aiChar)
-        
-    def clear(self):
-        self.aiWorld.removeAiChar("seeker")
-        taskMgr.remove("AIUpdate")
-        
-        self.aiCharList = []
+
