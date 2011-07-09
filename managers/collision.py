@@ -8,14 +8,8 @@ from base import Manager
 class CollisionManager(Manager, DirectObject):
     """Handles the collision between objects on the scene."""
     
-    def __init__(self, debug=False):
-        self.debug = debug
-        
-        base.cTrav = CollisionTraverser()
-        base.cTrav.setRespectPrevTransform(True)
-        
-        if self.debug:
-            base.cTrav.showCollisions(render)
+    def __init__(self, debug=True):
+        self._debug = debug
         
         self.handler = PhysicsCollisionHandler()
         self.handler.setStaticFrictionCoef(0.1)
@@ -26,10 +20,17 @@ class CollisionManager(Manager, DirectObject):
         self.handler.addInPattern('%fn-into-%in')
     
     def setup(self):
+        self._old_cTrav = base.cTrav
+        base.cTrav = CollisionTraverser()
+        base.cTrav.setRespectPrevTransform(True)
+        if self._debug:
+            base.cTrav.showCollisions(base.gameState.currentState.objectsNode)
+        
         self.addCollider(base.gameState.currentState.objects['equismo'])
     
     def clear(self):
         base.cTrav.clearColliders()
+        base.cTrav = self._old_cTrav
         self.ignoreAll()
     
     def addCollider(self, physicalNode):
@@ -40,7 +41,7 @@ class CollisionManager(Manager, DirectObject):
         self.handler.addCollider(physicalNode.collider, physicalNode.actor)
         base.cTrav.addCollider(physicalNode.collider, self.handler)
         
-        if self.debug:
+        if self._debug:
             physicalNode.collider.show()
     
     def addCollisionHandling(self, intoNode, type, *handlers):
