@@ -2,10 +2,9 @@ from panda3d.core import BitMask32, CollisionNode, CollisionSphere
 from panda3d.physics import ActorNode, AngularVectorForce
 
 from modelnode import ModelNode
-from handlers.collision import CollisionEventHandler
 
 
-class PhysicalNode(ModelNode, CollisionEventHandler):
+class PhysicalNode(ModelNode):
     """A base class to nodes that have a 3d model, will be controlled by the
     physical simulation and have physical collision.
     
@@ -14,6 +13,7 @@ class PhysicalNode(ModelNode, CollisionEventHandler):
                                `-> CollisionNode
     
     Use `addCollisionSphere' or `addCollisionGeometry' to setup collision.
+    Subclasses must implement `handleCollisionEvent'.
     """
     
     def __init__(self, parent, model, name, animations=[]):
@@ -21,6 +21,17 @@ class PhysicalNode(ModelNode, CollisionEventHandler):
         actorNode = ActorNode(name + "_actor_node")
         self.actor = self.attachNewNode(actorNode)
         self.model.reparentTo(self.actor)
+    
+    #---------------------------------------------------------------------------
+    # Methods that must be overwritten by subclasses
+    #---------------------------------------------------------------------------
+    def handleCollisionEvent(self, entry, type):
+        """Handle a single collision event.
+        
+        This method is called whenever a relevant collision event occurs.
+        The 'type' may be "into", "again" or "out".
+        """
+        raise NotImplementedError
     
     #---------------------------------------------------------------------------
     # PhysicalNode properties
