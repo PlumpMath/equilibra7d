@@ -22,6 +22,16 @@ class Equismo(PhysicalNode, KeyboardEventHandler):
         self._currentDirection = Vec3.forward()
         self._currentAngle = 0
         
+        
+        self.setZ(1)
+        self.setScale(0.8)
+        
+        # Little "hack" to fix orientation
+        # Seems that the model has its eyes in the back?!
+        self.actor.setH(180)
+        self.actor.setZ(-1)
+        
+        
         self.keys = dict.fromkeys("left right up down".split(), 0)
         set_key = self.keys.__setitem__
         self.bindings = (
@@ -48,16 +58,7 @@ class Equismo(PhysicalNode, KeyboardEventHandler):
     
     def setup(self):
         print "\033[32m setup Equismo \033[0m"
-        self.setZ(1)
-        self.setScale(0.8)
-        
-        # Little "hack" to fix orientation
-        # Seems that the model has its eyes in the back?!
-        self.actor.setH(180)
-        self.actor.setZ(-1)
-        
         self.load_bindings()
-        
         self.addTask(self.handleKeyboardEvent, "equismo_movement")
     
     def clear(self):

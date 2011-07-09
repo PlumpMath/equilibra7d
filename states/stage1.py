@@ -166,25 +166,21 @@ class Stage1(FSM, KeyboardEventHandler):
     def enterPause(self):
         print "enterPause"
         # Disable some things
-        #self.managers['ai'].clear()
         self.managers['physics'].clear()
+        self.objects['equismo'].clear()
+        self.objects['enemy'].clear()
         
         self.managers['hud'].pause()
-        
-        self.objects['equismo'].unload_bindings()
-        self.objects['enemy'].clear()
     
     def exitPause(self):
         print "exitPause"
         # Re-enable things
-        #self.managers['ai'].setup()
         self.managers['physics'].setup()
+        self.objects['equismo'].setup()
+        self.objects['enemy'].setup()
         
         self.managers['hud'].clear()
         self.managers['hud'].setup()
-        
-        self.objects['equismo'].load_bindings()
-        self.objects['enemy'].setup()
     
     def filterPause(self, request, args):
         if request == "Pause":
