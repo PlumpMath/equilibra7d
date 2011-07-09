@@ -5,10 +5,10 @@ from modelnode import ModelNode
 
 
 class PhysicalNode(ModelNode):
-    """A base class to nodes that have a 3d model, will be controlled by the
+    """A base class for nodes that have a 3d model, are controlled by
     physical simulation and have physical collision.
     
-    Structure:
+    Class hierarchy:
         NodePath --> ActorNode --> ModelNode
                                `-> CollisionNode
     
