@@ -5,6 +5,7 @@ Enemy:
     - Solve model loading lag
 
 Game state:
+    - Don't use taskMgr direcly (use DirectObject.addTask, .removeAllTasks)
     - New winning conditions
     - Title screen
 
