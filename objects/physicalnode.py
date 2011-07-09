@@ -27,22 +27,22 @@ class PhysicalNode(ModelNode, CollisionEventHandler):
     #---------------------------------------------------------------------------
     @property
     def velocity(self):
-        """Returns the node's current velocity vector as a Vec3."""
+        """Return the node's current velocity vector as a Vec3."""
         return self.actor.node().getPhysicsObject().getVelocity()
     
     @velocity.setter
     def velocity(self, value):
-        """Updates the node's current velocity vector with a Vec3."""
+        """Set the node's current velocity vector with a Vec3."""
         return self.actor.node().getPhysicsObject().setVelocity(value)
     
     @property
     def mass(self):
-        """Returns the actor's mass."""
+        """Return the actor's mass."""
         return self.actor.node().getPhysicsObject().getMass()
     
     @mass.setter
     def mass(self, value):
-        """Updates the actor's mass."""
+        """Set the actor's mass."""
         self.actor.node().getPhysicsObject().setMass(value)
     
     #---------------------------------------------------------------------------
@@ -101,21 +101,21 @@ class PhysicalNode(ModelNode, CollisionEventHandler):
     # Helper methods
     #---------------------------------------------------------------------------
     def addImpulse(self, impulse):
-        """Generates an instantaneous change in the node's velocity.
+        """Generate an instantaneous change in the node's velocity.
         
         This change is given by the vector 'impulse' as a Vec3.
         """
         self.actor.node().getPhysicsObject().addImpulse(impulse)
 
     def addImpact(self, offsetFromCenterOfMass, impulse):
-        """Adds an impulse and/or torque to the node based on an offset
+        """Add an impulse and/or torque to the node based on an offset
         from the center of mass.
         """
         self.actor.node().getPhysicsObject().addImpact(offsetFromCenterOfMass,
                                                        impulse)
     
     def addLinearForce(self, force):
-        """Adds a linear force to this node.
+        """Add a linear force to this node.
         
         The parameter 'force' must be a LinearVectorForce.
         """
@@ -128,16 +128,15 @@ class PhysicalNode(ModelNode, CollisionEventHandler):
 #        physical.clearPhysicsObjects()
     
     def addTorque(self, h, p, r):
-        """Adds a torque to the node.
+        """Add a torque to the node.
         
-        Returns the corresponding 'AngularVectorForce'.
+        Return the corresponding 'AngularVectorForce'.
         """
         torque = AngularVectorForce(h, p, r)
         self.actor.node().getPhysical(0).addAngularForce(torque)
-        
         return torque
         
     def removeTorque(self, torque):
-        """Removes a torque (AngularForce) from the node."""
+        """Remove a torque (AngularForce) from the node."""
         self.actor.node().getPhysical(0).removeAngularForce(torque)
 
