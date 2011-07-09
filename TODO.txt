@@ -1,3 +1,6 @@
+Code:
+    - Review commented code
+
 AI:
     - Implement different opponent behaviors
 
