@@ -1,4 +1,4 @@
-Equilibra7D - Game Design Document
+Equilibra7d - Game Design Document
 
 --------------------------------------------------------------------------------
 Introdução / enredo
@@ -24,7 +24,7 @@ Personagens
 --------------------------------------------------------------------------------
 
     Equismo - um carismático bolinho de batata que curte passear pelo mundo.
-              Em Equilibra7D Equismo resolve viajar para a Antártida e acaba
+              Em Equilibra7d Equismo resolve viajar para a Antártida e acaba
               se metendo em confusão, correndo o grande risco de virar jantar!
     
     Etunus - o senhor dos mares gelados, está com uma fome secular e vê em
