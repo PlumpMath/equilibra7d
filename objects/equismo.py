@@ -48,6 +48,7 @@ class Equismo(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
         )
     
     def setup(self):
+        print "\033[32m setup Equismo \033[0m"
         self.setZ(1)
         self.setScale(0.8)
         
@@ -61,7 +62,7 @@ class Equismo(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
         self.addTask(self.handleKeyboardEvent, "equismo_movement")
     
     def clear(self):
-        print "\033[32m clear Equismo \033[0m"
+        print "\033[31m clear Equismo \033[0m"
         self.unload_bindings()
         self.removeAllTasks()
     

@@ -51,16 +51,16 @@ class Natans(AIWorld, DirectObject):
         self._models = models
         self.spawnProbability = 0.003
         self.idleTime = 0.5
+        
+        self.enemies = []
     
     def setup(self):
-        self.enemies = []
-        
+        print "\033[32m setup Natans \033[0m"
         self.addTask(self.update, "AIUpdate")
         self.addTask(self.spawn, "NatanSpawn")
         
     def clear(self):
-        print "\033[32m clear Natans \033[0m"
-        self.enemies = []
+        print "\033[31m clear Natans \033[0m"
         self.removeAllTasks()
     
     #---------------------------------------------------------------------------
