@@ -6,6 +6,8 @@ AI:
 
 Enemy:
     - Solve model loading lag
+    - Rotate Natan to face forward before it is kicked into the platform, so
+      that it looks nice when the AI is off.
 
 Game state:
     - New winning conditions
