@@ -1,11 +1,10 @@
 from panda3d.core import Vec3, Point3
 
-from handlers.collision import CollisionEventHandler
 from handlers.keyboard import KeyboardEventHandler
 from physicalnode import PhysicalNode
 
 
-class Equismo(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
+class Equismo(PhysicalNode, KeyboardEventHandler):
     ANIM_WALK = "anim1"
     
     def __init__(self, parent, model):

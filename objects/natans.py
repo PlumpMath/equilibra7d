@@ -6,10 +6,9 @@ from panda3d.ai import AIWorld, AICharacter
 from panda3d.core import Point3, Vec3
 
 from physicalnode import PhysicalNode
-from handlers.collision import CollisionEventHandler
 
 
-class Natan(PhysicalNode, CollisionEventHandler):
+class Natan(PhysicalNode):
     ANIM_WALK = "anim1"
     JUMP_SOUND = ["water_jumping", 7]
     

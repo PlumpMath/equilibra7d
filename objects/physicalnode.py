@@ -2,25 +2,52 @@ from panda3d.core import BitMask32, CollisionNode, CollisionSphere
 from panda3d.physics import ActorNode, AngularVectorForce
 
 from modelnode import ModelNode
+from handlers.collision import CollisionEventHandler
 
 
-class PhysicalNode(ModelNode):
-    """A wrapper class to a Panda3D node that has a model and will be
-    controlled by the physical simulation.
+class PhysicalNode(ModelNode, CollisionEventHandler):
+    """A base class to nodes that have a 3d model, will be controlled by the
+    physical simulation and have physical collision.
     
     Structure:
-        PandaNode -> ActorNode -> ModelNode
-                               -> CollisionNode (optional)
+        NodePath --> ActorNode --> ModelNode
+                               `-> CollisionNode
+    
+    Use `addCollisionSphere' or `addCollisionGeometry' to setup collision.
     """
     
     def __init__(self, parent, model, name, animations=[]):
         ModelNode.__init__(self, parent, model, name, animations)
-        
         actorNode = ActorNode(name + "_actor_node")
         self.actor = self.attachNewNode(actorNode)
-                
         self.model.reparentTo(self.actor)
-
+    
+    #---------------------------------------------------------------------------
+    # PhysicalNode properties
+    #---------------------------------------------------------------------------
+    @property
+    def velocity(self):
+        """Returns the node's current velocity vector as a Vec3."""
+        return self.actor.node().getPhysicsObject().getVelocity()
+    
+    @velocity.setter
+    def velocity(self, value):
+        """Updates the node's current velocity vector with a Vec3."""
+        return self.actor.node().getPhysicsObject().setVelocity(value)
+    
+    @property
+    def mass(self):
+        """Returns the actor's mass."""
+        return self.actor.node().getPhysicsObject().getMass()
+    
+    @mass.setter
+    def mass(self, value):
+        """Updates the actor's mass."""
+        self.actor.node().getPhysicsObject().setMass(value)
+    
+    #---------------------------------------------------------------------------
+    # Collision methods
+    #---------------------------------------------------------------------------
     def addCollisionSphere(self, size):
         """Creates a collision sphere and adds it to the node's tree.
         
@@ -42,6 +69,37 @@ class PhysicalNode(ModelNode):
         """
         self.collider = self.model.find("**/%sC" % modelName)
     
+    def collide(self, surfaceNormal, otherVelocity, otherMass, restitution):
+        """Updates the node's velocity after an inellastic collision."""
+        # Initial velocities
+        v1_i = self.velocity
+        v1_i_norm = v1_i.project(-surfaceNormal)
+        v1_i_tang = v1_i - v1_i_norm
+        
+        v2_i = otherVelocity
+        v2_i_norm = v2_i.project(surfaceNormal)
+        v2_i_tang = v2_i - v2_i_norm
+        
+        # Initial masses
+        m1 = self.mass
+        m2 = otherMass
+        
+        # Coefficient of Restitution
+        cr = restitution
+        
+        # Final velocity
+        v1_f_norm_mod = ((cr * m2 * (v2_i_norm.length() - v1_i_norm.length()) +
+                          m1 * v1_i_norm.length() + 
+                          m2 * v2_i_norm.length()) / 
+                         (m1 + m2))
+        v1_f_norm = surfaceNormal * v1_f_norm_mod
+        v1_f = v1_f_norm + v1_i_tang
+        
+        self.velocity = v1_f
+    
+    #---------------------------------------------------------------------------
+    # Helper methods
+    #---------------------------------------------------------------------------
     def addImpulse(self, impulse):
         """Generates an instantaneous change in the node's velocity.
         
@@ -82,53 +140,4 @@ class PhysicalNode(ModelNode):
     def removeTorque(self, torque):
         """Removes a torque (AngularForce) from the node."""
         self.actor.node().getPhysical(0).removeAngularForce(torque)
-    
-    def collide(self, surfaceNormal, otherVelocity, otherMass, restitution):
-        """Updates the node's velocity after an inellastic collision."""
-        
-        # Initial velocities
-        v1_i = self.velocity
-        v1_i_norm = v1_i.project(-surfaceNormal)
-        v1_i_tang = v1_i - v1_i_norm
-        
-        v2_i = otherVelocity
-        v2_i_norm = v2_i.project(surfaceNormal)
-        v2_i_tang = v2_i - v2_i_norm
-        
-        # Initial masses
-        m1 = self.mass
-        m2 = otherMass
-        
-        # Coefficient of Restitution
-        cr = restitution
-        
-        # Final velocity
-        v1_f_norm_mod = ((cr * m2 * (v2_i_norm.length() - v1_i_norm.length()) +
-                          m1 * v1_i_norm.length() + 
-                          m2 * v2_i_norm.length()) / 
-                         (m1 + m2))
-        v1_f_norm = surfaceNormal * v1_f_norm_mod
-        v1_f = v1_f_norm + v1_i_tang
-        
-        self.velocity = v1_f
-    
-    @property
-    def velocity(self):
-        """Returns the node's current velocity vector as a Vec3."""
-        return self.actor.node().getPhysicsObject().getVelocity()
-
-    @velocity.setter
-    def velocity(self, value):
-        """Updates the node's current velocity vector with a Vec3."""
-        return self.actor.node().getPhysicsObject().setVelocity(value)
-    
-    @property
-    def mass(self):
-        """Returns the actor's mass."""
-        return self.actor.node().getPhysicsObject().getMass()
-    
-    @mass.setter
-    def mass(self, value):
-        """Updates the actor's mass."""
-        self.actor.node().getPhysicsObject().setMass(value)
 

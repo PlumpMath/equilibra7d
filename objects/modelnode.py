@@ -6,7 +6,7 @@ class ModelNode(NodePath):
     """A wrapper class to a Panda3D node that has a model.
     
     Structure:
-        PandaNode -> ModelNode
+        NodePath -> ModelNode
     """
     
     def __init__(self, parent, model, name="", animations=[]):
