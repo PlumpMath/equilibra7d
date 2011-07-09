@@ -38,6 +38,9 @@ class Stage1(FSM, KeyboardEventHandler):
         def toggle(what, key, on, off, default_on=True):
             status_msgs = ("off", "on")
             def toggle_func():
+                # Ignore toggle commands when the game is over
+                if self.state == "GameOver":
+                    return
                 if state.setdefault(what, default_on):
                     off()
                 else:
@@ -204,11 +207,8 @@ class Stage1(FSM, KeyboardEventHandler):
         # Does nothing
     
     def filterGameOver(self, request, args):
-        # The only transition allowed from `GameOver' is `NewGame'
-        if request == "NewGame":
-            return (request,) + args
-        else:
-            return None
+        # No transition allowed after 'GameOver'
+        return None
     
     def handleGameOver(self, task):
         """Task that determines whether the game has finished.
