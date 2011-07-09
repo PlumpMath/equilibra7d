@@ -25,7 +25,7 @@ class EnemyManager(Manager):
 
     def addEnemy(self, model, position, scale):
         name = "enemy_%d" % (len(self.enemies),)
-        enemy = Enemy(base.objectsNode, model, name)
+        enemy = Enemy(render, model, name) # TODO: it should not go to "render" but to "Stage1.objectsNode"
         enemy.setPos(position)
         enemy.model.setScale(scale)
         enemy.collider.setScale(scale)

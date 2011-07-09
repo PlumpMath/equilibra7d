@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 from direct.showbase.ShowBase import ShowBase
 from pandac.PandaModules import ClockObject, WindowProperties
-from panda3d.core import NodePath
 
 from gamestate import GameState
 
@@ -12,10 +11,6 @@ class World(ShowBase):
     
     def __init__(self):
         ShowBase.__init__(self)
-        
-        # Create parent for all objects
-        self.objectsNode = NodePath("objects")
-        self.objectsNode.reparentTo(self.render)
         
         self.managers = set()
         

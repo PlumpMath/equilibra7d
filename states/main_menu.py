@@ -18,7 +18,6 @@ class MainMenu(KeyboardEventHandler):
         # destroy potential trash
         for manager in base.managers:
             manager.clear()
-        base.objectsNode.removeChildren()
         # -------------------------
         
         base.hudManager = managers.HUDManager()

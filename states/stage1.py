@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from direct.fsm.FSM import FSM
+from panda3d.core import NodePath
 
 from objects import Character, Landscape, Scenario, Sea
 import managers
@@ -59,17 +60,27 @@ class Stage1(FSM, KeyboardEventHandler):
         
         toggle("lights", "f9", lambda: base.lightManager.setup(),
                                lambda: base.lightManager.clear())
-       
+        
         toggle("pause", "p", lambda: (self.pause(), state.setdefault("paused", True)),
                              lambda: (self.pause(), state.pop("paused")),
                              False)
     
+    #---------------------------------------------------------------------------
+    # This stage's things
+    #---------------------------------------------------------------------------
     def enter(self):
         self.load_bindings()
+        
+        # Create parent for all objects
+        self.objectsNode = NodePath("objects")
+        self.objectsNode.reparentTo(render)
+        
         self.request("NewGame")
     
     def exit(self):
         self.unload_bindings()
+        
+        self.objectsNode.removeNode()
     
     #---------------------------------------------------------------------------
     # Helper functions to setup this Stage
@@ -79,11 +90,11 @@ class Stage1(FSM, KeyboardEventHandler):
         
         Can be run multiple times to recreate all objects."""
         # Remove nodes if they already exist.
-        base.objectsNode.removeChildren()
-        base.scenario = Scenario(base.objectsNode, "arena2")
-        base.character = Character(base.objectsNode, "teste")
-        base.landscape = Landscape(base.objectsNode, "landscape")
-        base.sea = Sea(base.objectsNode, "sea")
+        self.objectsNode.removeChildren()
+        base.scenario = Scenario(self.objectsNode, "arena2")
+        base.character = Character(self.objectsNode, "teste")
+        base.landscape = Landscape(self.objectsNode, "landscape")
+        base.sea = Sea(self.objectsNode, "sea")
     
     def createManagers(self):
         """Instantiate managers.
