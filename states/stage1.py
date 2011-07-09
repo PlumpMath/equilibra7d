@@ -2,7 +2,7 @@
 from direct.fsm.FSM import FSM
 from panda3d.core import NodePath
 
-from objects import Equismo, Landscape, Scenario, Sea
+from objects import Equismo, EnemyManager, Landscape, Scenario, Sea
 import managers
 from handlers.keyboard import KeyboardEventHandler
 
@@ -97,7 +97,7 @@ class Stage1(FSM, KeyboardEventHandler):
         self.removeAllTasks()
     
     #---------------------------------------------------------------------------
-    # Helper functions to setup this Stage
+    # Helper methods to setup this Stage
     #---------------------------------------------------------------------------
     def createObjects(self):
         """Instantiate objects."""
@@ -108,7 +108,7 @@ class Stage1(FSM, KeyboardEventHandler):
     
     def createManagers(self):
         """Instantiate managers."""
-        for kind in "Enemy Physics Collision Light HUD AI Audio".split():
+        for kind in "Physics Collision Light HUD AI Audio".split():
             # Take the *Manager class from the `managers' package
             class_name = "%sManager" % kind
             klass = getattr(managers, class_name)
@@ -118,6 +118,8 @@ class Stage1(FSM, KeyboardEventHandler):
             # done for each manager class.
             manager_name = kind.lower()
             self.managers[manager_name] = klass()
+        
+        self.managers['enemy'] = EnemyManager()
     
     #-----------------------------------------------------------------------
     # FSM states
