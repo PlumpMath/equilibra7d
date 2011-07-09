@@ -13,12 +13,14 @@ class MainMenu(KeyboardEventHandler):
         )
     
     def enter(self):
+        print "enterMainMenu"
         self.load_bindings()
         
         self.hudManager = managers.HUDManager()
         self.hudManager.show_centered(u"F2 para começar")
     
     def exit(self):
+        print "exitMainMenu"
         self.unload_bindings()
         
         self.hudManager.clear()

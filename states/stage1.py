@@ -69,6 +69,7 @@ class Stage1(FSM, KeyboardEventHandler):
     # This stage's things
     #---------------------------------------------------------------------------
     def enter(self):
+        print "enterStage1"
         self.load_bindings()
         
         # Create parent for all objects
@@ -82,6 +83,7 @@ class Stage1(FSM, KeyboardEventHandler):
         self.request("NewGame")
     
     def exit(self):
+        print "exitStage1"
         self.unload_bindings()
         
         self.objects.clear()
@@ -90,6 +92,8 @@ class Stage1(FSM, KeyboardEventHandler):
             self.managers.popitem()[1].clear()
         
         self.objectsNode.removeNode()
+        
+        self.removeAllTasks()
     
     #---------------------------------------------------------------------------
     # Helper functions to setup this Stage
@@ -134,12 +138,7 @@ class Stage1(FSM, KeyboardEventHandler):
             mgr.setup()
         
         # Check for a Game Over
-        # TODO: use self.addTask here
-        # TODO: remove "gameover_task" when appropriate
-        task_name = "gameover_task"
-        if taskMgr.hasTaskNamed(task_name):
-            taskMgr.remove(task_name)
-        taskMgr.add(self.handleGameOver, task_name)
+        self.addTask(self.handleGameOver, "gameover_task")
     
     def exitNewGame(self):
         print "exitNewGame"
