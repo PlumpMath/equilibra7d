@@ -45,21 +45,22 @@ class GameState(FSM):
         print "enterPause"
         # Disable some things
         base.aiManager.clear()
-        self._kb_handlers = base.keyboardManager.clear()
         base.physicsManager.clear()
         base.enemyManager.clear()
         base.hudManager.pause()
+        
+        base.character.unload_bindings()
     
     def exitPause(self):
         print "exitPause"
         # Re-enable things
         base.aiManager.setup()
-        for handler in self._kb_handlers:
-            base.keyboardManager.addKeyboardEventHandler(handler)
         base.physicsManager.setup()
         base.enemyManager.setup()
         base.hudManager.clear()
         base.hudManager.setup()
+        
+        base.character.load_bindings()
     
     def filterPause(self, request, args):
         if request == "Pause":
@@ -73,9 +74,10 @@ class GameState(FSM):
         func()
         # Clear managers
         base.aiManager.clear()
-        base.keyboardManager.clear()
         base.physicsManager.clear()
         base.enemyManager.clear()
+        
+        base.character.unload_bindings()
     
     def exitGameOver(self):
         print "exitGameOver"

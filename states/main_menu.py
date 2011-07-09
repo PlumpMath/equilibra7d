@@ -20,8 +20,7 @@ class MainMenu(KeyboardEventHandler):
             manager.clear()
         base.objectsNode.removeChildren()
         # -------------------------
-    
-        base.keyboardManager = managers.KeyboardManager()
+        
         base.hudManager = managers.HUDManager()
         base.hudManager.show_centered(u"F2 para começar")
     
@@ -29,5 +28,4 @@ class MainMenu(KeyboardEventHandler):
         self.unload_bindings()
         
         base.hudManager.clear()
-        base.keyboardManager.clear()
 

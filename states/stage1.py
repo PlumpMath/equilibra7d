@@ -70,7 +70,6 @@ class Stage1(KeyboardEventHandler):
         base.sea.setup()
         
         # Set up managers
-        base.keyboardManager.setup()
         base.enemyManager.setup()
         base.physicsManager.setup()
         base.collisionManager.setup()
@@ -104,7 +103,7 @@ class Stage1(KeyboardEventHandler):
         """Instantiate managers.
         
         Can be run multiple times to clear all managers."""
-        for kind in "Keyboard Enemy Physics Collision Light HUD AI Audio".split():
+        for kind in "Enemy Physics Collision Light HUD AI Audio".split():
             manager_attribute_name = "%sManager" % kind.lower()
             if hasattr(base, manager_attribute_name):
                 manager = getattr(base, manager_attribute_name)
@@ -116,7 +115,7 @@ class Stage1(KeyboardEventHandler):
                 klass = getattr(managers, class_name)
                 
                 # Create new Manager. This is similar to
-                # base.keyboardManager = managers.KeyboardManager()
+                # base.lightManager = managers.LightManager()
                 # done for each manager class.
                 manager = klass()
                 setattr(base, manager_attribute_name, manager)
