@@ -1,4 +1,4 @@
-from character import Character
+from equismo import Equismo
 from enemy import Enemy
 from landscape import Landscape
 from scenario import Scenario

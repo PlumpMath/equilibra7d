@@ -25,7 +25,7 @@ class CollisionManager(Manager):
         self.handler.addInPattern('%fn-into-%in')
     
     def setup(self):
-        self.addCollider(base.gameState.currentState.objects['character'])
+        self.addCollider(base.gameState.currentState.objects['equismo'])
     
     def clear(self):
         base.cTrav.clearColliders()

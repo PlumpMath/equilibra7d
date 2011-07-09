@@ -2,7 +2,7 @@
 from direct.fsm.FSM import FSM
 from panda3d.core import NodePath
 
-from objects import Character, Landscape, Scenario, Sea
+from objects import Equismo, Landscape, Scenario, Sea
 import managers
 from handlers.keyboard import KeyboardEventHandler
 
@@ -101,7 +101,7 @@ class Stage1(FSM, KeyboardEventHandler):
     def createObjects(self):
         """Instantiate objects."""
         self.objects['scenario'] = Scenario(self.objectsNode, "arena2")
-        self.objects['character'] = Character(self.objectsNode, "teste")
+        self.objects['equismo'] = Equismo(self.objectsNode, "teste")
         self.objects['landscape'] = Landscape(self.objectsNode, "landscape")
         self.objects['sea'] = Sea(self.objectsNode, "sea")
     
@@ -161,7 +161,7 @@ class Stage1(FSM, KeyboardEventHandler):
         
         self.managers['hud'].pause()
         
-        self.objects['character'].unload_bindings()
+        self.objects['equismo'].unload_bindings()
     
     def exitPause(self):
         print "exitPause"
@@ -173,7 +173,7 @@ class Stage1(FSM, KeyboardEventHandler):
         self.managers['hud'].clear()
         self.managers['hud'].setup()
         
-        self.objects['character'].load_bindings()
+        self.objects['equismo'].load_bindings()
     
     def filterPause(self, request, args):
         if request == "Pause":
@@ -190,7 +190,7 @@ class Stage1(FSM, KeyboardEventHandler):
         self.managers['physics'].clear()
         self.managers['enemy'].clear()
         
-        self.objects['character'].unload_bindings()
+        self.objects['equismo'].unload_bindings()
     
     def exitGameOver(self):
         print "exitGameOver"
@@ -206,16 +206,16 @@ class Stage1(FSM, KeyboardEventHandler):
     def handleGameOver(self, task):
         """Task that determines whether the gamer has finished.
         
-        When the character or the enemy are under water, the state changes to
+        When Equismo or the enemy is under water, the state changes to
         GameOver and the HUD shows the winner."""
 #        enemy_z = self.objects['enemy'].getBounds().getCenter().getZ()
-        character_z = self.objects['character'].getBounds().getCenter().getZ()
+        equismo_z = self.objects['equismo'].getBounds().getCenter().getZ()
         
 #        if enemy_z < -10:
 #            self.request("GameOver", self.managers['hud'].win)
 #            return task.done
-#        elif character_z < -10:
-        if character_z < -10:
+#        elif equismo_z < -10:
+        if equismo_z < -10:
             self.request("GameOver", self.managers['hud'].lose)
             return task.done
         

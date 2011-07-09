@@ -22,8 +22,8 @@ class AIManager(Manager):
         aiChar = AICharacter("seeker", modelNode.actor, mass, movtForce, maxForce)
         self.aiWorld.addAiChar(aiChar)
         aiBehaviors = aiChar.getAiBehaviors()
-        character = base.gameState.currentState.objects['character']
-        aiBehaviors.pursue(character.actor)
+        equismo = base.gameState.currentState.objects['equismo']
+        aiBehaviors.pursue(equismo.actor)
         
         self.aiCharList.append(aiChar)
         

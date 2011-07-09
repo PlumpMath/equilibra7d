@@ -5,11 +5,11 @@ from handlers.keyboard import KeyboardEventHandler
 from physicalnode import PhysicalNode
 
 
-class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
+class Equismo(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
     ANIM_WALK = "anim1"
     
     def __init__(self, parent, model):
-        PhysicalNode.__init__(self, parent, model, "character", [self.ANIM_WALK])
+        PhysicalNode.__init__(self, parent, model, "equismo", [self.ANIM_WALK])
         
         self.mass = 500.0
         
@@ -47,7 +47,7 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
             ("arrow_right-up", self.setKey, ["right", 0]),
         )
         
-        task_name = "character_movement"
+        task_name = "equismo_movement"
         if taskMgr.hasTaskNamed(task_name):
             taskMgr.remove(task_name)
         taskMgr.add(self.handleKeyboardEvent, task_name)
@@ -99,9 +99,8 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
                 
         self.addImpulse(impulse)
         
-        # If the character was not hit by an enemy look at the movement
-        # direction.
-        # Otherwise look at the enemy until the character turns around.
+        # If Equismo was not hit by an enemy look at the movement direction.
+        # Otherwise look at the enemy until Equismo turns around.
         if not self._hit:
             self.face(self.velocity)
             
@@ -134,7 +133,7 @@ class Character(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
         return speed > self._speedLimit
     
     def face(self, direction):
-        """Makes the character look at a given the direction.
+        """Makes Equismo look at a given the direction.
         This method makes only heading rotations.
         
         `direction': vector

@@ -21,8 +21,8 @@ class Enemy(PhysicalNode, CollisionEventHandler):
         normal.z = 0
         normal.normalize()
         
-        character = base.gameState.currentState.objects['character']
-        otherVelocity = character.velocity
-        otherMass = character.mass
+        equismo = base.gameState.currentState.objects['equismo']
+        otherVelocity = equismo.velocity
+        otherMass = equismo.mass
         self.collide(-normal, otherVelocity, otherMass, 0.75)
         

@@ -22,8 +22,8 @@ class PhysicsManager(Manager):
         base.enableParticles()
         self.setGravity(9.8)
         
-        # Character
-        self.addActor(base.gameState.currentState.objects['character'])
+        # Equismo
+        self.addActor(base.gameState.currentState.objects['equismo'])
         
         # Enemies
         base.gameState.currentState.managers['enemy'].addPhysics()

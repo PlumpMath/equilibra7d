@@ -72,8 +72,8 @@ class EnemyManager(Manager):
     def addCollision(self, enemy):
         collisionManager = base.gameState.currentState.managers['collision']
         collisionManager.addCollider(enemy)
-        character = base.gameState.currentState.objects['character']
-        collisionManager.addMutualCollisionHandling(character, enemy)
+        equismo = base.gameState.currentState.objects['equismo']
+        collisionManager.addMutualCollisionHandling(equismo, enemy)
         
         for otherEnemy in self.enemies:
             collisionManager.addMutualCollisionHandling(enemy, otherEnemy)
