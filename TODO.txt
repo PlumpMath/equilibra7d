@@ -10,6 +10,7 @@ Enemy:
 Game state:
     - New winning conditions
     - Pretty and functional Main Menu
+    - Fix HUD upon toggling things
     - Fix event and task leaks
 
 Gameplay:
