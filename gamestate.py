@@ -1,12 +1,13 @@
 from direct.fsm.FSM import FSM
 
+from utils import print_tasks
 import states.stage1
 import states.main_menu
 
 
 class GameState(FSM):
     def __init__(self):
-        FSM.__init__(self, 'EquilibraFSM')
+        FSM.__init__(self, 'Equilibra7d_FSM')
         self.defaultTransitions = {
             'MainMenu': ['NewGame'],
             'NewGame': ['MainMenu', 'NewGame', 'Pause', 'GameOver'],
@@ -27,7 +28,7 @@ class GameState(FSM):
         print "enterNewGame"
         self.currentState = states.stage1.Stage1()
         self.currentState.enter(self.handleGameOver)
-        self.printTasks()
+        print_tasks()
     
     def exitNewGame(self):
         print "exitNewGame"
@@ -115,20 +116,4 @@ class GameState(FSM):
     def pause(self):
         """Toggle pause the current game."""
         self.request("Pause")
-    
-    def printTasks(self):
-        print
-        print "# tasks"
-        _tasks = sorted([t.name for t in taskMgr.getAllTasks()])
-        for i, name in enumerate(_tasks, 1):
-            c = _tasks.count(name)
-            if c > 1:
-                if i == _tasks.index(name) + 1:
-                    print "%02d. %s [%d]" % (i, name, c)
-                else:
-                    # don't print anything
-                    pass
-            else:
-                print "%02d. %s" % (i, name)
-        print
 
