@@ -8,7 +8,7 @@ from base import Manager
 class CollisionManager(Manager, DirectObject):
     """Handles the collision between objects on the scene."""
     
-    def __init__(self, debug=True):
+    def __init__(self, debug=False):
         self._debug = debug
         
         self.handler = PhysicsCollisionHandler()
