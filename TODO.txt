@@ -7,14 +7,14 @@ Enemy:
 Game state:
     - Don't use taskMgr direcly (use DirectObject.addTask, .removeAllTasks)
     - New winning conditions
-    - Title screen
+    - Pretty and functional Main Menu
 
 Gameplay:
     - Tune mass, collision, speed, ...
+    - Implement time bar to next flock of Natans
 
 Game story:
-    - Write the GDD
-    - Give a name to the main character
+    - Update the GDD
 
 Models:
     - Export animation
@@ -26,7 +26,7 @@ Models:
 Documentation:
     - Fill in the README file
     - Update blog
-    - Make Equilibra7D distributable:
+    - Make Equilibra7d distributable:
         http://www.panda3d.org/manual/index.php/Distributing_Panda3D_Applications
 
 Audio:
