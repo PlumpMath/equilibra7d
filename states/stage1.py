@@ -49,8 +49,8 @@ class Stage1(FSM, KeyboardEventHandler):
         toggle("hud", "f1", lambda: self.managers['hud'].setup(),
                             lambda: self.managers['hud'].clear())
         
-        toggle("ai", "f5", lambda: self.managers['ai'].setup(),
-                           lambda: self.managers['ai'].clear())
+        #toggle("ai", "f5", lambda: self.managers['ai'].setup(),
+        #                   lambda: self.managers['ai'].clear())
         
         toggle("physics", "f7", lambda: self.managers['physics'].setup(),
                                 lambda: self.managers['physics'].clear())
@@ -111,7 +111,7 @@ class Stage1(FSM, KeyboardEventHandler):
     
     def createManagers(self):
         """Instantiate managers."""
-        for kind in "Physics Collision Light HUD AI Audio".split():
+        for kind in "Physics Collision Light HUD Audio".split():
             # Take the *Manager class from the `managers' package
             class_name = "%sManager" % kind
             klass = getattr(managers, class_name)
@@ -159,7 +159,7 @@ class Stage1(FSM, KeyboardEventHandler):
     def enterPause(self):
         print "enterPause"
         # Disable some things
-        self.managers['ai'].clear()
+        #self.managers['ai'].clear()
         self.managers['physics'].clear()
         
         self.managers['hud'].pause()
@@ -170,7 +170,7 @@ class Stage1(FSM, KeyboardEventHandler):
     def exitPause(self):
         print "exitPause"
         # Re-enable things
-        self.managers['ai'].setup()
+        #self.managers['ai'].setup()
         self.managers['physics'].setup()
         
         self.managers['hud'].clear()
@@ -190,7 +190,7 @@ class Stage1(FSM, KeyboardEventHandler):
         print "enterGameOver"
         func()
         # Clear managers
-        self.managers['ai'].clear()
+        #self.managers['ai'].clear()
         self.managers['physics'].clear()
         
         self.objects['equismo'].unload_bindings()

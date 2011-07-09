@@ -1,4 +1,3 @@
-from ai import AIManager
 from collision import CollisionManager
 from hud import HUDManager
 from light import LightManager
