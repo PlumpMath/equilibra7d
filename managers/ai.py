@@ -18,7 +18,7 @@ class AIManager(Manager):
         self.aiWorld.update()
         return task.cont
     
-    def addEnemy(self, modelNode, mass, movtForce, maxForce):
+    def addNatan(self, modelNode, mass, movtForce, maxForce):
         aiChar = AICharacter("seeker", modelNode.actor, mass, movtForce, maxForce)
         self.aiWorld.addAiChar(aiChar)
         aiBehaviors = aiChar.getAiBehaviors()

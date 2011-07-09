@@ -74,7 +74,7 @@ class Equismo(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
         
         nodePath = entry.getIntoNodePath()
         enemyManager = base.gameState.currentState.managers['enemy']
-        enemy = enemyManager.getEnemyFromCollisionNode(nodePath)
+        enemy = enemyManager.getNatanFromCollisionNode(nodePath)
         
         otherVelocity = enemy.velocity
         otherMass = enemy.mass

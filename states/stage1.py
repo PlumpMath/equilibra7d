@@ -2,7 +2,7 @@
 from direct.fsm.FSM import FSM
 from panda3d.core import NodePath
 
-from objects import Equismo, EnemyManager, Landscape, Scenario, Sea
+from objects import Equismo, Natans, Landscape, Scenario, Sea
 import managers
 from handlers.keyboard import KeyboardEventHandler
 
@@ -119,7 +119,7 @@ class Stage1(FSM, KeyboardEventHandler):
             manager_name = kind.lower()
             self.managers[manager_name] = klass()
         
-        self.managers['enemy'] = EnemyManager()
+        self.managers['enemy'] = Natans()
     
     #-----------------------------------------------------------------------
     # FSM states

@@ -1,8 +1,13 @@
+from random import random
+from math import sin, cos
+
+from panda3d.core import Point3, Vec3
+
 from physicalnode import PhysicalNode
 from handlers.collision import CollisionEventHandler
 
 
-class Enemy(PhysicalNode, CollisionEventHandler):
+class Natan(PhysicalNode, CollisionEventHandler):
     ANIM_WALK = "anim1"
     JUMP_SOUND = ["water_jumping", 7]
     
@@ -27,14 +32,8 @@ class Enemy(PhysicalNode, CollisionEventHandler):
         self.collide(-normal, otherVelocity, otherMass, 0.75)
 
 
-from random import random
-from math import sin, cos
-
-from panda3d.core import Point3, Vec3
-
-
-class EnemyManager:
-    """Handles the dynamic creation and destruction of Enemy objects."""
+class Natans:
+    """Handles the dynamic creation and destruction of Natan objects."""
     
     def __init__(self):
         self.enemies = []
@@ -42,15 +41,15 @@ class EnemyManager:
         self.idleTime = 0.5
     
     def setup(self):
-        taskMgr.add(self.spawn, "EnemySpawn")
+        taskMgr.add(self.spawn, "NatanSpawn")
         
     def clear(self):
         self.enemies = []
-        taskMgr.remove("EnemySpawn")
+        taskMgr.remove("NatanSpawn")
 
-    def addEnemy(self, model, position, scale):
+    def addNatan(self, model, position, scale):
         name = "enemy_%d" % (len(self.enemies),)
-        enemy = Enemy(render, model, name) # TODO: it should not go to "render" but to "Stage1.objectsNode"
+        enemy = Natan(render, model, name) # TODO: it should not go to "render" but to "Stage1.objectsNode"
         enemy.setPos(position)
         enemy.model.setScale(scale)
         enemy.collider.setScale(scale)
@@ -64,12 +63,12 @@ class EnemyManager:
         
         # AI
         aiManager = base.gameState.currentState.managers['ai']
-        aiManager.addEnemy(enemy, 50, 0.5, 1.5)
+        aiManager.addNatan(enemy, 50, 0.5, 1.5)
 
         # Audio
         audioManager = base.gameState.currentState.managers['audio']
-        audioManager.playRandomEffect(Enemy.JUMP_SOUND[0], 
-                                      Enemy.JUMP_SOUND[1])
+        audioManager.playRandomEffect(Natan.JUMP_SOUND[0], 
+                                      Natan.JUMP_SOUND[1])
         
         self.enemies.append(enemy)
         return enemy
@@ -86,7 +85,7 @@ class EnemyManager:
             position = Point3(x, y, -1)
             
             scale = random() * 0.35 + 0.15
-            enemy = self.addEnemy("enemyfish_blue", position, scale)
+            enemy = self.addNatan("enemyfish_blue", position, scale)
             
             force = (Point3(0, 0, 0) - position) * 0.35
             force += Vec3(0, 0, 6)
@@ -100,21 +99,21 @@ class EnemyManager:
         equismo = base.gameState.currentState.objects['equismo']
         collisionManager.addMutualCollisionHandling(equismo, enemy)
         
-        for otherEnemy in self.enemies:
-            collisionManager.addMutualCollisionHandling(enemy, otherEnemy)
+        for otherNatan in self.enemies:
+            collisionManager.addMutualCollisionHandling(enemy, otherNatan)
         
     def addAI(self):
         aiManager = base.gameState.currentState.managers['ai']
         for enemy in self.enemies:
-            aiManager.addEnemy(enemy, 50, 0.5, 1.5)
+            aiManager.addNatan(enemy, 50, 0.5, 1.5)
         
     def addPhysics(self):
         physicsManager = base.gameState.currentState.managers['physics']
         for enemy in self.enemies:
             physicsManager.addActor(enemy)
 
-    def getEnemyFromCollisionNode(self, nodePath):
-        """Returns the Enemy object pointed by the given nodePath."""
+    def getNatanFromCollisionNode(self, nodePath):
+        """Returns the Natan object pointed by the given nodePath."""
         # name format: enemy_2_collision_node
         index = int(nodePath.getName()[len("enemy_")])
         return self.enemies[index]
