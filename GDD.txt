@@ -1,33 +1,33 @@
 Equilibra7d - Game Design Document
 
 --------------------------------------------------------------------------------
-Introdução / enredo
+IntroduÃ§Ã£o / enredo
 --------------------------------------------------------------------------------
 
-    Equismo está passeando por uma praia da Antártida quando, 
-subitamente, o pedaço de gelo em que ele se encontra se desprende do 
-continente e bóia em direção ao alto mar. Enquanto navega por águas
-desconhecidas, boiando em um pedaço de gelo, Equismo fica
+    Equismo estÃ¡ passeando por uma praia da AntÃ¡rtida quando, 
+subitamente, o pedaÃ§o de gelo em que ele se encontra se desprende do 
+continente e bÃ³ia em direÃ§Ã£o ao alto mar. Enquanto navega por Ã¡guas
+desconhecidas, boiando em um pedaÃ§o de gelo, Equismo fica
 apreensivo.
-    Repentinamente, começam a pular da água inúmeras criaturas bizarras,
-parecidos com inofensivos peixes, os natans. De inofensisos eles não tem nada,
-os natans são fiéis servidores do senhor dos mares gelados, Etunus.
+    Repentinamente, comeÃ§am a pular da Ã¡gua inÃºmeras criaturas bizarras,
+parecidos com inofensivos peixes, os natans. De inofensisos eles nÃ£o tem nada,
+os natans sÃ£o fiÃ©is servidores do senhor dos mares gelados, Etunus.
     Eles querem empurrar Equismo para fora da sua plataforma de gelo, a fim
 de entregar Equismo para o jantar de Etunus.
-    Mas Equismo não quer virar comida de Etunus, então ele tem que combater
+    Mas Equismo nÃ£o quer virar comida de Etunus, entÃ£o ele tem que combater
 todos os natans que se aproximam e sobreviver a esta intensa batalha de
-resistência.
+resistÃªncia.
 
 
 --------------------------------------------------------------------------------
 Personagens
 --------------------------------------------------------------------------------
 
-    Equismo - um carismático bolinho de batata que curte passear pelo mundo.
-              Em Equilibra7d Equismo resolve viajar para a Antártida e acaba
-              se metendo em confusão, correndo o grande risco de virar jantar!
+    Equismo - um carismÃ¡tico bolinho de batata que curte passear pelo mundo.
+              Em Equilibra7d Equismo resolve viajar para a AntÃ¡rtida e acaba
+              se metendo em confusÃ£o, correndo o grande risco de virar jantar!
     
-    Etunus - o senhor dos mares gelados, está com uma fome secular e vê em
+    Etunus - o senhor dos mares gelados, estÃ¡ com uma fome secular e vÃª em
              Equismo uma chance de ter um grande banquete.
     
     Natans - criaturas parecidas com peixes, servos leais de Etunus, que querem
@@ -43,11 +43,11 @@ Objetivo
 O Jogo
 --------------------------------------------------------------------------------
     O jogador controla Equismo utilizando o teclado. Ele deve jogar os natans
-de volta para a água e evitar que elas façam o mesmo com ele.
-    Os natans tem diversos tamanhos e surgem com uma frequência variável. A
-princípio, esta frequência é baixa, mas há um contador na tela que indica o
-tempo até a chegada de um cardume. Quando um cardume chega, o jogador deve
+de volta para a Ã¡gua e evitar que elas faÃ§am o mesmo com ele.
+    Os natans tem diversos tamanhos e surgem com uma frequÃªncia variÃ¡vel. A
+princÃ­pio, esta frequÃªncia Ã© baixa, mas hÃ¡ um contador na tela que indica o
+tempo atÃ© a chegada de um cardume. Quando um cardume chega, o jogador deve
 se defender do ataque dos natans.
-    Após sobreviver a um determinado número de ataques de natans, Equismo passa
-de fase e quem sabe pode ter um encontro com o próprio Etunus.
+    ApÃ³s sobreviver a um determinado nÃºmero de ataques de natans, Equismo passa
+de fase e quem sabe pode ter um encontro com o prÃ³prio Etunus.
 
