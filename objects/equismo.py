@@ -46,11 +46,6 @@ class Equismo(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
             ("arrow_down-up", set_key, ["down", 0]),
             ("arrow_right-up", set_key, ["right", 0]),
         )
-        
-        task_name = "equismo_movement"
-        if taskMgr.hasTaskNamed(task_name):
-            taskMgr.remove(task_name)
-        taskMgr.add(self.handleKeyboardEvent, task_name)
     
     def setup(self):
         self.setZ(1)
@@ -62,10 +57,13 @@ class Equismo(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
         self.actor.setZ(-1)
         
         self.load_bindings()
+        
+        self.addTask(self.handleKeyboardEvent, "equismo_movement")
     
     def clear(self):
-        print "\033[32m unload_bindings from equismo \033[0m"
+        print "\033[32m clear Equismo \033[0m"
         self.unload_bindings()
+        self.removeAllTasks()
     
     def handleCollisionEvent(self, entry, type):
         normal = entry.getSurfaceNormal(self)

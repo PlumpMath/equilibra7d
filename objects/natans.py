@@ -1,6 +1,7 @@
 from random import random, choice
 from math import sin, cos
 
+from direct.showbase.DirectObject import DirectObject
 from panda3d.ai import AIWorld, AICharacter
 from panda3d.core import Point3, Vec3
 
@@ -41,7 +42,7 @@ class Natan(PhysicalNode, CollisionEventHandler):
         self.collide(-normal, otherVelocity, otherMass, 0.75)
 
 
-class Natans(AIWorld):
+class Natans(AIWorld, DirectObject):
     """Handles the dynamic creation and destruction of Natan objects."""
     
     def __init__(self, parent, models):
@@ -54,14 +55,13 @@ class Natans(AIWorld):
     def setup(self):
         self.enemies = []
         
-        taskMgr.add(self.update, "AIUpdate")
-        taskMgr.add(self.spawn, "NatanSpawn")
+        self.addTask(self.update, "AIUpdate")
+        self.addTask(self.spawn, "NatanSpawn")
         
     def clear(self):
+        print "\033[32m clear Natans \033[0m"
         self.enemies = []
-        
-        taskMgr.remove("NatanSpawn")
-        taskMgr.remove("AIUpdate")
+        self.removeAllTasks()
     
     #---------------------------------------------------------------------------
     

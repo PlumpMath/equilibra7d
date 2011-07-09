@@ -87,6 +87,7 @@ class Stage1(FSM, KeyboardEventHandler):
         self.unload_bindings()
         
         self.objects['equismo'].clear()
+        self.objects['enemy'].clear()
         self.objects.clear()
         
         while self.managers:
