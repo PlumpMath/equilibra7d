@@ -25,15 +25,9 @@ class Stage1(FSM, KeyboardEventHandler):
         state = dict()
         
         self.bindings = [
-            ("escape", lambda: base.gameState.request("MainMenu")),
-            ("f2", base.start),
+            ("escape", lambda: base.reset()),
+            ("f2", lambda: base.start()),
             ("f6", lambda: base.collisionManager.clear()),
-            ("f11", lambda: (base.hudManager.clear(),
-                             base.hudManager.help(),
-                             base.hudManager.win())),
-            ("f12", lambda: (base.hudManager.clear(),
-                             base.hudManager.help(),
-                             base.hudManager.lose())),
         ]
         
         def toggle(what, key, on, off, default_on=True):
@@ -66,8 +60,8 @@ class Stage1(FSM, KeyboardEventHandler):
         toggle("lights", "f9", lambda: base.lightManager.setup(),
                                lambda: base.lightManager.clear())
        
-        toggle("pause", "p", lambda: (base.pause(), state.setdefault("paused", True)),
-                             lambda: (base.pause(), state.pop("paused")),
+        toggle("pause", "p", lambda: (self.pause(), state.setdefault("paused", True)),
+                             lambda: (self.pause(), state.pop("paused")),
                              False)
     
     def enter(self):
@@ -77,6 +71,9 @@ class Stage1(FSM, KeyboardEventHandler):
     def exit(self):
         self.unload_bindings()
     
+    #---------------------------------------------------------------------------
+    # Helper functions to setup this Stage
+    #---------------------------------------------------------------------------
     def createObjects(self):
         """Instantiate objects.
         
