@@ -24,26 +24,27 @@ class Equismo(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
         self._currentAngle = 0
         
         self.keys = dict.fromkeys("left right up down".split(), 0)
+        set_key = self.keys.__setitem__
         self.bindings = (
-            ("w", self.setKey, ["up", 1]),
-            ("a", self.setKey, ["left", 1]),
-            ("s", self.setKey, ["down", 1]),
-            ("d", self.setKey, ["right", 1]),
+            ("w", set_key, ["up", 1]),
+            ("a", set_key, ["left", 1]),
+            ("s", set_key, ["down", 1]),
+            ("d", set_key, ["right", 1]),
             
-            ("w-up", self.setKey, ["up", 0]),
-            ("a-up", self.setKey, ["left", 0]),
-            ("s-up", self.setKey, ["down", 0]),
-            ("d-up", self.setKey, ["right", 0]),
+            ("w-up", set_key, ["up", 0]),
+            ("a-up", set_key, ["left", 0]),
+            ("s-up", set_key, ["down", 0]),
+            ("d-up", set_key, ["right", 0]),
             
-            ("arrow_up", self.setKey, ["up", 1]),
-            ("arrow_left", self.setKey, ["left", 1]),
-            ("arrow_down", self.setKey, ["down", 1]),
-            ("arrow_right", self.setKey, ["right", 1]),
+            ("arrow_up", set_key, ["up", 1]),
+            ("arrow_left", set_key, ["left", 1]),
+            ("arrow_down", set_key, ["down", 1]),
+            ("arrow_right", set_key, ["right", 1]),
             
-            ("arrow_up-up", self.setKey, ["up", 0]),
-            ("arrow_left-up", self.setKey, ["left", 0]),
-            ("arrow_down-up", self.setKey, ["down", 0]),
-            ("arrow_right-up", self.setKey, ["right", 0]),
+            ("arrow_up-up", set_key, ["up", 0]),
+            ("arrow_left-up", set_key, ["left", 0]),
+            ("arrow_down-up", set_key, ["down", 0]),
+            ("arrow_right-up", set_key, ["right", 0]),
         )
         
         task_name = "equismo_movement"
@@ -114,9 +115,6 @@ class Equismo(PhysicalNode, CollisionEventHandler, KeyboardEventHandler):
         self.doWalkAnimation(impulse)
         
         return task.cont
-    
-    def setKey(self, key, value):
-        self.keys[key] = value
     
     def is_braking(self, coordinate):
         return self.velocity.dot(coordinate) < 0
