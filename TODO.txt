@@ -1,5 +1,6 @@
 Code:
     - Review commented code
+    - Fix warning "Actor(warning): models/arena2.egg is not a character!"
 
 AI:
     - Implement different opponent behaviors
