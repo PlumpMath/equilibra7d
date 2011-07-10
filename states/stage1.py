@@ -6,7 +6,7 @@ from objects import Equismo, Natans, Landscape, Scenario, Sea
 import managers
 from handlers.keyboard import KeyboardEventHandler
 
-from utils import print_tasks, print_events
+from debug import debug, print_tasks, print_events
 
 
 class Stage1(FSM, KeyboardEventHandler):
@@ -78,7 +78,6 @@ class Stage1(FSM, KeyboardEventHandler):
     # This stage's things
     #---------------------------------------------------------------------------
     def enter(self):
-        print "enterStage1"
         self.load_bindings()
         
         # Create parent for all objects
@@ -92,7 +91,6 @@ class Stage1(FSM, KeyboardEventHandler):
         self.request("NewGame")
     
     def exit(self):
-        print "exitStage1"
         self.unload_bindings()
         
         self.objects['equismo'].clear()
@@ -132,11 +130,11 @@ class Stage1(FSM, KeyboardEventHandler):
             manager_name = kind.lower()
             self.managers[manager_name] = klass()
     
-    #-----------------------------------------------------------------------
+    #---------------------------------------------------------------------------
     # FSM states
-    #-----------------------------------------------------------------------
+    #---------------------------------------------------------------------------
+    @debug(['fsm'])
     def enterNewGame(self):
-        print "enterNewGame"
         # Create objects
         self.createObjects()
         
@@ -154,20 +152,20 @@ class Stage1(FSM, KeyboardEventHandler):
         # Check for a Game Over
         self.addTask(self.handleGameOver, "gameover_task")
     
+    @debug(['fsm'])
     def exitNewGame(self):
-        print "exitNewGame"
-        # Does nothing
+        pass
     
+    @debug(['fsm'])
     def enterInGame(self):
-        print "enterInGame"
-        # Does nothing
+        pass
     
+    @debug(['fsm'])
     def exitInGame(self):
-        print "exitInGame"
-        # Does nothing
+        pass
     
+    @debug(['fsm'])
     def enterPause(self):
-        print "enterPause"
         # Disable some things
         self.managers['physics'].clear()
         self.objects['equismo'].clear()
@@ -175,8 +173,8 @@ class Stage1(FSM, KeyboardEventHandler):
         
         self.managers['hud'].pause()
     
+    @debug(['fsm'])
     def exitPause(self):
-        print "exitPause"
         # Re-enable things
         self.managers['physics'].setup()
         self.objects['equismo'].setup()
@@ -192,8 +190,8 @@ class Stage1(FSM, KeyboardEventHandler):
         else:
             return (request,) + args
     
+    @debug(['fsm'])
     def enterGameOver(self, func):
-        print "enterGameOver"
         func()
         # Clear managers
         #self.managers['ai'].clear()
@@ -202,9 +200,9 @@ class Stage1(FSM, KeyboardEventHandler):
         self.objects['equismo'].unload_bindings()
         self.objects['enemy'].clear()
     
+    @debug(['fsm'])
     def exitGameOver(self):
-        print "exitGameOver"
-        # Does nothing
+        pass
     
     def filterGameOver(self, request, args):
         # No transition allowed after 'GameOver'

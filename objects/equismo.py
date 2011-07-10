@@ -2,6 +2,7 @@ from panda3d.core import Vec3, Point3
 
 from handlers.keyboard import KeyboardEventHandler
 from physicalnode import PhysicalNode
+from debug import debug
 
 
 class Equismo(PhysicalNode, KeyboardEventHandler):
@@ -56,13 +57,13 @@ class Equismo(PhysicalNode, KeyboardEventHandler):
             ("arrow_right-up", set_key, ["right", 0]),
         )
     
+    @debug(['objects'])
     def setup(self):
-        print "\033[32m setup Equismo \033[0m"
         self.load_bindings()
         self.addTask(self.handleKeyboardEvent, "equismo_movement")
     
+    @debug(['objects'])
     def clear(self):
-        print "\033[31m clear Equismo \033[0m"
         self.unload_bindings()
         self.removeAllTasks()
     

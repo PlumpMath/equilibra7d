@@ -3,6 +3,7 @@ from panda3d.core import CollisionTraverser
 from panda3d.physics import PhysicsCollisionHandler
 
 from base import Manager
+from debug import debug
 
 
 class CollisionManager(Manager, DirectObject):
@@ -19,6 +20,7 @@ class CollisionManager(Manager, DirectObject):
         self.handler.addOutPattern('out-%in')
         self.handler.addInPattern('%fn-into-%in')
     
+    @debug(['managers'])
     def setup(self):
         self._old_cTrav = base.cTrav
         base.cTrav = CollisionTraverser()
@@ -28,6 +30,7 @@ class CollisionManager(Manager, DirectObject):
         
         self.addCollider(base.gameState.currentState.objects['equismo'])
     
+    @debug(['managers'])
     def clear(self):
         base.cTrav.clearColliders()
         base.cTrav = self._old_cTrav

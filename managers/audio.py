@@ -1,6 +1,7 @@
 from random import random
 
 from base import Manager
+from debug import debug
 
 
 class AudioManager(Manager):
@@ -20,13 +21,15 @@ class AudioManager(Manager):
         self.sounds = {}
         for fileName in self.SFX_FILE_NAMES:
             self.sounds[fileName] = loader.loadSfx("sfx/%s.wav" % (fileName,))
-        
+    
+    @debug(['managers'])
     def setup(self):
         pass
-        
+    
+    @debug(['managers'])
     def clear(self):
         pass
-
+    
     def playRandomEffect(self, name, n):
         index = int(random() * n) + 1
         name += str(index)

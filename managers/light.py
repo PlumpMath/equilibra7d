@@ -1,6 +1,7 @@
 from panda3d.core import AmbientLight, DirectionalLight, PointLight, VBase4
 
 from base import Manager
+from debug import debug
 
 
 class LightManager(Manager):
@@ -12,6 +13,7 @@ class LightManager(Manager):
         self.point = l.attachNewNode(PointLight('point_light'))
         self.directional = l.attachNewNode(DirectionalLight('directional_light'))
     
+    @debug(['managers'])
     def setup(self):
         default = dict(
             ambient = (0.3, 0.3, 0.3),
@@ -20,6 +22,7 @@ class LightManager(Manager):
         )
         self.setLights(**default)
     
+    @debug(['managers'])
     def clear(self):
         render.clearLight(self.ambient)
         render.clearLight(self.point)

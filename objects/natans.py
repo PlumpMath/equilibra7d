@@ -6,6 +6,7 @@ from panda3d.ai import AIWorld, AICharacter
 from panda3d.core import Point3, Vec3
 
 from physicalnode import PhysicalNode
+from debug import debug
 
 
 class Natan(PhysicalNode):
@@ -53,13 +54,13 @@ class Natans(AIWorld, DirectObject):
         
         self.enemies = []
     
+    @debug(['objects'])
     def setup(self):
-        print "\033[32m setup Natans \033[0m"
         self.addTask(self.update, "AIUpdate")
         self.addTask(self.spawn, "NatanSpawn")
-        
+    
+    @debug(['objects'])
     def clear(self):
-        print "\033[31m clear Natans \033[0m"
         self.removeAllTasks()
     
     #---------------------------------------------------------------------------

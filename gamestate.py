@@ -1,6 +1,6 @@
 from direct.fsm.FSM import FSM
 
-from utils import print_tasks, print_events
+from debug import debug
 import states.stage1
 import states.main_menu
 
@@ -16,21 +16,21 @@ class GameState(FSM):
         }
         self.currentState = None
     
+    @debug(['fsm'])
     def enterMainMenu(self):
         self.currentState = states.main_menu.MainMenu()
         self.currentState.enter()
-        print_tasks()
-        print_events()
     
+    @debug(['fsm'])
     def exitMainMenu(self):
         self.currentState.exit()
     
+    @debug(['fsm'])
     def enterStage1(self):
         self.currentState = states.stage1.Stage1()
         self.currentState.enter()
-        print_tasks()
-        print_events()
     
+    @debug(['fsm'])
     def exitStage1(self):
         self.currentState.exit()
     

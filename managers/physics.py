@@ -1,6 +1,7 @@
 from panda3d.physics import AngularEulerIntegrator, ForceNode, LinearVectorForce
 
 from base import Manager
+from debug import debug
 
 
 class PhysicsManager(Manager):
@@ -13,6 +14,7 @@ class PhysicsManager(Manager):
         self.gravity = None
         self._physicalnodes = []
     
+    @debug(['managers'])
     def setup(self):
         base.enableParticles()
         self.setGravity(9.8)
@@ -23,6 +25,7 @@ class PhysicsManager(Manager):
         # Enemies
         base.gameState.currentState.objects['enemy'].addPhysics()
     
+    @debug(['managers'])
     def clear(self):
         self.forces.removeChildren()
         base.physicsMgr.clearAngularForces()

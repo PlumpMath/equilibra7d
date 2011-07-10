@@ -3,6 +3,7 @@ from panda3d.core import TextNode
 from direct.gui.OnscreenText import OnscreenText
 
 from base import Manager
+from debug import debug
 
 
 class HUDManager(Manager):
@@ -10,9 +11,11 @@ class HUDManager(Manager):
         self._hud = []
         self._info = None
     
+    @debug(['managers'])
     def setup(self):
         self.help()
     
+    @debug(['managers'])
     def clear(self, ost=None):
         """Remove one or every text from the screen.
         
