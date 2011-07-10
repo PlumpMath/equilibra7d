@@ -1,7 +1,6 @@
 from panda3d.core import AmbientLight, DirectionalLight, PointLight, VBase4
 
 from base import Manager
-from debug import debug
 
 
 class LightManager(Manager):

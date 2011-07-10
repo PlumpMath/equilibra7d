@@ -1,7 +1,6 @@
 from panda3d.physics import AngularEulerIntegrator, ForceNode, LinearVectorForce
 
 from base import Manager
-from debug import debug
 
 
 class PhysicsManager(Manager):

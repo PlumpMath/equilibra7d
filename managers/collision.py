@@ -3,7 +3,6 @@ from panda3d.core import CollisionTraverser
 from panda3d.physics import PhysicsCollisionHandler
 
 from base import Manager
-from debug import debug
 
 
 class CollisionManager(Manager, DirectObject):

@@ -1,6 +1,5 @@
 from direct.fsm.FSM import FSM
 
-from debug import debug
 import states.stage1
 import states.main_menu
 

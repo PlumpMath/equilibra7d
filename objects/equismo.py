@@ -2,7 +2,6 @@ from panda3d.core import Vec3, Point3
 
 from handlers.keyboard import KeyboardEventHandler
 from physicalnode import PhysicalNode
-from debug import debug
 
 
 class Equismo(PhysicalNode, KeyboardEventHandler):

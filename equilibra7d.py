@@ -3,6 +3,10 @@
 from direct.showbase.ShowBase import ShowBase
 from pandac.PandaModules import ClockObject, WindowProperties
 
+# Make debug decorator available globally
+from debug import debug
+__builtins__.debug = debug
+
 from gamestate import GameState
 
 

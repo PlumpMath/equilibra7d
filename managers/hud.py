@@ -3,7 +3,6 @@ from panda3d.core import TextNode
 from direct.gui.OnscreenText import OnscreenText
 
 from base import Manager
-from debug import debug
 
 
 class HUDManager(Manager):

@@ -6,7 +6,7 @@ from objects import Equismo, Natans, Landscape, Scenario, Sea
 import managers
 from handlers.keyboard import KeyboardEventHandler
 
-from debug import debug, print_tasks, print_events
+from debug import print_tasks, print_events
 
 
 class Stage1(FSM, KeyboardEventHandler):

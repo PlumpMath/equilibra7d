@@ -6,7 +6,6 @@ from panda3d.ai import AIWorld, AICharacter
 from panda3d.core import Point3, Vec3
 
 from physicalnode import PhysicalNode
-from debug import debug
 
 
 class Natan(PhysicalNode):
