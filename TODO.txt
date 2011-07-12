@@ -5,6 +5,9 @@ Game state:
     + Pretty and functional Main Menu
     - Fix event and task leaks
 
+Character:
+    + Stop Equismo animation on pause and game over
+
 Gameplay:
     + Implement time bar to next flock of Natans
     - Tune mass, collision, speed, ...
@@ -19,19 +22,16 @@ Documentation:
 Audio:
     + Music & Sound Effects
 
+Enemy:
+    + Rotate Natan to face forward before it is kicked into the platform, so
+      that it looks nice when the AI is off.
+    - Solve model loading lag
+
 Code:
     - Review commented code
 
 AI:
     - Implement different opponent behaviors
-
-Character:
-    - Stop Equismo animation on pause
-    
-Enemy:
-    - Solve model loading lag
-    - Rotate Natan to face forward before it is kicked into the platform, so
-      that it looks nice when the AI is off.
 
 Game story:
     - Update the GDD
