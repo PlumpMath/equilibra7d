@@ -19,7 +19,7 @@ class Natan(PhysicalNode):
         self.mass = mass
         self.addCollisionSphere(1.25)
         
-        self.model.loop(self.ANIM_WALK)
+        self.toggleWalkAnimation()
         
         #-----------------------------------------------------------------------
         # Artificial Intelligence
@@ -40,6 +40,11 @@ class Natan(PhysicalNode):
         otherMass = equismo.mass
         self.collide(-normal, otherVelocity, otherMass, 0.75)
 
+    def toggleWalkAnimation(self):
+        if self.model.getCurrentAnim() == self.ANIM_WALK:
+            self.model.stop()
+        else:
+            self.model.loop(self.ANIM_WALK)
 
 class Natans(AIWorld, DirectObject):
     """Handles the dynamic creation and destruction of Natan objects."""
@@ -57,10 +62,18 @@ class Natans(AIWorld, DirectObject):
     def setup(self):
         self.addTask(self.update, "AIUpdate")
         self.addTask(self.spawn, "NatanSpawn")
+        
+        # Start walk animation
+        for enemy in self.enemies:
+            enemy.toggleWalkAnimation() 
     
     @debug(['objects'])
     def clear(self):
         self.removeAllTasks()
+        
+        # Stop walk animation
+        for enemy in self.enemies:
+            enemy.toggleWalkAnimation()
     
     #---------------------------------------------------------------------------
     
@@ -97,6 +110,7 @@ class Natans(AIWorld, DirectObject):
             pass
         else:
             AIWorld.update(self)
+            
         return task.cont
     
     def pause_ai(self):
@@ -110,6 +124,7 @@ class Natans(AIWorld, DirectObject):
     #---------------------------------------------------------------------------
     
     def spawn(self, task):
+        """Create and delete Natans."""
         if task.time < self.idleTime:
             return task.cont
         
