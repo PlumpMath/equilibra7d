@@ -1,16 +1,15 @@
 from random import random, choice
 from math import sin, cos
 
-from direct.showbase.DirectObject import DirectObject
 from panda3d.ai import AIWorld, AICharacter
 from panda3d.core import Point3, Vec3
 
+from handlers.audio import AudioHandler
 from physicalnode import PhysicalNode
 
 
 class Natan(PhysicalNode):
     ANIM_WALK = "anim1"
-    JUMP_SOUND = ["water_jumping", 7]
     
     def __init__(self, parent, model, name,
                        ai_world, mass, movt_force, max_force):
@@ -47,8 +46,12 @@ class Natan(PhysicalNode):
             self.model.loop(self.ANIM_WALK, restart=False)
 
 
-class Natans(AIWorld, DirectObject):
+class Natans(AIWorld, AudioHandler):
     """Handles the dynamic creation and destruction of Natan objects."""
+    SFX_FILES = ["water_jumping1.wav", "water_jumping2.wav",
+                 "water_jumping3.wav", "water_jumping4.wav",
+                 "water_jumping5.wav", "water_jumping6.wav",
+                 "water_jumping7.wav"]
     
     def __init__(self, parent, models):
         AIWorld.__init__(self, parent)
@@ -95,9 +98,7 @@ class Natans(AIWorld, DirectObject):
         physicsManager.addActor(enemy)
         
         # Audio
-        audioManager = base.gameState.currentState.managers['audio']
-        audioManager.playRandomEffect(Natan.JUMP_SOUND[0],
-                                      Natan.JUMP_SOUND[1])
+        self.playRandomEffect()
         
         self.enemies.append(enemy)
         return enemy

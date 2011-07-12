@@ -1,7 +1,8 @@
 import sys
 
 # change to what is needed
-WHAT_TO_DEBUG = set(['fsm', 'objects', 'managers'])
+WHAT_TO_DEBUG = set(['fsm', 'objects', 'managers', 'audio'])
+
 
 class debug:
     """Decorator which helps to control what aspects of a program to debug
