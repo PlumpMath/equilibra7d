@@ -17,20 +17,16 @@ class Equismo(PhysicalNode, KeyboardEventHandler):
         self._impulseIncrement = 4.0
         self._speedLimit = 5.0
         self._turningSpeed = 0.2
-
+        
         self._hit = False
         self._currentDirection = Vec3.forward()
         self._currentAngle = 0
         
-        
-        self.setZ(1)
         self.setScale(0.8)
         
         # Little "hack" to fix orientation
         # Seems that the model has its eyes in the back?!
         self.actor.setH(180)
-        self.model.setZ(-0.73)
-        
         
         self.keys = dict.fromkeys("left right up down".split(), 0)
         set_key = self.keys.__setitem__
@@ -81,7 +77,6 @@ class Equismo(PhysicalNode, KeyboardEventHandler):
         
         self.face(-normal)
         self._hit = True
-        
     
     def handleKeyboardEvent(self, task):
         keys = self.keys
@@ -98,19 +93,19 @@ class Equismo(PhysicalNode, KeyboardEventHandler):
                          ("down", Vec3.back())):
             if keys[key] and (not above_limit or self.is_braking(vec)):
                 impulse += vec * increment
-                
+        
         self.addImpulse(impulse)
         
         # If Equismo was not hit by an enemy look at the movement direction.
         # Otherwise look at the enemy until Equismo turns around.
         if not self._hit:
             self.face(self.velocity)
-            
+        
         elif ((impulse.length() > 0) and
               (self.velocity.length() > 0.5) and
               (not self.is_braking(impulse))):
                     self._hit = False
-
+        
         self.doWalkAnimation(impulse)
         
         return task.cont
@@ -125,7 +120,7 @@ class Equismo(PhysicalNode, KeyboardEventHandler):
         else:
             self.model.stop()
             self.model.pose(self.ANIM_WALK, 1)
-
+    
     @property
     def is_above_limit(self):
         speed = self.velocity.length()

@@ -59,12 +59,13 @@ class PhysicalNode(ModelNode):
     #---------------------------------------------------------------------------
     # Collision methods
     #---------------------------------------------------------------------------
-    def addCollisionSphere(self, size):
+    def addCollisionSphere(self, radius):
         """Create a collision sphere and adds it to the node's tree.
         
-        Its radius is given by 'size' and it is centered at the origin.
+        The sphere is centered at the center of the object.
         """
-        collisionSphere = CollisionSphere(0, 0, 0, size)
+        center = self.getBounds().getCenter()
+        collisionSphere = CollisionSphere(center, radius)
         collisionNode = CollisionNode(self.name + '_collision_node')
         collisionNode.addSolid(collisionSphere)
 
