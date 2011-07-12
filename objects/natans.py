@@ -39,12 +39,13 @@ class Natan(PhysicalNode):
         otherVelocity = equismo.velocity
         otherMass = equismo.mass
         self.collide(-normal, otherVelocity, otherMass, 0.75)
-
+    
     def toggleWalkAnimation(self):
         if self.model.getCurrentAnim() == self.ANIM_WALK:
             self.model.stop()
         else:
-            self.model.loop(self.ANIM_WALK)
+            self.model.loop(self.ANIM_WALK, restart=False)
+
 
 class Natans(AIWorld, DirectObject):
     """Handles the dynamic creation and destruction of Natan objects."""
@@ -152,12 +153,12 @@ class Natans(AIWorld, DirectObject):
         
         for otherNatan in self.enemies:
             collisionManager.addMutualCollisionHandling(enemy, otherNatan)
-        
+    
     def addPhysics(self):
         physicsManager = base.gameState.currentState.managers['physics']
         for enemy in self.enemies:
             physicsManager.addActor(enemy)
-
+    
     def getNatanFromCollisionNode(self, nodePath):
         """Returns the Natan object pointed by the given nodePath."""
         # name format: enemy_2_collision_node
