@@ -3,9 +3,6 @@ Game state:
     + Pretty and functional Main Menu
     - Fix event and task leaks
 
-Character:
-    + Stop Equismo animation on pause and game over
-
 Gameplay:
     + Implement time bar to next flock of Natans
     - Tune mass, collision, speed, ...

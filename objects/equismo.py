@@ -67,6 +67,7 @@ class Equismo(PhysicalNode, KeyboardEventHandler):
     def clear(self):
         self.unload_bindings()
         self.removeAllTasks()
+        self.stop()
     
     #---------------------------------------------------------------------------
     # Animation
