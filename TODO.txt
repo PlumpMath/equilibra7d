@@ -1,36 +1,22 @@
-<<<<<<< TREE
-AI:
-    - Implement different opponent behaviors
-
 Game state:
-    - Bug: Turn off AI [F5] -> Restart game [F2] -> Turn off AI [F5]
-    - New winning conditions
-    - Title screen
+    + New winning conditions
+    + Pretty and functional Main Menu
+    - Fix event and task leaks
 
 Gameplay:
+    + Implement time bar to next flock of Natans
     - Tune mass, collision, speed, ...
 
-Game story:
-    - Write the GDD
-    - Give a name to the main character
-
-Models:
-	- Export animation
-	- Create another enemy
-	- Animate new enemy
-	- Organize files
-	- Remove unused files
-
 Documentation:
+    + Make game presentation slides
+    + Make Equilibra7d distributable:
+        http://www.panda3d.org/manual/index.php/Distributing_Panda3D_Applications
     - Fill in the README file
     - Update blog
-    - Make Equilibra7D distributable:
-        http://www.panda3d.org/manual/index.php/Distributing_Panda3D_Applications
 
 Audio:
-    - Music
-    - Sound Effects
-=======
+    + Music & Sound Effects
+
 Code:
     - Review commented code
 
@@ -45,15 +31,6 @@ Enemy:
     - Rotate Natan to face forward before it is kicked into the platform, so
       that it looks nice when the AI is off.
 
-Game state:
-    - New winning conditions
-    - Pretty and functional Main Menu
-    - Fix event and task leaks
-
-Gameplay:
-    - Tune mass, collision, speed, ...
-    - Implement time bar to next flock of Natans
-
 Game story:
     - Update the GDD
 
@@ -62,15 +39,4 @@ Models:
     - Create another enemy
     - Animate new enemy
     - Organize files
-    - Create new textures (fish) 
-
-Documentation:
-    - Fill in the README file
-    - Update blog
-    - Make Equilibra7d distributable:
-        http://www.panda3d.org/manual/index.php/Distributing_Panda3D_Applications
-
-Audio:
-    - Music
-    - Sound Effects
->>>>>>> MERGE-SOURCE
+    - Create new textures (fish)
