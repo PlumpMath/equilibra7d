@@ -12,7 +12,7 @@ class Equismo(PhysicalNode, KeyboardEventHandler):
         
         self.mass = 500.0
         
-        self.addCollisionSphere(1.15)
+        self.addCollisionSphere(1.2)
         
         self._impulseIncrement = 4.0
         self._speedLimit = 5.0
@@ -29,7 +29,7 @@ class Equismo(PhysicalNode, KeyboardEventHandler):
         # Little "hack" to fix orientation
         # Seems that the model has its eyes in the back?!
         self.actor.setH(180)
-        self.actor.setZ(-1)
+        self.model.setZ(-0.73)
         
         
         self.keys = dict.fromkeys("left right up down".split(), 0)
