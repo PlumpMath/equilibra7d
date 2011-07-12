@@ -4,6 +4,9 @@ Code:
 AI:
     - Implement different opponent behaviors
 
+Character:
+    - Stop Equismo animation on pause
+    
 Enemy:
     - Solve model loading lag
     - Rotate Natan to face forward before it is kicked into the platform, so
