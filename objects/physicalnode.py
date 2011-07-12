@@ -16,7 +16,7 @@ class PhysicalNode(ModelNode):
     Subclasses must implement `handleCollisionEvent'.
     """
     
-    def __init__(self, parent, model, name, animations=[]):
+    def __init__(self, parent, model, name, animations=None):
         ModelNode.__init__(self, parent, model, name, animations)
         actorNode = ActorNode(name + "_actor_node")
         self.actor = self.attachNewNode(actorNode)
