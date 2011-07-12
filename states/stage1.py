@@ -230,7 +230,7 @@ class Stage1(FSM, KeyboardEventHandler):
         #-----------------------------------------------------------------------
         def enemy_is_dead(enemy):
             enemy_z = enemy.getBounds().getCenter().getZ()
-            return enemy_z < -10
+            return enemy_z < -2
         dead_enemies = len(filter(enemy_is_dead, self.objects['enemy'].enemies))
         enemies_left = self.objects['enemy'].amount - dead_enemies
         
