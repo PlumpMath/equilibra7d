@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-from panda3d.core import TextNode
+from panda3d.core import TextNode, TransparencyAttrib
 from direct.gui.OnscreenText import OnscreenText
+from direct.gui.OnscreenImage import OnscreenImage
 
 from base import Manager
 
@@ -10,6 +11,7 @@ class HUDManager(Manager):
         self._hud = []
         self._info = None
         self._natans = None
+        self._natans_img = None
     
     @debug(['managers'])
     def setup(self):
@@ -35,6 +37,12 @@ class HUDManager(Manager):
         ost = OnscreenText(text=text, **props)
         self._hud.append(ost)
         return ost
+    
+    def show_image(self, path, **props):
+        osi = OnscreenImage(image=path, **props)
+        osi.setTransparency(TransparencyAttrib.MAlpha)
+        self._hud.append(osi)
+        return osi
     
     def show_centered(self, text, **kwargs):
         """Display text centered in the HUD."""
@@ -110,8 +118,16 @@ Comandos:
     
     def natans(self, n):
         """Display information in the HUD."""
+        # Load img only once
+        if not self._natans_img:
+            x, z = -0.15, 0.92
+            img_props = dict(
+                pos = (x, 0, z),
+                scale = 0.06,
+            )
+            self._natans_img = self.show_image("models/imgs/natan.png", **img_props)
         props = dict(
-            pos = (0, 0.92),
+            pos = (0, 0.9),
             scale = 0.12,
             align = TextNode.ACenter,
             fg = (1, 1, 1, 1),
