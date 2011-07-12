@@ -13,7 +13,7 @@ class ModelNode(NodePath):
         NodePath.__init__(self, name)
         self.name = name
         
-        if animations is None:
+        if not animations:
             # Load static model
             self.model = loader.loadModel("models/%s.bam" % (model,))
         else:
