@@ -111,9 +111,11 @@ class Stage1(FSM, KeyboardEventHandler):
         """Instantiate objects."""
         self.objects['scenario'] = Scenario(self.objectsNode, "stage1")
         self.objects['equismo'] = Equismo(self.objectsNode, "equismo")
-        self.objects['enemy'] = Natans(self.objectsNode, ["enemyfish_red",
-                                                          "enemyfish_green",
-                                                          "enemyfish_blue"])
+        self.objects['enemy'] = Natans(self.objectsNode,
+                                       ["enemyfish_red",
+                                        "enemyfish_green",
+                                        "enemyfish_blue"],
+                                       20)
         self.objects['landscape'] = Landscape(self.objectsNode, "landscape")
         self.objects['sea'] = Sea(self.objectsNode, "sea")
     
@@ -192,13 +194,13 @@ class Stage1(FSM, KeyboardEventHandler):
     
     @debug(['fsm'])
     def enterGameOver(self, func):
-        func()
-        # Clear managers
-        #self.managers['ai'].clear()
+        # Disable some things
         self.managers['physics'].clear()
-        
-        self.objects['equismo'].unload_bindings()
+        self.objects['equismo'].clear()
         self.objects['enemy'].clear()
+        
+        # Display HUD win/lose
+        func()
     
     @debug(['fsm'])
     def exitGameOver(self):
@@ -213,15 +215,20 @@ class Stage1(FSM, KeyboardEventHandler):
         
         When Equismo or the enemy is under water, the state changes to
         GameOver and the HUD shows the winner."""
-#        enemy_z = self.objects['enemy'].getBounds().getCenter().getZ()
         equismo_z = self.objects['equismo'].getBounds().getCenter().getZ()
-        
-#        if enemy_z < -10:
-#            self.request("GameOver", self.managers['hud'].win)
-#            return task.done
-#        elif equismo_z < -10:
         if equismo_z < -10:
             self.request("GameOver", self.managers['hud'].lose)
+            return task.done
+        
+        def enemy_is_dead(enemy):
+            enemy_z = enemy.getBounds().getCenter().getZ()
+            return enemy_z < -10
+        
+        # You win the game if all enemies are dead
+        number_of_dead_enemies = len(filter(enemy_is_dead,
+                                            self.objects['enemy'].enemies))
+        if number_of_dead_enemies >= self.objects['enemy'].amount:
+            self.request("GameOver", self.managers['hud'].win)
             return task.done
         
         return task.cont

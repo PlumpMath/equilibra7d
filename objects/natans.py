@@ -53,10 +53,12 @@ class Natans(AIWorld, AudioHandler):
                  "water_jumping5.wav", "water_jumping6.wav",
                  "water_jumping7.wav"]
     
-    def __init__(self, parent, models):
+    def __init__(self, parent, models, amount):
         AIWorld.__init__(self, parent)
         self._parent = parent
         self._models = models
+        self.amount = amount
+        
         self.spawnProbability = 0.003
         self.idleTime = 0.5
         
@@ -126,7 +128,7 @@ class Natans(AIWorld, AudioHandler):
     #---------------------------------------------------------------------------
     
     def spawn(self, task):
-        """Create and delete Natans."""
+        """Create Natans and throw them to the ice platform."""
         if task.time < self.idleTime:
             return task.cont
         
@@ -144,7 +146,10 @@ class Natans(AIWorld, AudioHandler):
             force += Vec3(0, 0, 6)
             enemy.addImpulse(force)
         
-        return task.cont
+        if len(self.enemies) == self.amount:
+            return task.done
+        else:
+            return task.cont
     
     def addCollision(self, enemy):
         collisionManager = base.gameState.currentState.managers['collision']
