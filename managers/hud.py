@@ -9,26 +9,26 @@ class HUDManager(Manager):
     def __init__(self):
         self._hud = []
         self._info = None
+        self._natans = None
     
     @debug(['managers'])
     def setup(self):
         self.help()
     
     @debug(['managers'])
-    def clear(self, ost=None):
-        """Remove one or every text from the screen.
-        
-        If given a OnscreenText, remove it."""
-        if ost is None:
-            # We could remove everything from `aspect2d', however
-            # it's cleaner to just destroy what we have created.
-            #aspect2d.removeChildren()
-            while self._hud:
-                self._hud.pop().destroy()
-        else:
-            if ost in self._hud:
-                self._hud.remove(ost)
-            ost.destroy()
+    def clear(self):
+        """Remove every text from the screen."""
+        # We could remove everything from `aspect2d', however
+        # it's cleaner to just destroy what we have created.
+        #aspect2d.removeChildren()
+        while self._hud:
+            self._hud.pop().destroy()
+    
+    def clear_one(self, ost):
+        """Remove a given OnscreenText from the screen."""
+        if ost in self._hud:
+            self._hud.remove(ost)
+        ost.destroy()
     
     def show(self, text, **props):
         """Show text on the screen."""
@@ -104,7 +104,21 @@ Comandos:
             shadow = (0, 0, 0, 1),
         )
         if self._info:
-            self.clear(self._info)
+            self.clear_one(self._info)
         self._info = self.show(msg, **props)
         return self._info
+    
+    def natans(self, n):
+        """Display information in the HUD."""
+        props = dict(
+            pos = (0, 0.92),
+            scale = 0.12,
+            align = TextNode.ACenter,
+            fg = (1, 1, 1, 1),
+            shadow = (0, 0, 0, 1),
+        )
+        if self._natans:
+            self.clear_one(self._natans)
+        self._natans = self.show(str(n), **props)
+        return self._natans
 

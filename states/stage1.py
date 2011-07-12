@@ -51,7 +51,7 @@ class Stage1(FSM, KeyboardEventHandler):
                 print msg
                 hudManager = self.managers['hud']
                 ost = hudManager.info(msg)
-                self.doMethodLater(3.0, hudManager.clear, 'clear toggle info', [ost])
+                self.doMethodLater(3.0, hudManager.clear_one, 'clear toggle info', [ost])
             self.bindings.append((key, toggle_func))
             return toggle_func
         
@@ -215,19 +215,32 @@ class Stage1(FSM, KeyboardEventHandler):
         
         When Equismo or the enemy is under water, the state changes to
         GameOver and the HUD shows the winner."""
+        #-----------------------------------------------------------------------
+        # Check for a defeat
+        # You lose the game if you fall from the platform
+        #-----------------------------------------------------------------------
         equismo_z = self.objects['equismo'].getBounds().getCenter().getZ()
         if equismo_z < -10:
             self.request("GameOver", self.managers['hud'].lose)
             return task.done
         
+        #-----------------------------------------------------------------------
+        # Check for a victory
+        # You win the game if all enemies are dead
+        #-----------------------------------------------------------------------
         def enemy_is_dead(enemy):
             enemy_z = enemy.getBounds().getCenter().getZ()
             return enemy_z < -10
+        dead_enemies = len(filter(enemy_is_dead, self.objects['enemy'].enemies))
+        enemies_left = self.objects['enemy'].amount - dead_enemies
         
-        # You win the game if all enemies are dead
-        number_of_dead_enemies = len(filter(enemy_is_dead,
-                                            self.objects['enemy'].enemies))
-        if number_of_dead_enemies >= self.objects['enemy'].amount:
+        # We don't want negative enemies left...
+        enemies_left = max(enemies_left, 0)
+        
+        # Update natans left count on HUD
+        self.managers['hud'].natans(enemies_left)
+        
+        if enemies_left == 0:
             self.request("GameOver", self.managers['hud'].win)
             return task.done
         
