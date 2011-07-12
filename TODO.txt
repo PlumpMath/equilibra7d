@@ -1,5 +1,7 @@
 Game state:
     + New winning conditions
+        + Natans count on HUD
+        + Call Natans.spawn only when not idle (maybe using doMethodLater)
     + Pretty and functional Main Menu
     - Fix event and task leaks
 
