@@ -15,11 +15,11 @@ class ModelNode(NodePath):
         
         if animations is None:
             # Load static model
-            self.model = loader.loadModel("models/%s.egg" % (model,))
+            self.model = loader.loadModel("models/%s.bam" % (model,))
         else:
             # Load animated model
-            animations = dict((name, "models/%s-%s.egg" % (model, name)) for name in animations)
-            self.model = Actor("models/%s.egg" % (model,), animations)
+            animations = dict((name, "models/%s-%s.bam" % (model, name)) for name in animations)
+            self.model = Actor("models/%s.bam" % (model,), animations)
         
         self.model.reparentTo(self)
         self.reparentTo(parent)

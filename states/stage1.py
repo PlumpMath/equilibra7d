@@ -109,8 +109,8 @@ class Stage1(FSM, KeyboardEventHandler):
     #---------------------------------------------------------------------------
     def createObjects(self):
         """Instantiate objects."""
-        self.objects['scenario'] = Scenario(self.objectsNode, "arena2")
-        self.objects['equismo'] = Equismo(self.objectsNode, "teste")
+        self.objects['scenario'] = Scenario(self.objectsNode, "stage1")
+        self.objects['equismo'] = Equismo(self.objectsNode, "equismo")
         self.objects['enemy'] = Natans(self.objectsNode, ["enemyfish_red",
                                                           "enemyfish_green",
                                                           "enemyfish_blue"])

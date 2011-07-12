@@ -141,7 +141,7 @@ class Natans(AIWorld, DirectObject):
             force = (Point3(0, 0, 0) - position) * 0.35
             force += Vec3(0, 0, 6)
             enemy.addImpulse(force)
-            
+        
         return task.cont
     
     def addCollision(self, enemy):
