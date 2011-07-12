@@ -9,11 +9,11 @@ from physicalnode import PhysicalNode
 
 
 class Natan(PhysicalNode):
-    ANIM_WALK = "anim1"
+    ANIMATIONS = ["walk"]
     
     def __init__(self, parent, model, name,
                        ai_world, mass, movt_force, max_force):
-        PhysicalNode.__init__(self, parent, model, name, [self.ANIM_WALK])
+        PhysicalNode.__init__(self, parent, model, name)
         
         self.mass = mass
         self.addCollisionSphere(1.25)
@@ -40,10 +40,10 @@ class Natan(PhysicalNode):
         self.collide(-normal, otherVelocity, otherMass, 0.75)
     
     def toggleWalkAnimation(self):
-        if self.model.getCurrentAnim() == self.ANIM_WALK:
+        if self.model.getCurrentAnim() == "walk":
             self.model.stop()
         else:
-            self.model.loop(self.ANIM_WALK, restart=False)
+            self.model.loop("walk", restart=False)
 
 
 class Natans(AIWorld, AudioHandler):
@@ -69,7 +69,7 @@ class Natans(AIWorld, AudioHandler):
         
         # Start walk animation
         for enemy in self.enemies:
-            enemy.toggleWalkAnimation() 
+            enemy.toggleWalkAnimation()
     
     @debug(['objects'])
     def clear(self):

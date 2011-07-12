@@ -5,10 +5,10 @@ from physicalnode import PhysicalNode
 
 
 class Equismo(PhysicalNode, KeyboardEventHandler):
-    ANIM_WALK = "anim1"
+    ANIMATIONS = ["walk"]
     
     def __init__(self, parent, model):
-        PhysicalNode.__init__(self, parent, model, "equismo", [self.ANIM_WALK])
+        PhysicalNode.__init__(self, parent, model, "equismo")
         
         self.mass = 500.0
         
@@ -116,10 +116,10 @@ class Equismo(PhysicalNode, KeyboardEventHandler):
     def doWalkAnimation(self, impulse):
         if impulse.length() > 0:
             if self.model.getCurrentAnim() is None:
-                self.model.loop(self.ANIM_WALK)
+                self.model.loop("walk")
         else:
             self.model.stop()
-            self.model.pose(self.ANIM_WALK, 1)
+            self.model.pose("walk", 1)
     
     @property
     def is_above_limit(self):

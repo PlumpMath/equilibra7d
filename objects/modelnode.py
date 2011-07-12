@@ -8,17 +8,19 @@ class ModelNode(NodePath):
     Class hierarchy:
         NodePath --> ModelNode
     """
+    ANIMATIONS = []
     
-    def __init__(self, parent, model, name="", animations=None):
+    def __init__(self, parent, model, name=""):
         NodePath.__init__(self, name)
         self.name = name
         
-        if not animations:
+        if not self.ANIMATIONS:
             # Load static model
             self.model = loader.loadModel("models/%s.bam" % (model,))
         else:
             # Load animated model
-            animations = dict((name, "models/%s-%s.bam" % (model, name)) for name in animations)
+            animations = dict((name, "models/%s-%s.bam" % (model, name))
+                              for name in self.ANIMATIONS)
             self.model = Actor("models/%s.bam" % (model,), animations)
         
         self.model.reparentTo(self)
