@@ -21,7 +21,7 @@ class Natan(PhysicalNode):
         self.toggleWalkAnimation()
         
         #-----------------------------------------------------------------------
-        # Artificial Intelligence
+        # Initialiaze Artificial Intelligence
         #-----------------------------------------------------------------------
         self.ai_char = AICharacter("ai_%s" % name, self.actor, mass, movt_force, max_force)
         ai_world.addAiChar(self.ai_char)
@@ -29,6 +29,18 @@ class Natan(PhysicalNode):
         equismo = base.gameState.currentState.objects['equismo']
         aiBehaviors.pursue(equismo.actor)
     
+    #---------------------------------------------------------------------------
+    # Animation
+    #---------------------------------------------------------------------------
+    def toggleWalkAnimation(self):
+        if self.model.getCurrentAnim() == "walk":
+            self.model.stop()
+        else:
+            self.model.loop("walk", restart=False)
+    
+    #---------------------------------------------------------------------------
+    # Collision
+    #---------------------------------------------------------------------------
     def handleCollisionEvent(self, entry, type):
         normal = entry.getSurfaceNormal(self)
         normal.z = 0
@@ -38,12 +50,6 @@ class Natan(PhysicalNode):
         otherVelocity = equismo.velocity
         otherMass = equismo.mass
         self.collide(-normal, otherVelocity, otherMass, 0.75)
-    
-    def toggleWalkAnimation(self):
-        if self.model.getCurrentAnim() == "walk":
-            self.model.stop()
-        else:
-            self.model.loop("walk", restart=False)
 
 
 class Natans(AIWorld, AudioHandler):

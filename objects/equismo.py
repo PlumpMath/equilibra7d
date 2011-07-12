@@ -28,6 +28,9 @@ class Equismo(PhysicalNode, KeyboardEventHandler):
         # Seems that the model has its eyes in the back?!
         self.actor.setH(180)
         
+        #-----------------------------------------------------------------------
+        # KeyboardEventHandler initialization
+        #-----------------------------------------------------------------------
         self.keys = dict.fromkeys("left right up down".split(), 0)
         set_key = self.keys.__setitem__
         self.bindings = (
@@ -52,6 +55,9 @@ class Equismo(PhysicalNode, KeyboardEventHandler):
             ("arrow_right-up", set_key, ["right", 0]),
         )
     
+    #---------------------------------------------------------------------------
+    # State
+    #---------------------------------------------------------------------------
     @debug(['objects'])
     def setup(self):
         self.load_bindings()
@@ -62,6 +68,26 @@ class Equismo(PhysicalNode, KeyboardEventHandler):
         self.unload_bindings()
         self.removeAllTasks()
     
+    #---------------------------------------------------------------------------
+    # Animation
+    #---------------------------------------------------------------------------
+    def animate(self):
+        self.model.loop("walk")
+    
+    def stop(self):
+        self.model.stop()
+        self.model.pose("walk", 0)
+    
+    def doWalkAnimation(self, impulse):
+        if impulse.length() > 0:
+            if self.model.getCurrentAnim() is None:
+                self.animate()
+        else:
+            self.stop()
+    
+    #---------------------------------------------------------------------------
+    # Collision
+    #---------------------------------------------------------------------------
     def handleCollisionEvent(self, entry, type):
         normal = entry.getSurfaceNormal(self)
         normal.z = 0
@@ -78,6 +104,9 @@ class Equismo(PhysicalNode, KeyboardEventHandler):
         self.face(-normal)
         self._hit = True
     
+    #---------------------------------------------------------------------------
+    # Keyboard control
+    #---------------------------------------------------------------------------
     def handleKeyboardEvent(self, task):
         keys = self.keys
         
@@ -110,22 +139,9 @@ class Equismo(PhysicalNode, KeyboardEventHandler):
         
         return task.cont
     
-    def is_braking(self, coordinate):
-        return self.velocity.dot(coordinate) < 0
-    
-    def doWalkAnimation(self, impulse):
-        if impulse.length() > 0:
-            if self.model.getCurrentAnim() is None:
-                self.model.loop("walk")
-        else:
-            self.model.stop()
-            self.model.pose("walk", 1)
-    
-    @property
-    def is_above_limit(self):
-        speed = self.velocity.length()
-        return speed > self._speedLimit
-    
+    #---------------------------------------------------------------------------
+    # Helper methods and properties
+    #---------------------------------------------------------------------------
     def face(self, direction):
         """Makes Equismo look at a given the direction.
         This method makes only heading rotations.
@@ -151,4 +167,12 @@ class Equismo(PhysicalNode, KeyboardEventHandler):
                 
                 self._currentDirection = direction
                 self._currentAngle = headingAngle
+    
+    def is_braking(self, coordinate):
+        return self.velocity.dot(coordinate) < 0
+    
+    @property
+    def is_above_limit(self):
+        speed = self.velocity.length()
+        return speed > self._speedLimit
 
