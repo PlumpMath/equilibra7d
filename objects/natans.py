@@ -1,5 +1,5 @@
-from random import random, choice
-from math import sin, cos
+from random import random, choice, randint, uniform
+from math import sin, cos, floor
 
 from panda3d.ai import AIWorld, AICharacter
 from panda3d.core import Point3, Vec3
@@ -59,15 +59,17 @@ class Natans(AIWorld, AudioHandler):
         self._models = models
         self.amount = amount
         
-        self.spawnProbability = 0.003
-        self.idleTime = 0.5
+        # max number of new natans in a spawn
+        self._max_enemies_per_spawn = floor(0.3 * amount)
+        # min and max time between spawns in seconds
+        self._idle_time_range = (5, 10)
         
         self.enemies = []
     
     @debug(['objects'])
     def setup(self):
         self.addTask(self.update, "AIUpdate")
-        self.addTask(self.spawn, "NatanSpawn")
+        self.doMethodLater(self._idle_time_range[0], self.spawn, 'spawn natans')
         
         # Start walk animation
         for enemy in self.enemies:
@@ -129,27 +131,30 @@ class Natans(AIWorld, AudioHandler):
     
     def spawn(self, task):
         """Create Natans and throw them to the ice platform."""
-        if task.time < self.idleTime:
-            return task.cont
+        enemies_left = self.amount - len(self.enemies)
+        how_many = randint(1, min(enemies_left, self._max_enemies_per_spawn))
         
-        if random() < self.spawnProbability:
+        for i in xrange(how_many):
             angle = random() * 360
             x = 16 * cos(angle)
             y = 16 * sin(angle)
             
             position = Point3(x, y, -1)
-            
             scale = random() * 0.35 + 0.15
+            
             enemy = self.addEnemy(position, scale)
             
             force = (Point3(0, 0, 0) - position) * 0.35
             force += Vec3(0, 0, 6)
             enemy.addImpulse(force)
         
-        if len(self.enemies) == self.amount:
-            return task.done
+        enemies_left = self.amount - len(self.enemies)
+        
+        if enemies_left > 0:
+            task.delayTime = uniform(*self._idle_time_range)
+            return task.again
         else:
-            return task.cont
+            return task.done
     
     def addCollision(self, enemy):
         collisionManager = base.gameState.currentState.managers['collision']
