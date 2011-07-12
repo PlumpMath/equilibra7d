@@ -1,3 +1,36 @@
+<<<<<<< TREE
+AI:
+    - Implement different opponent behaviors
+
+Game state:
+    - Bug: Turn off AI [F5] -> Restart game [F2] -> Turn off AI [F5]
+    - New winning conditions
+    - Title screen
+
+Gameplay:
+    - Tune mass, collision, speed, ...
+
+Game story:
+    - Write the GDD
+    - Give a name to the main character
+
+Models:
+	- Export animation
+	- Create another enemy
+	- Animate new enemy
+	- Organize files
+	- Remove unused files
+
+Documentation:
+    - Fill in the README file
+    - Update blog
+    - Make Equilibra7D distributable:
+        http://www.panda3d.org/manual/index.php/Distributing_Panda3D_Applications
+
+Audio:
+    - Music
+    - Sound Effects
+=======
 Code:
     - Review commented code
 
@@ -40,3 +73,4 @@ Documentation:
 Audio:
     - Music
     - Sound Effects
+>>>>>>> MERGE-SOURCE
