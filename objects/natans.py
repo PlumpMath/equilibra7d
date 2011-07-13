@@ -22,7 +22,7 @@ class Natan(PhysicalNode):
         self.toggleWalkAnimation()
         
         #-----------------------------------------------------------------------
-        # Initialiaze Artificial Intelligence
+        # Initialize Artificial Intelligence
         #-----------------------------------------------------------------------
         self.ai_char = AICharacter("ai_%s" % name, self.actor, mass, movt_force, max_force)
         ai_world.addAiChar(self.ai_char)
