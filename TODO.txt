@@ -32,8 +32,6 @@ Game story:
     - Update the GDD
 
 Models:
-    - Export animation
     - Create another enemy
     - Animate new enemy
     - Organize files
-    - Create new textures (fish)
