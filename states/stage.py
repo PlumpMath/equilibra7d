@@ -209,14 +209,14 @@ class Stage(FSM, KeyboardEventHandler):
             return (request,) + args
     
     @debug(['fsm'])
-    def enterGameOver(self, func):
+    def enterGameOver(self, func, *args):
         # Disable some things
         self.managers['physics'].clear()
         self.objects['equismo'].clear()
         self.objects['enemy'].clear()
         
         # Display HUD win/lose
-        func()
+        func(*args)
         
         # Hacky implementation to decide which state to go next
         def next():
@@ -269,7 +269,7 @@ class Stage(FSM, KeyboardEventHandler):
         self.managers['hud'].natans(enemies_left)
         
         if enemies_left == 0:
-            self.request("GameOver", self.managers['hud'].win)
+            self.request("GameOver", self.managers['hud'].win, self.WIN_MSG)
             return task.done
         
         return task.cont
