@@ -21,7 +21,11 @@ class MainMenu(KeyboardEventHandler):
             pos = (0, 0, 0),
             scale = (1.34, 1, 1.1),
         )
+<<<<<<< TREE
         self.hud.show_image("concept/screen_presenting_v2.png", **img_props)
+=======
+        self.hud.show_image("concept/screen_presenting.png", **img_props)
+>>>>>>> MERGE-SOURCE
         self.doMethodLater(0.3, self.blink, "blink msg")
     
     def exit(self):
@@ -36,7 +40,7 @@ class MainMenu(KeyboardEventHandler):
             task.delayTime = 0.4
         else:
             self._msg = self.hud.show_centered(u"Aperte F2 para jogar",
-                                               fg=(1.0, 0.5, 0.0, 1), 
+                                               fg=(1.0, 0.5, 0.0, 1),
                                                pos=(0, -0.87),
                                                scale=0.18)
             task.delayTime = 0.6

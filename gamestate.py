@@ -1,6 +1,7 @@
 from direct.fsm.FSM import FSM
 
 import states.stage1
+import states.stage2
 import states.main_menu
 
 
@@ -11,7 +12,8 @@ class GameState(FSM):
         FSM.__init__(self, 'Equilibra7d_FSM')
         self.defaultTransitions = {
             'MainMenu': ['Stage1'],
-            'Stage1': ['MainMenu', 'Stage1'],
+            'Stage1': ['MainMenu', 'Stage1', 'Stage2'],
+            'Stage2': ['MainMenu', 'Stage1'],
         }
         self.currentState = None
     
@@ -31,6 +33,15 @@ class GameState(FSM):
     
     @debug(['fsm'])
     def exitStage1(self):
+        self.currentState.exit()
+    
+    @debug(['fsm'])
+    def enterStage2(self):
+        self.currentState = states.stage2.Stage2()
+        self.currentState.enter()
+    
+    @debug(['fsm'])
+    def exitStage2(self):
         self.currentState.exit()
     
     def reset(self):

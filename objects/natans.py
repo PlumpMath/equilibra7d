@@ -1,15 +1,16 @@
 from random import random, choice, randint, uniform
 from math import sin, cos, floor
 
+from direct.showbase.DirectObject import DirectObject
 from panda3d.ai import AIWorld, AICharacter
 from panda3d.core import Point3, Vec3
 
-from handlers.audio import AudioHandler
 from physicalnode import PhysicalNode
 
 
 class Natan(PhysicalNode):
     ANIMATIONS = ["walk"]
+    JUMP_SOUND = ["water_jumping", 7]
     
     def __init__(self, parent, model, name,
                        ai_world, mass, movt_force, max_force):
@@ -52,12 +53,8 @@ class Natan(PhysicalNode):
         self.collide(-normal, otherVelocity, otherMass, 0.75)
 
 
-class Natans(AIWorld, AudioHandler):
+class Natans(AIWorld, DirectObject):
     """Handles the dynamic creation and destruction of Natan objects."""
-    SFX_FILES = ["water_jumping1.wav", "water_jumping2.wav",
-                 "water_jumping3.wav", "water_jumping4.wav",
-                 "water_jumping5.wav", "water_jumping6.wav",
-                 "water_jumping7.wav"]
     
     def __init__(self, parent, models, amount):
         AIWorld.__init__(self, parent)
@@ -66,12 +63,15 @@ class Natans(AIWorld, AudioHandler):
         self.amount = amount
         
         # max number of new natans in a spawn
-        self._max_enemies_per_spawn = floor(0.3 * amount)
+        self._max_enemies_per_spawn = max(floor(0.3 * amount), 1)
         # min and max time between spawns in seconds
         self._idle_time_range = (5, 10)
         
         self.enemies = []
     
+    #---------------------------------------------------------------------------
+    # State
+    #---------------------------------------------------------------------------
     @debug(['objects'])
     def setup(self):
         self.addTask(self.update, "AIUpdate")
@@ -89,8 +89,17 @@ class Natans(AIWorld, AudioHandler):
         for enemy in self.enemies:
             enemy.toggleWalkAnimation()
     
-    #---------------------------------------------------------------------------
+    def pause_ai(self):
+        """Temporarily turn off AI."""
+        self._paused = True
     
+    def resume_ai(self):
+        """Turn AI back on."""
+        self._paused = False
+    
+    #---------------------------------------------------------------------------
+    # Enemy creation
+    #---------------------------------------------------------------------------
     def addEnemy(self, position, scale):
         """Add a new artificially intelligent NPC."""
         name = "enemy_%d" % len(self.enemies)
@@ -108,11 +117,36 @@ class Natans(AIWorld, AudioHandler):
         physicsManager.addActor(enemy)
         
         # Audio
-        self.playRandomEffect()
+        audioManager = base.gameState.currentState.managers['audio']
+        audioManager.playRandomEffect(Natan.JUMP_SOUND[0],
+                                      Natan.JUMP_SOUND[1])
         
         self.enemies.append(enemy)
         return enemy
     
+    def addCollision(self, enemy):
+        collisionManager = base.gameState.currentState.managers['collision']
+        collisionManager.addCollider(enemy)
+        equismo = base.gameState.currentState.objects['equismo']
+        collisionManager.addMutualCollisionHandling(equismo, enemy)
+        
+        for otherNatan in self.enemies:
+            collisionManager.addMutualCollisionHandling(enemy, otherNatan)
+    
+    def addPhysics(self):
+        physicsManager = base.gameState.currentState.managers['physics']
+        for enemy in self.enemies:
+            physicsManager.addActor(enemy)
+    
+    def getNatanFromCollisionNode(self, nodePath):
+        """Returns the Natan object pointed by the given nodePath."""
+        # name format: enemy_2_collision_node
+        index = int(nodePath.getName()[len("enemy_")])
+        return self.enemies[index]
+    
+    #---------------------------------------------------------------------------
+    # Tasks
+    #---------------------------------------------------------------------------
     def update(self, task):
         """Update the AI World.
         
@@ -122,18 +156,8 @@ class Natans(AIWorld, AudioHandler):
             pass
         else:
             AIWorld.update(self)
-            
+        
         return task.cont
-    
-    def pause_ai(self):
-        """Temporarily turn off AI."""
-        self._paused = True
-    
-    def resume_ai(self):
-        """Turn AI back on."""
-        self._paused = False
-    
-    #---------------------------------------------------------------------------
     
     def spawn(self, task):
         """Create Natans and throw them to the ice platform."""
@@ -161,24 +185,3 @@ class Natans(AIWorld, AudioHandler):
             return task.again
         else:
             return task.done
-    
-    def addCollision(self, enemy):
-        collisionManager = base.gameState.currentState.managers['collision']
-        collisionManager.addCollider(enemy)
-        equismo = base.gameState.currentState.objects['equismo']
-        collisionManager.addMutualCollisionHandling(equismo, enemy)
-        
-        for otherNatan in self.enemies:
-            collisionManager.addMutualCollisionHandling(enemy, otherNatan)
-    
-    def addPhysics(self):
-        physicsManager = base.gameState.currentState.managers['physics']
-        for enemy in self.enemies:
-            physicsManager.addActor(enemy)
-    
-    def getNatanFromCollisionNode(self, nodePath):
-        """Returns the Natan object pointed by the given nodePath."""
-        # name format: enemy_2_collision_node
-        index = int(nodePath.getName()[len("enemy_")])
-        return self.enemies[index]
-
