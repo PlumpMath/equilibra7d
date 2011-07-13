@@ -90,9 +90,13 @@ Comandos:
         )
         self.show("\n".join(map(lambda t: "- %s" % t[1], commands)), **props)
     
-    def win(self):
+    def win(self, extra_msg=""):
         text = u"Você venceu!"
         self.show_centered(text, fg=(0.3, 1, 0.2, 1))
+        if extra_msg:
+            self.show_centered(extra_msg, fg=(0.3, 1, 0.2, 1),
+                                          pos=(0, +0.1),
+                                          scale=0.17)
     
     def lose(self):
         text = u"Você perdeu!"
