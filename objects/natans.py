@@ -66,7 +66,7 @@ class Natans(AIWorld, AudioHandler):
         self.amount = amount
         
         # max number of new natans in a spawn
-        self._max_enemies_per_spawn = floor(0.3 * amount)
+        self._max_enemies_per_spawn = max(floor(0.3 * amount), 1)
         # min and max time between spawns in seconds
         self._idle_time_range = (5, 10)
         
