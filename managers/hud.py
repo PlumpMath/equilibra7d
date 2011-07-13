@@ -53,7 +53,7 @@ class HUDManager(Manager):
             shadow = (0, 0, 0, 1),
         )
         props.update(kwargs)
-        self.show(text, **props)
+        return self.show(text, **props)
     
     def help(self):
         """Display informative text on HUD."""
@@ -120,9 +120,8 @@ Comandos:
         """Display information in the HUD."""
         # Load img only once
         if not self._natans_img:
-            x, z = -0.15, 0.92
             img_props = dict(
-                pos = (x, 0, z),
+                pos = (-0.15, 0, 0.92),
                 scale = 0.06,
             )
             self._natans_img = self.show_image("models/imgs/natan.png", **img_props)
