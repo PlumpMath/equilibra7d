@@ -7,8 +7,6 @@ class PhysicsManager(Manager):
     """Handles the physics simulation."""
     
     def __init__(self):
-        base.enableParticles()
-        base.physicsMgr.attachAngularIntegrator(AngularEulerIntegrator())
         self.forces = render.attachNewNode(ForceNode("global_forces"))
         self.gravity = None
         self._physicalnodes = []

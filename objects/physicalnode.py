@@ -119,13 +119,6 @@ class PhysicalNode(ModelNode):
         """
         self.actor.node().getPhysicsObject().addImpulse(impulse)
 
-    def addImpact(self, offsetFromCenterOfMass, impulse):
-        """Add an impulse and/or torque to the node based on an offset
-        from the center of mass.
-        """
-        self.actor.node().getPhysicsObject().addImpact(offsetFromCenterOfMass,
-                                                       impulse)
-    
     def addLinearForce(self, force):
         """Add a linear force to this node.
         
@@ -138,17 +131,3 @@ class PhysicalNode(ModelNode):
 #        physical.clearAngularForces()
 #        physical.clearLinearForces()
 #        physical.clearPhysicsObjects()
-    
-    def addTorque(self, h, p, r):
-        """Add a torque to the node.
-        
-        Return the corresponding 'AngularVectorForce'.
-        """
-        torque = AngularVectorForce(h, p, r)
-        self.actor.node().getPhysical(0).addAngularForce(torque)
-        return torque
-        
-    def removeTorque(self, torque):
-        """Remove a torque (AngularForce) from the node."""
-        self.actor.node().getPhysical(0).removeAngularForce(torque)
-
