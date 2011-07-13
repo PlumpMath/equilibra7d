@@ -171,7 +171,7 @@ class Stage(FSM, KeyboardEventHandler):
         self.addTask(self.handleGameOver, "gameover_task")
         
         # Start Main Theme
-        self.managers['audio'].playMainTheme()
+        self.managers['audio'].playMusic("MainTheme")
     
     @debug(['fsm'])
     def exitNewGame(self):
@@ -229,7 +229,14 @@ class Stage(FSM, KeyboardEventHandler):
             else:
                 base.gameState.request("MainMenu")
         
-        self.doMethodLater(5, next, "next state after game over", [])
+        if func.func_name == "win":
+            self.doMethodLater(5, next, "next state after game over", [])
+            
+        else:
+            # Start Game Over Theme
+            self.managers['audio'].playMusic("GameOver")
+            
+            self.doMethodLater(65, next, "next state after game over", [])
     
     @debug(['fsm'])
     def exitGameOver(self):

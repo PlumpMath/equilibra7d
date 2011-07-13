@@ -46,7 +46,7 @@ class AudioManager(Manager):
         sound = self.sounds[name]
         sound.play()
 
-    def playMainTheme(self):
-        mainTheme = self.musics["MainTheme"]
-        mainTheme.setLoop(True)
-        mainTheme.play()
+    def playMusic(self, name):
+        music = self.musics[name]
+        music.setLoop(True)
+        music.play()
