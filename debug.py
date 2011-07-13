@@ -1,7 +1,7 @@
 import sys
 
 # change to what is needed
-WHAT_TO_DEBUG = set(['fsm', 'objects', 'managers', 'audio'])
+WHAT_TO_DEBUG = set(['fsm', 'objects', 'managers'])
 
 
 class debug:

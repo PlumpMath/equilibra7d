@@ -130,7 +130,7 @@ class Stage(FSM, KeyboardEventHandler):
     
     def createManagers(self):
         """Instantiate managers."""
-        for kind in "Collision Light HUD Physics".split():
+        for kind in "Collision Light HUD Audio Physics".split():
             # Take the *Manager class from the `managers' package
             class_name = "%sManager" % kind
             klass = getattr(managers, class_name)

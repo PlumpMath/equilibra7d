@@ -21,7 +21,7 @@ class MainMenu(KeyboardEventHandler):
             pos = (0, 0, 0),
             scale = (1.34, 1, 1.1),
         )
-        self.hud.show_image("concept/presenting_screen.png", **img_props)
+        self.hud.show_image("concept/screen_presenting.png", **img_props)
         self.doMethodLater(0.3, self.blink, "blink msg")
     
     def exit(self):
