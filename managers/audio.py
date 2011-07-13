@@ -13,21 +13,31 @@ class AudioManager(Manager):
                       "water_jumping4", "water_jumping5", "water_jumping6", 
                       "water_jumping7"]
     
+    MUSIC_FILE_NAMES = ["MainTheme", "GameOver"]
+    
     def __init__(self):
-        self.musicMgr = base.musicManager
         self.sfxMgr = base.sfxManagerList[0]
+        self.musicMgr = base.musicManager
         
         self.sounds = {}
         for fileName in self.SFX_FILE_NAMES:
             self.sounds[fileName] = loader.loadSfx("sfx/%s.wav" % (fileName,))
-    
+            
+        self.musics = {}
+        for fileName in self.MUSIC_FILE_NAMES:
+            self.musics[fileName] = loader.loadSfx("music/%s.ogg" % (fileName,))
+            
     @debug(['managers'])
     def setup(self):
         pass
     
     @debug(['managers'])
     def clear(self):
-        pass
+        for sfx in self.sounds.itervalues():
+            sfx.stop()
+        
+        for music in self.musics.itervalues():
+            music.stop()
     
     def playRandomEffect(self, name, n):
         index = int(random() * n) + 1
@@ -35,3 +45,8 @@ class AudioManager(Manager):
         
         sound = self.sounds[name]
         sound.play()
+
+    def playMainTheme(self):
+        mainTheme = self.musics["MainTheme"]
+        mainTheme.setLoop(True)
+        mainTheme.play()

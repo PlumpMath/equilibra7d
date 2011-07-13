@@ -169,6 +169,9 @@ class Stage(FSM, KeyboardEventHandler):
         
         # Check for a Game Over
         self.addTask(self.handleGameOver, "gameover_task")
+        
+        # Start Main Theme
+        self.managers['audio'].playMainTheme()
     
     @debug(['fsm'])
     def exitNewGame(self):
@@ -212,6 +215,7 @@ class Stage(FSM, KeyboardEventHandler):
     def enterGameOver(self, func, *args):
         # Disable some things
         self.managers['physics'].clear()
+        self.managers['audio'].clear()
         self.objects['equismo'].clear()
         self.objects['enemy'].clear()
         
