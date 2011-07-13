@@ -162,7 +162,9 @@ class Stage(FSM, KeyboardEventHandler):
             mgr.setup()
         
         # Display stage name
-        ost = self.managers['hud'].show_centered(self.NAME, fg=(1.0, 0.5, 0.0, 1))
+        ost = self.managers['hud'].show_centered(self.NAME,
+                                                 fg=(1.0, 0.5, 0.0, 1),
+                                                 scale=0.2)
         self.doMethodLater(2, self.managers['hud'].clear_one, "clear stage name", [ost])
         
         # Check for a Game Over
