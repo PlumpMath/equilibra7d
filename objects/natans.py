@@ -72,6 +72,9 @@ class Natans(AIWorld, AudioHandler):
         
         self.enemies = []
     
+    #---------------------------------------------------------------------------
+    # State
+    #---------------------------------------------------------------------------
     @debug(['objects'])
     def setup(self):
         self.addTask(self.update, "AIUpdate")
@@ -89,8 +92,17 @@ class Natans(AIWorld, AudioHandler):
         for enemy in self.enemies:
             enemy.toggleWalkAnimation()
     
-    #---------------------------------------------------------------------------
+    def pause_ai(self):
+        """Temporarily turn off AI."""
+        self._paused = True
     
+    def resume_ai(self):
+        """Turn AI back on."""
+        self._paused = False
+    
+    #---------------------------------------------------------------------------
+    # Enemy creation
+    #---------------------------------------------------------------------------
     def addEnemy(self, position, scale):
         """Add a new artificially intelligent NPC."""
         name = "enemy_%d" % len(self.enemies)
@@ -113,6 +125,29 @@ class Natans(AIWorld, AudioHandler):
         self.enemies.append(enemy)
         return enemy
     
+    def addCollision(self, enemy):
+        collisionManager = base.gameState.currentState.managers['collision']
+        collisionManager.addCollider(enemy)
+        equismo = base.gameState.currentState.objects['equismo']
+        collisionManager.addMutualCollisionHandling(equismo, enemy)
+        
+        for otherNatan in self.enemies:
+            collisionManager.addMutualCollisionHandling(enemy, otherNatan)
+    
+    def addPhysics(self):
+        physicsManager = base.gameState.currentState.managers['physics']
+        for enemy in self.enemies:
+            physicsManager.addActor(enemy)
+    
+    def getNatanFromCollisionNode(self, nodePath):
+        """Returns the Natan object pointed by the given nodePath."""
+        # name format: enemy_2_collision_node
+        index = int(nodePath.getName()[len("enemy_")])
+        return self.enemies[index]
+    
+    #---------------------------------------------------------------------------
+    # Tasks
+    #---------------------------------------------------------------------------
     def update(self, task):
         """Update the AI World.
         
@@ -122,18 +157,8 @@ class Natans(AIWorld, AudioHandler):
             pass
         else:
             AIWorld.update(self)
-            
+        
         return task.cont
-    
-    def pause_ai(self):
-        """Temporarily turn off AI."""
-        self._paused = True
-    
-    def resume_ai(self):
-        """Turn AI back on."""
-        self._paused = False
-    
-    #---------------------------------------------------------------------------
     
     def spawn(self, task):
         """Create Natans and throw them to the ice platform."""
@@ -161,24 +186,3 @@ class Natans(AIWorld, AudioHandler):
             return task.again
         else:
             return task.done
-    
-    def addCollision(self, enemy):
-        collisionManager = base.gameState.currentState.managers['collision']
-        collisionManager.addCollider(enemy)
-        equismo = base.gameState.currentState.objects['equismo']
-        collisionManager.addMutualCollisionHandling(equismo, enemy)
-        
-        for otherNatan in self.enemies:
-            collisionManager.addMutualCollisionHandling(enemy, otherNatan)
-    
-    def addPhysics(self):
-        physicsManager = base.gameState.currentState.managers['physics']
-        for enemy in self.enemies:
-            physicsManager.addActor(enemy)
-    
-    def getNatanFromCollisionNode(self, nodePath):
-        """Returns the Natan object pointed by the given nodePath."""
-        # name format: enemy_2_collision_node
-        index = int(nodePath.getName()[len("enemy_")])
-        return self.enemies[index]
-
