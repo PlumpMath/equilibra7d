@@ -10,6 +10,11 @@ from debug import print_tasks, print_events
 
 
 class Stage(FSM, KeyboardEventHandler):
+    #---------------------------------------------------------------------------
+    # This Stage's definitions
+    #---------------------------------------------------------------------------
+    #NUMBER_OF_NATANS = 20
+    
     def __init__(self):
         #-----------------------------------------------------------------------
         # FSM initialization
@@ -75,7 +80,7 @@ class Stage(FSM, KeyboardEventHandler):
                              False)
     
     #---------------------------------------------------------------------------
-    # This stage's things
+    # This Stage's things
     #---------------------------------------------------------------------------
     def enter(self):
         self.load_bindings()
@@ -119,7 +124,7 @@ class Stage(FSM, KeyboardEventHandler):
                                        ["enemyfish_red",
                                         "enemyfish_green",
                                         "enemyfish_blue"],
-                                       20)
+                                       self.NUMBER_OF_NATANS)
         self.objects['landscape'] = Landscape(self.objectsNode, "landscape")
         self.objects['sea'] = Sea(self.objectsNode, "sea")
     
@@ -205,6 +210,15 @@ class Stage(FSM, KeyboardEventHandler):
         
         # Display HUD win/lose
         func()
+        
+        # Hacky implementation to decide which state to go next
+        def next():
+            if func.func_name == "win" and self.__class__.__name__ == "Stage1":
+                base.gameState.request("Stage2")
+            else:
+                base.gameState.request("MainMenu")
+        
+        self.doMethodLater(5, next, "next state after game over", [])
     
     @debug(['fsm'])
     def exitGameOver(self):
