@@ -40,7 +40,7 @@ class Stage(FSM, KeyboardEventHandler):
             ("f12", lambda: print_tasks()),
         ]
         
-        def toggle(what, key, on, off, default_on=True):
+        def toggle(what, key, on, off, default_on=True, show_on_hud=True):
             status_msgs = ("off", "on")
             def toggle_func():
                 # Ignore toggle commands when the game is over
@@ -54,9 +54,10 @@ class Stage(FSM, KeyboardEventHandler):
                 state[what] = not state[what]
                 msg = ("<%s %s>" % (what, status_msgs[state[what]])).upper()
                 print msg
-                hudManager = self.managers['hud']
-                ost = hudManager.info(msg)
-                self.doMethodLater(3.0, hudManager.clear_one, 'clear toggle info', [ost])
+                if show_on_hud:
+                    hudManager = self.managers['hud']
+                    ost = hudManager.info(msg)
+                    self.doMethodLater(3.0, hudManager.clear_one, 'clear toggle info', [ost])
             self.bindings.append((key, toggle_func))
             return toggle_func
         
@@ -77,7 +78,7 @@ class Stage(FSM, KeyboardEventHandler):
         
         toggle("pause", "p", lambda: (self.pause(), state.setdefault("paused", True)),
                              lambda: (self.pause(), state.pop("paused")),
-                             False)
+                             False, False)
     
     #---------------------------------------------------------------------------
     # This Stage's things
@@ -161,7 +162,9 @@ class Stage(FSM, KeyboardEventHandler):
             mgr.setup()
         
         # Display stage name
-        ost = self.managers['hud'].show_centered(self.NAME, fg=(1.0, 0.5, 0.0, 1))
+        ost = self.managers['hud'].show_centered(self.NAME,
+                                                 fg=(1.0, 0.5, 0.0, 1),
+                                                 scale=0.2)
         self.doMethodLater(2, self.managers['hud'].clear_one, "clear stage name", [ost])
         
         # Check for a Game Over

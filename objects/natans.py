@@ -1,4 +1,4 @@
-from random import random, choice, randint, uniform
+from random import choice, randint, uniform
 from math import sin, cos, floor
 
 from direct.showbase.DirectObject import DirectObject
@@ -22,7 +22,7 @@ class Natan(PhysicalNode):
         self.toggleWalkAnimation()
         
         #-----------------------------------------------------------------------
-        # Initialiaze Artificial Intelligence
+        # Initialize Artificial Intelligence
         #-----------------------------------------------------------------------
         self.ai_char = AICharacter("ai_%s" % name, self.actor, mass, movt_force, max_force)
         ai_world.addAiChar(self.ai_char)
@@ -62,8 +62,6 @@ class Natans(AIWorld, DirectObject):
         self._models = models
         self.amount = amount
         
-        # max number of new natans in a spawn
-        self._max_enemies_per_spawn = max(floor(0.3 * amount), 1)
         # min and max time between spawns in seconds
         self._idle_time_range = (5, 10)
         
@@ -161,22 +159,18 @@ class Natans(AIWorld, DirectObject):
     
     def spawn(self, task):
         """Create Natans and throw them to the ice platform."""
-        enemies_left = self.amount - len(self.enemies)
-        how_many = randint(1, min(enemies_left, self._max_enemies_per_spawn))
+        angle = uniform(0, 360)
+        x = 16 * cos(angle)
+        y = 16 * sin(angle)
         
-        for i in xrange(how_many):
-            angle = random() * 360
-            x = 16 * cos(angle)
-            y = 16 * sin(angle)
-            
-            position = Point3(x, y, -1)
-            scale = random() * 0.35 + 0.15
-            
-            enemy = self.addEnemy(position, scale)
-            
-            force = (Point3(0, 0, 0) - position) * 0.35
-            force += Vec3(0, 0, 6)
-            enemy.addImpulse(force)
+        position = Point3(x, y, -1)
+        scale = uniform(0.15, 0.5)
+        
+        enemy = self.addEnemy(position, scale)
+        
+        force = (Point3(0, 0, 0) - position) * 0.35
+        force += Vec3(0, 0, 6)
+        enemy.addImpulse(force)
         
         enemies_left = self.amount - len(self.enemies)
         
@@ -185,3 +179,4 @@ class Natans(AIWorld, DirectObject):
             return task.again
         else:
             return task.done
+
