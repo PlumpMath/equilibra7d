@@ -1,4 +1,4 @@
-from random import random, choice, randint, uniform
+from random import choice, randint, uniform
 from math import sin, cos, floor
 
 from direct.showbase.DirectObject import DirectObject
@@ -165,12 +165,12 @@ class Natans(AIWorld, DirectObject):
         how_many = randint(1, min(enemies_left, self._max_enemies_per_spawn))
         
         for i in xrange(how_many):
-            angle = random() * 360
+            angle = uniform(0, 360)
             x = 16 * cos(angle)
             y = 16 * sin(angle)
             
             position = Point3(x, y, -1)
-            scale = random() * 0.35 + 0.15
+            scale = uniform(0.15, 0.5)
             
             enemy = self.addEnemy(position, scale)
             
