@@ -36,7 +36,7 @@ class MainMenu(KeyboardEventHandler):
             task.delayTime = 0.4
         else:
             self._msg = self.hud.show_centered(u"Aperte F2 para jogar",
-                                               fg=(1.0, 0.5, 0.0, 1), 
+                                               fg=(1.0, 0.5, 0.0, 1),
                                                pos=(0, -0.87),
                                                scale=0.18)
             task.delayTime = 0.6

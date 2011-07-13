@@ -160,6 +160,10 @@ class Stage(FSM, KeyboardEventHandler):
         for mgr in self.managers.itervalues():
             mgr.setup()
         
+        # Display stage name
+        ost = self.managers['hud'].show_centered(self.NAME, fg=(1.0, 0.5, 0.0, 1))
+        self.doMethodLater(2, self.managers['hud'].clear_one, "clear stage name", [ost])
+        
         # Check for a Game Over
         self.addTask(self.handleGameOver, "gameover_task")
     
