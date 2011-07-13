@@ -1,5 +1,12 @@
+Code:
+    + Organize dependency between managers and objects
+    - Review commented code
+
 Game state:
     + New winning conditions
+        + Destroy dead enemies
+        + Avoid computing game over condition every frame for every enemy
+    + Pre-load Stages (can it solve sudden death?)
     - Fix event and task leaks
 
 Gameplay:
@@ -20,9 +27,6 @@ Enemy:
     + Rotate Natan to face forward before it is kicked into the platform, so
       that it looks nice when the AI is off.
     - Solve model loading lag
-
-Code:
-    - Review commented code
 
 AI:
     - Implement different opponent behaviors
