@@ -33,12 +33,6 @@ class World(ShowBase):
         props.setTitle("Equilibra7d")
         self.win.requestProperties(props)
         
-        # Set up the camera
-        self.camera.setY(-40)
-        self.camera.setZ(15)
-        self.camera.lookAt(0, 0, 0)
-        self.disableMouse()
-        
         # Enable per-pixel lighting
         self.render.setShaderAuto()
         

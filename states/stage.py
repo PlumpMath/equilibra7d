@@ -2,7 +2,7 @@
 from direct.fsm.FSM import FSM
 from panda3d.core import NodePath
 
-from objects import Equismo, Natans, Landscape, Scenario, Sea
+from objects import Equismo, Natans, Landscape, Scenario, Sea, DeadEquismo
 import managers
 from handlers.keyboard import KeyboardEventHandler
 
@@ -131,7 +131,7 @@ class Stage(FSM, KeyboardEventHandler):
     
     def createManagers(self):
         """Instantiate managers."""
-        for kind in "Collision Light HUD Audio Physics".split():
+        for kind in "Collision Light HUD Audio Camera Physics".split():
             # Take the *Manager class from the `managers' package
             class_name = "%sManager" % kind
             klass = getattr(managers, class_name)
@@ -235,6 +235,17 @@ class Stage(FSM, KeyboardEventHandler):
         else:
             # Start Game Over Theme
             self.managers['audio'].playMusic("GameOver")
+            
+            # Load dead Equismo model
+            deadEquismo = DeadEquismo(self.objectsNode, "equismo_dead")
+            
+            # Change camera
+            self.managers['camera'].follow(deadEquismo)
+            
+            # Hide live Equismo
+            self.objects['equismo'].hide()
+            
+            self.objects['dead_equismo'] = deadEquismo
             
             self.doMethodLater(65, next, "next state after game over", [])
     
