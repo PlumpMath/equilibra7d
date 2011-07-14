@@ -58,16 +58,38 @@ class HUDManager(Manager):
     def help(self):
         """Display informative text on HUD."""
         text = u"""\
-Para pausar o jogo aperte P"""
+Comandos:
+
+         W
+      A S D   - Movimentar jogador
+
+    <setas> - Movimentar jogador
+"""
+        commands = (
+            ("F2", "Novo jogo"),
+            ("P", "Pausar/Continuar"),
+            ("F5", "Ligar/Desligar IA"),
+            ("Esc", "Sair do jogo"),
+        )
         props = dict(
-            pos = (-1.1, -0.7),
+            pos = (-1.1, -0.55),
             scale = 0.07,
             align = TextNode.ALeft,
             fg = (0.8, 0.8, 0.8, 0.4),
             shadow = (0, 0, 0, 1),
         )
         self.show(text, **props)
- 
+        
+        props.update(
+            pos = (0.2, -0.70)
+        )
+        self.show("\n".join(map(lambda t: t[0], commands)), **props)
+        
+        props.update(
+            pos = (0.42, -0.70)
+        )
+        self.show("\n".join(map(lambda t: "- %s" % t[1], commands)), **props)
+    
     def win(self, extra_msg=""):
         text = u"Você venceu!"
         self.show_centered(text, fg=(0.3, 1, 0.2, 1))
@@ -81,46 +103,8 @@ Para pausar o jogo aperte P"""
         self.show_centered(text, fg=(1, 0.3, 0.2, 1))
     
     def pause(self):
-        img_props = dict(
-            pos = (0, 0, 0),
-            scale = (1.34, 1, 1.1),
-        )
-        
         text = u"Pausado"
-        self.show_image("concept/screen_commands_v2.png", **img_props)        
-        text = u"""   Controles:
-
-         W
-      A S D   - Movimentar jogador
-
-    <setas> - Movimentar jogador
-"""
-
-        commands = (
-            ("F2", "Novo jogo"),
-            ("P", "Pausar/Continuar"),
-            ("F5", "Ligar/Desligar IA"),
-            ("Esc", "Sair do jogo"),
-        )
-        props = dict(
-            pos = (-1.0, 0.1),
-            scale = 0.07,
-            align = TextNode.ALeft,
-            fg = (0, 0, 0, 0.4),
-            shadow = (0, 0, 0, 1),
-        )
-        self.show(text, **props)
-        
-        props.update(
-            pos = (-0.9, -0.45)
-        )
-        self.show("\n".join(map(lambda t: t[0], commands)), **props)
-        
-        props.update(
-            pos = (-0.7, -0.45)
-        )
-        self.show("\n".join(map(lambda t: "- %s" % t[1], commands)), **props)
-        
+        self.show_centered(text, fg=(0.8, 0.8, 0.2, 1))
     
     def info(self, msg):
         """Display information in the HUD."""
