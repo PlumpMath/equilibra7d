@@ -13,7 +13,7 @@ class AudioManager(Manager):
                       "water_jumping4", "water_jumping5", "water_jumping6", 
                       "water_jumping7"]
     
-    MUSIC_FILE_NAMES = ["MainTheme", "GameOver"]
+    MUSIC_FILE_NAMES = ["MainTheme", "Menu", "GameOver"]
     
     def __init__(self):
         self.sfxMgr = base.sfxManagerList[0]

@@ -23,11 +23,16 @@ class MainMenu(KeyboardEventHandler):
         )
         self.hud.show_image("concept/screen_presenting_v2.png", **img_props)
         self.doMethodLater(0.3, self.blink, "blink msg")
+        
+        # Play music
+        self.audio = managers.AudioManager()
+        self.audio.playMusic("Menu")
     
     def exit(self):
         self.unload_bindings()
         self.removeAllTasks()
         self.hud.clear()
+        self.audio.clear()
     
     def blink(self, task):
         if self._msg:
