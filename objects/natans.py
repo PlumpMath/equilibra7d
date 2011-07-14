@@ -63,7 +63,7 @@ class Natans(AIWorld, DirectObject):
         self.amount = amount
         
         # min and max time between spawns in seconds
-        self._idle_time_range = (5, 10)
+        self._idle_time_range = (2, 8)
         
         self.enemies = []
     
